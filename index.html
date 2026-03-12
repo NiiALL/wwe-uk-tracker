@@ -16,20 +16,23 @@
         .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
         .scroll-container:hover { animation-play-state: paused; }
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Adds a nice golden glow behind the realistic belts */
+        .belt-glow { filter: drop-shadow(0px 10px 15px rgba(234, 179, 8, 0.25)); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
-        // Notice the new "type" tag so the script knows which belt design to load!
+        // Updated to use real image URLs instead of SVG types
         const CHAMPIONS = [
-            { title: "Undisputed WWE", holder: "Cody Rhodes", type: "undisputed" },
-            { title: "World Heavyweight", holder: "CM Punk", type: "whc" },
-            { title: "Intercontinental", holder: "Penta", type: "ic" },
-            { title: "United States", holder: "Carmelo Hayes", type: "us" },
-            { title: "Women's World", holder: "Stephanie Vaquer", type: "womens_world" },
-            { title: "WWE Women's", holder: "Jade Cargill", type: "womens" },
-            { title: "Women's IC", holder: "AJ Lee", type: "womens_ic" }
+            { title: "Undisputed WWE", holder: "Cody Rhodes", img: "https://upload.wikimedia.org/wikipedia/en/5/5a/Undisputed_WWE_Universal_Championship.png" },
+            { title: "World Heavyweight", holder: "CM Punk", img: "https://upload.wikimedia.org/wikipedia/en/1/1b/World_Heavyweight_Championship_%28WWE%29_2023.png" },
+            { title: "Intercontinental", holder: "Penta", img: "https://upload.wikimedia.org/wikipedia/en/1/18/WWE_Intercontinental_Championship_2019.png" },
+            { title: "United States", holder: "Carmelo Hayes", img: "https://upload.wikimedia.org/wikipedia/en/f/fa/WWE_United_States_Championship_2020.png" },
+            { title: "Women's World", holder: "Stephanie Vaquer", img: "https://upload.wikimedia.org/wikipedia/en/2/22/Women%27s_World_Championship_2023.png" },
+            { title: "WWE Women's", holder: "Jade Cargill", img: "https://upload.wikimedia.org/wikipedia/en/3/30/WWE_Women%27s_Championship_2023.png" },
+            { title: "Women's IC", holder: "AJ Lee", img: "https://upload.wikimedia.org/wikipedia/en/1/18/WWE_Intercontinental_Championship_2019.png" } // Placeholder
         ];
 
         const WWE_LOGS = [
@@ -65,7 +68,7 @@
             </div>
         </header>
 
-        <section class="mb-10 overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/50">
+        <section class="mb-10 overflow-hidden py-6 border-y border-zinc-900 bg-zinc-950/50">
             <div class="scroll-container" id="carousel"></div>
         </section>
 
@@ -117,22 +120,11 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- Custom Belt Designs (SVGs) ---
-        const BELT_DESIGNS = {
-            undisputed: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><polygon points="20,1 28,6 28,14 20,19 12,14 12,6" fill="#eab308"/><circle cx="20" cy="10" r="3" fill="#000"/></svg>`,
-            whc: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><ellipse cx="20" cy="10" rx="8" ry="9" fill="#eab308"/><ellipse cx="20" cy="10" rx="6" ry="7" fill="#ca8a04"/></svg>`,
-            us: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><path d="M14,2 L26,2 L26,10 C26,15 20,19 20,19 C20,19 14,15 14,10 Z" fill="#ef4444"/><path d="M14,2 L26,2 L26,8 L14,8 Z" fill="#3b82f6"/><polygon points="20,3 22,7 18,7" fill="#fff"/></svg>`,
-            ic: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><circle cx="20" cy="10" r="8" fill="#111" stroke="#eab308" stroke-width="2"/><circle cx="20" cy="10" r="4" fill="#eab308"/><path d="M12,10 L28,10" stroke="#fff" stroke-width="1"/></svg>`,
-            womens: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><polygon points="20,1 28,6 28,14 20,19 12,14 12,6" fill="#eab308"/><circle cx="20" cy="10" r="3" fill="#fff"/></svg>`,
-            womens_world: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><ellipse cx="20" cy="10" rx="8" ry="9" fill="#eab308"/><ellipse cx="20" cy="10" rx="6" ry="7" fill="#ca8a04"/></svg>`,
-            womens_ic: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><circle cx="20" cy="10" r="8" fill="#fff" stroke="#eab308" stroke-width="2"/><circle cx="20" cy="10" r="4" fill="#eab308"/></svg>`
-        };
-
-        // --- Static UI Generation ---
+        // --- Static UI Generation (Updated with real img tags) ---
         document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
-            <div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">
-                ${BELT_DESIGNS[c.type]}
-                <span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
+            <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
+                <img src="${c.img}" alt="${c.title}" class="h-16 object-contain belt-glow mb-2">
+                <span class="text-[9px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
                 <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
             </div>
         `).join('');
