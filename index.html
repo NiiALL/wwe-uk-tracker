@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | Version 2.0</title>
+    <title>NiiALL's Main Event | WWE Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -36,7 +36,7 @@
             { 
                 show: "NXT", date: "Mar 10", 
                 results: [
-                    {m:"Wren Sinclair vs. Thea Hail (Speed Final)", w:"Wren Sinclair"}, 
+                    {m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, 
                     {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"},
                     {m:"Ethan Page vs. Trick Williams", w:"Ethan Page"},
                     {m:"Tatum Paxley vs. Izzi Dame", w:"Tatum Paxley"}
@@ -55,7 +55,7 @@
             { 
                 show: "SmackDown", date: "Mar 6", 
                 results: [
-                    {m:"Cody Rhodes vs. Drew McIntyre (WWE Title)", w:"Cody Rhodes (New Champ)"},
+                    {m:"Cody Rhodes vs. Drew McIntyre (WWE Title)", w:"Cody Rhodes"},
                     {m:"Carmelo Hayes vs. LA Knight (US Title)", w:"Carmelo Hayes"},
                     {m:"Jade Cargill vs. Nia Jax", w:"Jade Cargill"},
                     {m:"Street Profits vs. A-Town Down Under", w:"Street Profits"}
@@ -66,7 +66,7 @@
                 results: [
                     {m:"Men's Chamber Match", w:"Randy Orton"}, 
                     {m:"Women's Chamber Match", w:"Rhea Ripley"},
-                    {m:"AJ Lee vs. Becky Lynch (Women's IC)", w:"AJ Lee (New Champ)"},
+                    {m:"AJ Lee vs. Becky Lynch (Women's IC)", w:"AJ Lee"},
                     {m:"Motor City Machine Guns vs. DIY", w:"MCMG"},
                     {m:"Gunther vs. Seth Rollins", w:"Gunther"}
                 ] 
@@ -86,18 +86,14 @@
         <header class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-zinc-800 pb-6 gap-4">
             <div class="flex items-center gap-5">
                 
-                <div class="relative flex items-center justify-center w-16 h-16 bg-gradient-to-br from-zinc-900 to-black rounded-xl border border-zinc-800 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
-                    <svg class="absolute inset-0 w-full h-full text-zinc-700 opacity-40 p-1" viewBox="0 0 100 100">
-                        <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" stroke-width="2"/>
-                        <circle cx="15" cy="15" r="4" fill="#ef4444"/><circle cx="85" cy="15" r="4" fill="#ef4444"/>
-                        <circle cx="15" cy="85" r="4" fill="#ef4444"/><circle cx="85" cy="85" r="4" fill="#ef4444"/>
-                    </svg>
-                    <span class="relative text-white font-black text-4xl italic tracking-tighter" style="text-shadow: 2px 2px 0px #ef4444;">N</span>
+                <div class="relative flex items-center justify-center w-16 h-16 bg-black rounded-full border-[3px] border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
+                    <div class="absolute inset-1 border-[1.5px] border-yellow-600/60 rounded-full border-dashed animate-[spin_10s_linear_infinite]"></div>
+                    <span class="relative text-yellow-500 font-black text-4xl italic tracking-tighter" style="text-shadow: 2px 2px 0px #222;">N</span>
                 </div>
 
                 <div>
-                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] mt-1">Unrivaled Ringside Tracking</p>
+                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-yellow-500">MAIN EVENT</span></h1>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] mt-1">2026 Season Watch Party Hub</p>
                 </div>
             </div>
             
@@ -135,8 +131,8 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 1 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">Cody Rhodes vs. Randy Orton</h4>
                         <div class="space-y-2" id="poll1-buttons">
-                            <button onclick="castVote('poll1', 'codyRhodes', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
-                            <button onclick="castVote('poll1', 'randyOrton', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
+                            <button onclick="castVote('poll1', 'codyRhodes', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-yellow-500 transition-all text-left">Cody Rhodes</button>
+                            <button onclick="castVote('poll1', 'randyOrton', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-yellow-500 transition-all text-left">Randy Orton</button>
                         </div>
                         <div id="poll1-results" class="hidden"></div>
                     </div>
@@ -145,8 +141,8 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 2 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">CM Punk vs. Roman Reigns</h4>
                         <div class="space-y-2" id="poll2-buttons">
-                            <button onclick="castVote('poll2', 'cmPunk', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
-                            <button onclick="castVote('poll2', 'romanReigns', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
+                            <button onclick="castVote('poll2', 'cmPunk', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-yellow-500 transition-all text-left">CM Punk</button>
+                            <button onclick="castVote('poll2', 'romanReigns', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-yellow-500 transition-all text-left">Roman Reigns</button>
                         </div>
                         <div id="poll2-results" class="hidden"></div>
                     </div>
@@ -159,9 +155,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- 1. UI RENDER ENGINE (Runs even if Firebase fails) ---
+        // --- 1. UI RENDER ENGINE ---
         
-        // Stylized Gold Belt SVG for Carousel
         const beltSVG = `<svg class="w-10 h-10 text-yellow-500 mb-1 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
         document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
             <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
@@ -171,7 +166,6 @@
             </div>
         `).join('');
 
-        // Inject Match Logs (Now handles variable amounts of matches cleanly)
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
             <div class="bg-zinc-900/40 p-5 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
                 <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-2">
@@ -181,25 +175,24 @@
                 ${ev.results.map(r => `
                     <div class="flex justify-between items-center text-xs mb-2 border-b border-zinc-800/50 pb-2 last:border-0 last:mb-0 last:pb-0">
                         <span class="text-zinc-300 w-2/3 pr-2">${r.m}</span>
-                        <span class="font-bold text-red-500 text-right w-1/3">${r.w}</span>
+                        <span class="font-bold text-yellow-500 text-right w-1/3">${r.w}</span>
                     </div>
                 `).join('')}
             </div>
         `).join('');
         
-        // Inject History
         document.getElementById('champ-history-list').innerHTML = `
             <table class="w-full text-left text-xs">
                 <thead class="bg-zinc-800 text-zinc-500 uppercase font-bold">
                     <tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-800">
-                    ${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}
+                    ${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-yellow-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}
                 </tbody>
             </table>
         `;
 
-        // --- 2. FIREBASE ENGINE (Wrapped in Try/Catch for safety) ---
+        // --- 2. FIREBASE ENGINE ---
         let db;
         try {
             const firebaseConfig = {
@@ -213,7 +206,6 @@
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
 
-            // REAL-TIME LISTENERS
             db.collection("trackerData").doc("poll1").onSnapshot((doc) => {
                 if (doc.exists && localStorage.getItem('voted_poll1')) {
                     const data = doc.data();
@@ -232,8 +224,6 @@
         }
 
         // --- 3. POLL LOGIC ---
-        
-        // Check local storage on load
         if(localStorage.getItem('voted_poll1')) {
             document.getElementById('poll1-buttons').classList.add('hidden');
             document.getElementById('poll1-results').classList.remove('hidden');
@@ -257,7 +247,6 @@
                 }, { merge: true })
                 .catch((error) => console.error("Firebase Error: ", error));
             } else {
-                // Fallback if offline
                 renderRealTimeBars(pollId, 50, 50, name1, name2);
             }
         }
@@ -270,15 +259,15 @@
             const container = document.getElementById(`${pollId}-results`);
             container.innerHTML = `
                 <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="absolute top-0 left-0 h-full bg-yellow-900/30 poll-bar" style="width: ${pct1}%;"></div>
                     <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name1}</span><span>${pct1}%</span>
+                        <span>${name1}</span><span class="text-yellow-500">${pct1}%</span>
                     </div>
                 </div>
                 <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3 mt-2">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="absolute top-0 left-0 h-full bg-yellow-900/30 poll-bar" style="width: ${pct2}%;"></div>
                     <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name2}</span><span>${pct2}%</span>
+                        <span>${name2}</span><span class="text-yellow-500">${pct2}%</span>
                     </div>
                 </div>
                 <p class="text-[9px] text-zinc-500 mt-2 text-right uppercase tracking-widest">${total} Total Votes</p>
