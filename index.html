@@ -3,132 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | NiiALL's Main Event</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root {
-            --theme: #3b82f6; 
-            --theme-glow: rgba(59, 130, 246, 0.3);
-        }
-        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
-        .theme-text { color: var(--theme); }
-        .theme-bg { background-color: var(--theme); }
-        .theme-border { border-color: var(--theme); }
-        .theme-shadow { box-shadow: 0 0 25px var(--theme-glow); }
-        .theme-hover:hover { border-color: var(--theme); color: white; }
-    </style>
+    <title>Login Page</title>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 relative">
+<body>
 
-    <div class="absolute top-0 left-0 w-full h-1 theme-bg transition-colors duration-500"></div>
-
-    <div class="w-full max-w-md bg-zinc-900/80 p-8 rounded-3xl border border-zinc-800 shadow-2xl backdrop-blur-sm">
+    <h2>Welcome! Please Log In</h2>
+    
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required>
+        <br><br>
         
-        <div class="flex flex-col items-center justify-center mb-8">
-            <div class="flex items-center justify-center w-14 h-14 bg-zinc-950 border-[3px] theme-border transform -skew-x-12 theme-shadow mb-4">
-                <span class="text-white font-black text-3xl italic transform skew-x-12">N</span>
-            </div>
-            <h1 class="text-2xl font-black italic uppercase tracking-tighter text-center">NiiALL'S <span class="theme-text transition-colors duration-500">MAIN EVENT</span></h1>
-            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Authorized Access Only</p>
-        </div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <br><br>
+        
+        <button type="submit">Log In</button>
+    </form>
 
-        <div id="error-msg" class="hidden bg-red-900/30 border border-red-500 text-red-400 text-xs font-bold p-3 rounded-lg mb-6 text-center uppercase tracking-wider">
-            Error goes here
-        </div>
-
-        <div class="space-y-4">
-            <div>
-                <label class="block text-[10px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Email Address</label>
-                <input type="email" id="email" class="w-full bg-black border border-zinc-800 text-white text-sm p-3 rounded-lg focus:outline-none theme-border transition-colors" placeholder="roman@reigns.com">
-            </div>
-            <div>
-                <label class="block text-[10px] text-zinc-500 font-bold uppercase tracking-widest mb-1">Password</label>
-                <input type="password" id="password" class="w-full bg-black border border-zinc-800 text-white text-sm p-3 rounded-lg focus:outline-none theme-border transition-colors" placeholder="••••••••">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="loginWithEmail()" class="w-full bg-zinc-800 border border-zinc-700 p-3 rounded-lg text-xs font-bold theme-hover transition-all">Log In</button>
-                <button onclick="signUpWithEmail()" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold theme-hover transition-all">Create Account</button>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-4 my-6">
-            <div class="h-px bg-zinc-800 flex-1"></div>
-            <span class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">OR</span>
-            <div class="h-px bg-zinc-800 flex-1"></div>
-        </div>
-
-        <button onclick="loginWithGoogle()" class="w-full bg-white text-black p-3 rounded-lg text-xs font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Sign in with Google
-        </button>
-
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <p id="errorMessage" style="color: red; display: none;">Invalid username or password.</p>
 
     <script>
-        // --- DYNAMIC THEME ---
-        function setDailyTheme() {
-            const day = new Date().getDay();
-            let color = '#3b82f6'; let glow = 'rgba(59, 130, 246, 0.3)';
-            if (day === 1 || day === 2) { color = '#ef4444'; glow = 'rgba(239, 68, 68, 0.3)'; } 
-            else if (day === 3) { color = '#eab308'; glow = 'rgba(234, 179, 8, 0.3)'; } 
-            else if (day === 4 || day === 5 || day === 6) { color = '#3b82f6'; glow = 'rgba(59, 130, 246, 0.3)'; } 
-            else { color = '#ffffff'; glow = 'rgba(255, 255, 255, 0.3)'; }
-            document.documentElement.style.setProperty('--theme', color);
-            document.documentElement.style.setProperty('--theme-glow', glow);
-        }
-        setDailyTheme();
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            // 1. Stop the form from refreshing the page (which is the default behavior)
+            event.preventDefault();
 
-        // --- FIREBASE INITIALIZATION ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
-            authDomain: "niialls-wwe-tracker.firebaseapp.com",
-            projectId: "niialls-wwe-tracker",
-            storageBucket: "niialls-wwe-tracker.firebasestorage.app",
-            messagingSenderId: "71961326154",
-            appId: "1:71961326154:web:edc852be18742537ba6cb3"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+            // 2. Grab what the user typed in
+            const userBox = document.getElementById("username").value;
+            const passBox = document.getElementById("password").value;
 
-        // --- AUTH STATE LISTENER ---
-        // If the user is already logged in, instantly kick them back to the index page!
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // Save a badge to the browser's memory
-        localStorage.setItem("isLoggedIn", "true"); 
-                window.location.href = 'home.html';
+            // 3. Check the credentials (we are hardcoding "admin" and "1234" for this test)
+            if (userBox === "admin" && passBox === "1234") {
+                
+                // Success! Give them the "badge"
+                localStorage.setItem("isLoggedIn", "true"); 
+                
+                // Redirect to the dashboard
+                window.location.href = "dashboard.html"; 
+
+            } else {
+                // Failure! Show the error message
+                document.getElementById("errorMessage").style.display = "block";
             }
         });
-
-        // --- LOGIN LOGIC ---
-        const emailInput = document.getElementById('email');
-        const passInput = document.getElementById('password');
-        const errorBox = document.getElementById('error-msg');
-
-        function showError(msg) {
-            errorBox.innerText = msg;
-            errorBox.classList.remove('hidden');
-        }
-
-        function signUpWithEmail() {
-            auth.createUserWithEmailAndPassword(emailInput.value, passInput.value)
-                .catch(error => showError(error.message));
-        }
-
-        function loginWithEmail() {
-            auth.signInWithEmailAndPassword(emailInput.value, passInput.value)
-                .catch(error => showError(error.message));
-        }
-
-        function loginWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .catch(error => showError(error.message));
-        }
     </script>
+
 </body>
 </html>
