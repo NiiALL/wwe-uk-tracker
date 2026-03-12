@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WWE UK Tracker</title>
+    <title>NiiALL | WWE Tracker</title>
     
     <script>
         if (localStorage.getItem("isLoggedIn") !== "true") {
@@ -11,73 +11,56 @@
         }
     </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <style>
-        /* These are CSS Variables. Our JavaScript will change these dynamically! */
         :root {
-            --bg-color: #111;
-            --main-theme-color: #e50914; /* Default to Raw Red */
-            --text-color: #fff;
+            --bg-color: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --main-theme-color: #e50914; /* Defaults to Raw Red */
+            --text-color: #ffffff;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Arial', sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            transition: all 0.5s ease; /* Makes color changes smooth */
+            transition: all 0.5s ease;
         }
 
+        /* --- LOGO & HEADER --- */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 3px solid var(--main-theme-color);
-            padding-bottom: 10px;
+            padding-bottom: 15px;
             margin-bottom: 20px;
         }
 
-    /* New styles for the dynamic text logo */
-.logo-container {
-    text-align: left; /* Keep it left-aligned */
-}
-
-.presenter {
-    color: var(--text-color); /* Use your default text color */
-    font-size: 0.9rem; /* Sligthly smaller text */
-    text-transform: uppercase; /* All caps */
-    letter-spacing: 2px; /* Add some space between letters for network feel */
-    margin-bottom: -5px; /* Pull the main title closer */
-}
-
-.main-title {
-    color: var(--main-theme-color); /* Crucially: THIS links it to the daily theme color! */
-    font-size: 2rem; /* Large, bold title */
-    font-weight: bold;
-    text-transform: uppercase; /* All caps */
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5), 0 0 5px var(--main-theme-color); /* Add a subtle glow/shadow matching the theme */
-}
+        .logo-container {
+            text-align: left;
+        }
+        .presenter {
+            color: #aaaaaa;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: -5px;
+        }
+        .main-title {
+            color: var(--main-theme-color);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            transition: color 0.5s ease;
         }
 
-        .event-banner {
-            background-color: var(--main-theme-color);
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .tracker-card {
-            background-color: #222;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 5px solid var(--main-theme-color);
-        }
-
-        button {
+        button.logout-btn {
             background-color: transparent;
             color: var(--main-theme-color);
             border: 1px solid var(--main-theme-color);
@@ -85,11 +68,74 @@
             cursor: pointer;
             border-radius: 4px;
             font-weight: bold;
+            transition: all 0.3s;
+        }
+        button.logout-btn:hover {
+            background-color: var(--main-theme-color);
+            color: #fff;
         }
 
-        button:hover {
+        /* --- DYNAMIC EVENT BANNER --- */
+        .event-banner {
             background-color: var(--main-theme-color);
             color: white;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* --- SWIPER CAROUSEL --- */
+        .section-title {
+            font-size: 1.5rem;
+            border-left: 5px solid var(--main-theme-color);
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        .swiper {
+            width: 100%;
+            padding-bottom: 40px; /* Space for dots */
+        }
+        .swiper-slide {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border-top: 3px solid var(--main-theme-color);
+        }
+        
+        /* Placeholder for belt images */
+        .belt-img {
+            width: 100%;
+            max-width: 200px;
+            height: 150px;
+            object-fit: contain;
+            margin: 0 auto 15px auto;
+            display: block;
+            background-color: #222; /* Remove this when you add real images */
+            border-radius: 8px;
+        }
+        .champ-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+        }
+        .title-name {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Custom Swiper Theme Colors */
+        .swiper-pagination-bullet-active {
+            background-color: var(--main-theme-color) !important;
         }
     </style>
 </head>
@@ -97,20 +143,50 @@
 
     <header>
         <div class="logo-container">
-    <div class="presenter">NiiALL PRESENTS</div>
-    <div class="main-title">WWE UK TRACKER</div>
-</div>
-        <button id="logoutBtn">Log Out</button>
+            <div class="presenter">NiiALL PRESENTS</div>
+            <div class="main-title">WWE UK TRACKER</div>
+        </div>
+        <button id="logoutBtn" class="logout-btn">LOG OUT</button>
     </header>
 
     <div class="event-banner" id="eventBanner">
         Loading tonight's event...
     </div>
 
-    <div class="tracker-card">
-        <h2>🏆 Current UK Champions</h2>
-        <p>Champion lists and stats will go here.</p>
+    <h2 class="section-title">CURRENT CHAMPIONS</h2>
+    
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            
+            <div class="swiper-slide">
+                <img src="" alt="WWE Championship Belt" class="belt-img">
+                <div class="champ-name">Cody Rhodes</div>
+                <div class="title-name">Undisputed WWE Champion</div>
+            </div>
+
+            <div class="swiper-slide">
+                <img src="" alt="World Heavyweight Belt" class="belt-img">
+                <div class="champ-name">Gunther</div>
+                <div class="title-name">World Heavyweight Champion</div>
+            </div>
+
+            <div class="swiper-slide">
+                <img src="" alt="Intercontinental Belt" class="belt-img">
+                <div class="champ-name">Bron Breakker</div>
+                <div class="title-name">Intercontinental Champion</div>
+            </div>
+
+            <div class="swiper-slide">
+                <img src="" alt="UK Belt" class="belt-img">
+                <div class="champ-name">Insert UK Champ</div>
+                <div class="title-name">WWE UK Champion</div>
+            </div>
+
+        </div>
+        <div class="swiper-pagination"></div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
         // --- 1. LOGOUT LOGIC ---
@@ -122,30 +198,47 @@
         // --- 2. DYNAMIC THEME LOGIC ---
         function setDynamicTheme() {
             const date = new Date();
-            const dayOfWeek = date.getDay(); // 0 is Sunday, 1 is Monday, etc.
+            const dayOfWeek = date.getDay(); // 0 is Sunday, 1 is Monday...
             
             const root = document.documentElement;
             const banner = document.getElementById("eventBanner");
 
             if (dayOfWeek === 1) { // Monday
-                root.style.setProperty('--main-theme-color', '#e50914'); // Red
+                root.style.setProperty('--main-theme-color', '#e50914'); 
                 banner.innerText = "🔴 Tonight is MONDAY NIGHT RAW!";
             } else if (dayOfWeek === 2) { // Tuesday
-                root.style.setProperty('--main-theme-color', '#ffb81c'); // Gold/Yellow
+                root.style.setProperty('--main-theme-color', '#ffb81c'); 
                 banner.innerText = "🟡 Tonight is NXT!";
             } else if (dayOfWeek === 5) { // Friday
-                root.style.setProperty('--main-theme-color', '#0052cc'); // Blue
+                root.style.setProperty('--main-theme-color', '#0052cc'); 
                 banner.innerText = "🔵 Tonight is FRIDAY NIGHT SMACKDOWN!";
-            } else {
-                root.style.setProperty('--main-theme-color', '#555555'); // Grey for off-days
-                banner.innerText = "⚪ No main roster events tonight. Check out the Network!";
+            } else { // Wednesday, Thursday, Saturday, Sunday
+                root.style.setProperty('--main-theme-color', '#555555'); 
+                banner.innerText = "⚪ No main roster TV tonight. Check the Network!";
             }
         }
-
-        // Run the theme checker as soon as the page loads
         setDynamicTheme();
+
+        // --- 3. INITIALIZE CAROUSEL ---
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1, // Show 1 card on mobile
+            spaceBetween: 20,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                // When window width is >= 600px (Tablets/Desktops)
+                600: {
+                    slidesPerView: 2,
+                },
+                // When window width is >= 900px (Large Desktops)
+                900: {
+                    slidesPerView: 3,
+                }
+            }
+        });
     </script>
 
 </body>
 </html>
-
