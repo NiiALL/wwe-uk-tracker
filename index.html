@@ -204,7 +204,8 @@
 </head>
 
 <body class="bg-[#080808]">
-  <div id="login-overlay" class="fixed inset-0 z-[100] bg-[#080808] flex items-center justify-center p-6">
+  
+  <div id="login-overlay" class="fixed inset-0 z-[100] bg-[#080808] flex items-center justify-center p-6" style="display: flex;">
     <div class="event-card p-8 w-full max-w-md text-center fade-up">
       <h2 class="text-4xl theme-text mb-6">RESTRICTED ACCESS</h2>
       <p class="diary-font text-zinc-500 text-sm mb-8">Enter credentials to access the 2026 Archive</p>
@@ -215,189 +216,183 @@
     </div>
   </div>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-label">2026 UNIVERSE</div>
-  <div style="overflow:hidden; flex:1; padding: 0 20px;">
-    <div class="ticker-text">
-      🚨 RUMOR: Oba Femi heavily favored to answer Brock Lesnar's open challenge at WrestleMania &nbsp;&nbsp;·&nbsp;&nbsp;
-      🚨 OFFICIAL: Stephanie Vaquer vs Liv Morgan confirmed for Night 2 &nbsp;&nbsp;·&nbsp;&nbsp;
-      🚨 RAW AFTERMATH: Seth Rollins attacks Paul Heyman backstage &nbsp;&nbsp;·&nbsp;&nbsp;
-      🚨 SMACKDOWN PREVIEW: Carmelo Hayes sets open challenge for US Title &nbsp;&nbsp;·&nbsp;&nbsp;
-      🚨 SIGNED: Giulia vs IYO SKY made official by Nick Aldis
+<div id="main-content" style="display: none;">
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">2026 UNIVERSE</div>
+    <div style="overflow:hidden; flex:1; padding: 0 20px;">
+      <div class="ticker-text">
+        🚨 RUMOR: Oba Femi heavily favored to answer Brock Lesnar's open challenge at WrestleMania &nbsp;&nbsp;·&nbsp;&nbsp;
+        🚨 OFFICIAL: Stephanie Vaquer vs Liv Morgan confirmed for Night 2 &nbsp;&nbsp;·&nbsp;&nbsp;
+        🚨 RAW AFTERMATH: Seth Rollins attacks Paul Heyman backstage &nbsp;&nbsp;·&nbsp;&nbsp;
+        🚨 SMACKDOWN PREVIEW: Carmelo Hayes sets open challenge for US Title &nbsp;&nbsp;·&nbsp;&nbsp;
+        🚨 SIGNED: Giulia vs IYO SKY made official by Nick Aldis
+      </div>
     </div>
   </div>
-</div>
 
-<div class="max-w-7xl mx-auto px-4 md:px-8">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
 
-  <!-- HEADER -->
-  <header class="pt-10 pb-8 border-b border-zinc-900 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 fade-up">
-    <div>
-      <p class="text-xs font-bold tracking-[0.4em] text-zinc-600 uppercase mb-2">Personal Match Diary</p>
-      <h1 class="text-6xl md:text-8xl leading-none" style="font-family:'Bebas Neue',cursive; letter-spacing:0.02em;">
-        NiiALL'S <span class="theme-text">MAIN</span><br>EVENT
-      </h1>
-      <p class="text-zinc-500 text-sm mt-3" style="font-family:'Special Elite',monospace;">
-        — 2026 Season · Road to WrestleMania 42 —
-      </p>
-    </div>
-    <div class="text-left md:text-right">
-      <p class="text-[10px] tracking-[0.3em] text-zinc-600 uppercase font-bold mb-1">Countdown to WrestleMania</p>
+    <header class="pt-10 pb-8 border-b border-zinc-900 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 fade-up">
+      <div>
+        <p class="text-xs font-bold tracking-[0.4em] text-zinc-600 uppercase mb-2">Personal Match Diary</p>
+        <h1 class="text-6xl md:text-8xl leading-none" style="font-family:'Bebas Neue',cursive; letter-spacing:0.02em;">
+          NiiALL'S <span class="theme-text">MAIN</span><br>EVENT
+        </h1>
+        <p class="text-zinc-500 text-sm mt-3" style="font-family:'Special Elite',monospace;">
+          — 2026 Season · Road to WrestleMania 42 —
+        </p>
+      </div>
       <div class="text-left md:text-right">
-  <button onclick="handleLogout()" class="text-[9px] text-zinc-500 hover:text-red-500 tracking-[0.3em] uppercase font-bold mb-4 transition-colors">
-    Logout Session [X]
-  </button>
-  <p class="text-[10px] tracking-[0.3em] text-zinc-600 uppercase font-bold mb-1">Countdown to WrestleMania</p>
-  <div id="countdown" class="theme-text" style="font-family:'Bebas Neue',cursive; font-size: 2.2rem; letter-spacing:0.08em; line-height:1;">
-    --D : --H : --M : --S
-  </div>
-  <p class="text-zinc-600 text-[10px] tracking-widest uppercase font-bold mt-1">Las Vegas · Apr 18–19, 2026</p>
-</div>
-
-<div id="countdown" class="theme-text" style="font-family:'Bebas Neue',cursive; font-size: 2.2rem; letter-spacing:0.08em; line-height:1;">
-        --D : --H : --M : --S
+        <button onclick="handleLogout()" class="text-[9px] text-zinc-500 hover:text-red-500 tracking-[0.3em] uppercase font-bold mb-4 transition-colors">
+          Logout Session [X]
+        </button>
+        <p class="text-[10px] tracking-[0.3em] text-zinc-600 uppercase font-bold mb-1">Countdown to WrestleMania</p>
+        <div id="countdown" class="theme-text" style="font-family:'Bebas Neue',cursive; font-size: 2.2rem; letter-spacing:0.08em; line-height:1;">
+          --D : --H : --M : --S
+        </div>
+        <p class="text-zinc-600 text-[10px] tracking-widest uppercase font-bold mt-1">Las Vegas · Apr 18–19, 2026</p>
       </div>
-      <p class="text-zinc-600 text-[10px] tracking-widest uppercase font-bold mt-1">Las Vegas · Apr 18–19, 2026</p>
-    </div>
-  </header>
+    </header>
 
-  <!-- CHAMPIONS CAROUSEL -->
-  <section class="py-8 border-b border-zinc-900 overflow-hidden fade-up delay-1">
-    <p class="text-[10px] tracking-[0.4em] text-zinc-600 uppercase font-bold mb-5">Current Champions</p>
-    <div style="overflow:hidden; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);">
-      <div class="scroll-track" id="carousel"></div>
-    </div>
-  </section>
-
-  <!-- MAIN GRID -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 pb-20">
-
-    <!-- LEFT: MATCH ARCHIVE -->
-    <main class="lg:col-span-8 space-y-10 fade-up delay-2">
-      <div>
-        <div class="flex items-baseline justify-between mb-7">
-          <div>
-            <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="theme-text">Match Archive</h2>
-            <p class="text-zinc-600 text-xs mt-0.5" style="font-family:'Special Elite',monospace;">Rate matches. Leave notes. Build your diary.</p>
-          </div>
-          <div class="flex gap-2 items-center">
-            <span class="text-[9px] text-zinc-600 tracking-widest uppercase font-bold">Filter:</span>
-            <select id="show-filter" onchange="filterEvents()" class="bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs rounded-lg px-3 py-1.5 outline-none cursor-pointer hover:border-zinc-600 transition-colors">
-              <option value="all">All Shows</option>
-              <option value="Raw">Raw</option>
-              <option value="SmackDown">SmackDown</option>
-              <option value="NXT">NXT</option>
-              <option value="PLE">PLEs</option>
-            </select>
-          </div>
-        </div>
-        <div id="event-logs" class="space-y-6"></div>
-        <p id="no-results" class="hidden text-center text-zinc-700 py-10 diary-font italic">No events found for this filter.</p>
+    <section class="py-8 border-b border-zinc-900 overflow-hidden fade-up delay-1">
+      <p class="text-[10px] tracking-[0.4em] text-zinc-600 uppercase font-bold mb-5">Current Champions</p>
+      <div style="overflow:hidden; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);">
+        <div class="scroll-track" id="carousel"></div>
       </div>
+    </section>
 
-      <!-- CHAMP HISTORY TABLE -->
-      <div>
-        <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="text-zinc-300 mb-5">Title History <span class="text-zinc-700">2026</span></h2>
-        <div class="event-card overflow-x-auto">
-          <table class="w-full history-table" id="history-table"></table>
-        </div>
-      </div>
-    </main>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 pb-20">
 
-    <!-- RIGHT SIDEBAR -->
-    <aside class="lg:col-span-4 space-y-8 fade-up delay-3">
-
-      <!-- STATS CARD -->
-      <div class="event-card p-6" id="stats-panel">
-        <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 mb-5 border-b border-zinc-900 pb-3">
-          My Diary Stats
-        </h3>
-        <div class="grid grid-cols-2 gap-4" id="stats-grid">
-          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
-            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-matches">—</div>
-            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Matches Watched</div>
-          </div>
-          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
-            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-rated">—</div>
-            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Rated</div>
-          </div>
-          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
-            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-avg">—</div>
-            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Avg Rating</div>
-          </div>
-          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
-            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-notes">—</div>
-            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">With Notes</div>
-          </div>
-        </div>
-        <div id="best-match-wrap" class="mt-4 hidden">
-          <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-2">Top Rated Match</p>
-          <p id="best-match-name" class="diary-font text-sm text-yellow-500 italic"></p>
-        </div>
-      </div>
-
-      <!-- COMMUNITY POLLS -->
-      <div class="event-card p-6">
-        <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-5">
-          <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300">WrestleMania Predictions</h3>
-          <span class="text-[9px] theme-bg text-black font-black px-2 py-1 rounded tracking-widest" style="font-family:'Bebas Neue',cursive;">LIVE</span>
-        </div>
-
-        <div class="space-y-6" id="polls-container">
-
-          <div id="poll1-wrap">
-            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 1 Main Event</p>
-            <p class="font-bold text-sm mb-3">Cody Rhodes vs. Randy Orton</p>
-            <div id="poll1-buttons" class="space-y-2">
-              <button class="vote-btn" onclick="castVote('poll1','codyRhodes','Cody Rhodes','Randy Orton')">Cody Rhodes</button>
-              <button class="vote-btn" onclick="castVote('poll1','randyOrton','Cody Rhodes','Randy Orton')">Randy Orton</button>
+      <main class="lg:col-span-8 space-y-10 fade-up delay-2">
+        <div>
+          <div class="flex items-baseline justify-between mb-7">
+            <div>
+              <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="theme-text">Match Archive</h2>
+              <p class="text-zinc-600 text-xs mt-0.5" style="font-family:'Special Elite',monospace;">Rate matches. Leave notes. Build your diary.</p>
             </div>
-            <div id="poll1-results" class="hidden"></div>
-          </div>
-
-          <div id="poll2-wrap">
-            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 2 Main Event</p>
-            <p class="font-bold text-sm mb-3">CM Punk vs. Roman Reigns</p>
-            <div id="poll2-buttons" class="space-y-2">
-              <button class="vote-btn" onclick="castVote('poll2','cmPunk','CM Punk','Roman Reigns')">CM Punk</button>
-              <button class="vote-btn" onclick="castVote('poll2','romanReigns','CM Punk','Roman Reigns')">Roman Reigns</button>
+            <div class="flex gap-2 items-center">
+              <span class="text-[9px] text-zinc-600 tracking-widest uppercase font-bold">Filter:</span>
+              <select id="show-filter" onchange="filterEvents()" class="bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs rounded-lg px-3 py-1.5 outline-none cursor-pointer hover:border-zinc-600 transition-colors">
+                <option value="all">All Shows</option>
+                <option value="Raw">Raw</option>
+                <option value="SmackDown">SmackDown</option>
+                <option value="NXT">NXT</option>
+                <option value="PLE">PLEs</option>
+              </select>
             </div>
-            <div id="poll2-results" class="hidden"></div>
+          </div>
+          <div id="event-logs" class="space-y-6"></div>
+          <p id="no-results" class="hidden text-center text-zinc-700 py-10 diary-font italic">No events found for this filter.</p>
+        </div>
+
+        <div>
+          <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="text-zinc-300 mb-5">Title History <span class="text-zinc-700">2026</span></h2>
+          <div class="event-card overflow-x-auto">
+            <table class="w-full history-table" id="history-table"></table>
+          </div>
+        </div>
+      </main>
+
+      <aside class="lg:col-span-4 space-y-8 fade-up delay-3">
+
+        <div class="event-card p-6" id="stats-panel">
+          <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 mb-5 border-b border-zinc-900 pb-3">
+            My Diary Stats
+          </h3>
+          <div class="grid grid-cols-2 gap-4" id="stats-grid">
+            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+              <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-matches">—</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Matches Watched</div>
+            </div>
+            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+              <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-rated">—</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Rated</div>
+            </div>
+            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+              <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-avg">—</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Avg Rating</div>
+            </div>
+            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+              <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-notes">—</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">With Notes</div>
+            </div>
+          </div>
+          <div id="best-match-wrap" class="mt-4 hidden">
+            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-2">Top Rated Match</p>
+            <p id="best-match-name" class="diary-font text-sm text-yellow-500 italic"></p>
+          </div>
+        </div>
+
+        <div class="event-card p-6">
+          <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-5">
+            <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300">WrestleMania Predictions</h3>
+            <span class="text-[9px] theme-bg text-black font-black px-2 py-1 rounded tracking-widest" style="font-family:'Bebas Neue',cursive;">LIVE</span>
           </div>
 
-        </div>
-      </div>
+          <div class="space-y-6" id="polls-container">
 
-      <!-- TOP MATCHES THIS YEAR -->
-      <div class="event-card p-6">
-        <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 border-b border-zinc-900 pb-3 mb-4">
-          My Top Rated <span class="theme-text">2026</span>
-        </h3>
-        <div id="top-matches" class="space-y-2">
-          <p class="diary-font text-xs text-zinc-700 italic">Rate some matches to see your top picks appear here.</p>
-        </div>
-      </div>
+            <div id="poll1-wrap">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 1 Main Event</p>
+              <p class="font-bold text-sm mb-3">Cody Rhodes vs. Randy Orton</p>
+              <div id="poll1-buttons" class="space-y-2">
+                <button class="vote-btn" onclick="castVote('poll1','codyRhodes','Cody Rhodes','Randy Orton')">Cody Rhodes</button>
+                <button class="vote-btn" onclick="castVote('poll1','randyOrton','Cody Rhodes','Randy Orton')">Randy Orton</button>
+              </div>
+              <div id="poll1-results" class="hidden"></div>
+            </div>
 
-    </aside>
+            <div id="poll2-wrap">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 2 Main Event</p>
+              <p class="font-bold text-sm mb-3">CM Punk vs. Roman Reigns</p>
+              <div id="poll2-buttons" class="space-y-2">
+                <button class="vote-btn" onclick="castVote('poll2','cmPunk','CM Punk','Roman Reigns')">CM Punk</button>
+                <button class="vote-btn" onclick="castVote('poll2','romanReigns','CM Punk','Roman Reigns')">Roman Reigns</button>
+              </div>
+              <div id="poll2-results" class="hidden"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="event-card p-6">
+          <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 border-b border-zinc-900 pb-3 mb-4">
+            My Top Rated <span class="theme-text">2026</span>
+          </h3>
+          <div id="top-matches" class="space-y-2">
+            <p class="diary-font text-xs text-zinc-700 italic">Rate some matches to see your top picks appear here.</p>
+          </div>
+        </div>
+
+      </aside>
+    </div>
   </div>
-</div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+</div> <script>
+// ══════════════════════════════════════════════════════
+//  FIREBASE INITIALIZATION (Must be done first!)
+// ══════════════════════════════════════════════════════
+let db = null;
+const RATINGS = {};
 
-<script>
-function handleLogout() {
-  firebase.auth().signOut().then(() => {
-    console.log("Logged out successfully");
-    // Force a reload if you want to clear any local memory/caches
-    window.location.reload();
-  }).catch((error) => {
-    console.error("Logout Error:", error);
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
+    authDomain: "niialls-wwe-tracker.firebaseapp.com",
+    projectId: "niialls-wwe-tracker",
+    storageBucket: "niialls-wwe-tracker.firebasestorage.app",
+    messagingSenderId: "71961326154",
+    appId: "1:71961326154:web:edc852be18742537ba6cb3"
   });
+  db = firebase.firestore();
+  console.log("Firebase connected ✓");
+} catch(e) {
+  console.warn("Firebase offline:", e);
 }
-// Auth State Observer
+
+// ══════════════════════════════════════════════════════
+//  AUTH LOGIC
+// ══════════════════════════════════════════════════════
 firebase.auth().onAuthStateChanged((user) => {
   const overlay = document.getElementById('login-overlay');
   const content = document.getElementById('main-content');
@@ -423,6 +418,16 @@ async function handleLogin() {
     errEl.textContent = "INVALID CREDENTIALS";
   }
 }
+
+function handleLogout() {
+  firebase.auth().signOut().then(() => {
+    console.log("Logged out successfully");
+    window.location.reload();
+  }).catch((error) => {
+    console.error("Logout Error:", error);
+  });
+}
+
 // ══════════════════════════════════════════════════════
 //  DATA
 // ══════════════════════════════════════════════════════
@@ -509,38 +514,23 @@ const CHAMP_HISTORY = [
 const WM_DATE = new Date("April 18, 2026 01:00:00 GMT").getTime();
 function tick() {
   const dist = WM_DATE - Date.now();
-  if (dist < 0) { document.getElementById('countdown').textContent = "WM IS LIVE!"; return; }
+  if (dist < 0) { 
+    const cd = document.getElementById('countdown');
+    if (cd) cd.textContent = "WM IS LIVE!"; 
+    return; 
+  }
   const d = Math.floor(dist / 86400000);
   const h = Math.floor((dist % 86400000) / 3600000);
   const m = Math.floor((dist % 3600000) / 60000);
   const s = Math.floor((dist % 60000) / 1000);
-  document.getElementById('countdown').textContent =
-    `${d}D : ${String(h).padStart(2,'0')}H : ${String(m).padStart(2,'0')}M : ${String(s).padStart(2,'0')}S`;
+  const cd = document.getElementById('countdown');
+  if (cd) cd.textContent = `${d}D : ${String(h).padStart(2,'0')}H : ${String(m).padStart(2,'0')}M : ${String(s).padStart(2,'0')}S`;
 }
 tick(); setInterval(tick, 1000);
 
 // ══════════════════════════════════════════════════════
-//  FIREBASE
+//  DATA LOADING
 // ══════════════════════════════════════════════════════
-let db = null;
-const RATINGS = {}; // local cache: { "key": { stars, notes, motm } }
-
-try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
-    authDomain: "niialls-wwe-tracker.firebaseapp.com",
-    projectId: "niialls-wwe-tracker",
-    storageBucket: "niialls-wwe-tracker.firebasestorage.app",
-    messagingSenderId: "71961326154",
-    appId: "1:71961326154:web:edc852be18742537ba6cb3"
-  });
-  db = firebase.firestore();
-  console.log("Firebase connected ✓");
-} catch(e) {
-  console.warn("Firebase offline:", e);
-}
-
-// Load all match ratings from Firestore, then render
 async function loadRatingsAndRender() {
   if (db) {
     try {
@@ -577,14 +567,7 @@ function renderStars(key, currentStars) {
 
 function renderEventCard(ev, eventIdx) {
   const showName = ev.name || ev.show;
-  const motmKey = WWE_LOGS.findIndex(e => e === ev);
-  // find motm from cached data
-  let motmIdx = -1;
-  ev.results.forEach((r, i) => {
-    const k = makeMatchKey(eventIdx, i);
-    if (RATINGS[k] && RATINGS[k].motm) motmIdx = i;
-  });
-
+  
   const matchRows = ev.results.map((r, i) => {
     const key = makeMatchKey(eventIdx, i);
     const data = RATINGS[key] || {};
@@ -679,21 +662,20 @@ function renderHistoryTable() {
 }
 
 // ══════════════════════════════════════════════════════
-//  STAR RATING
+//  STAR RATING & NOTES
 // ══════════════════════════════════════════════════════
 function rateStar(key, val) {
   const current = (RATINGS[key] && RATINGS[key].stars) || 0;
-  const newVal = current === val ? 0 : val; // clicking same star clears it
+  const newVal = current === val ? 0 : val;
   if (!RATINGS[key]) RATINGS[key] = {};
   RATINGS[key].stars = newVal;
-  // Update DOM
+  
   const container = document.getElementById(`stars-${key}`);
   if (container) container.innerHTML = renderStars(key, newVal);
-  // Update header dots
+  
   updateCardDots();
   updateStats();
   updateTopMatches();
-  // Save to Firebase
   persistMatchData(key);
 }
 
@@ -709,9 +691,6 @@ function updateCardDots() {
   });
 }
 
-// ══════════════════════════════════════════════════════
-//  NOTES
-// ══════════════════════════════════════════════════════
 function toggleNotes(key) {
   const panel = document.getElementById(`panel-${key}`);
   const isOpen = panel.classList.contains('open');
@@ -755,14 +734,13 @@ function saveNote(key) {
   const notes = ta.value.trim();
   if (!RATINGS[key]) RATINGS[key] = {};
   RATINGS[key].notes = notes;
-  // Update toggle button
+  
   const btn = document.getElementById(`toggle-btn-${key}`);
   if (btn) btn.textContent = notes ? '📝 Notes' : '+ Note';
-  // Update display
+  
   const editor = document.getElementById(`editor-${key}`);
   const panel = document.getElementById(`panel-${key}`);
   if (editor && notes) {
-    // Add/update display paragraph
     let display = panel.querySelector('.notes-display');
     if (!display) {
       display = document.createElement('p');
@@ -782,12 +760,12 @@ function saveNote(key) {
 }
 
 // ══════════════════════════════════════════════════════
-//  MATCH OF THE NIGHT
+//  MOTM & PERSISTENCE
 // ══════════════════════════════════════════════════════
 function toggleMotm(key, eventIdx, matchIdx) {
   if (!RATINGS[key]) RATINGS[key] = {};
   const isNowMotm = !RATINGS[key].motm;
-  // Remove MOTM from other matches in same event
+  
   WWE_LOGS[eventIdx].results.forEach((_, i) => {
     const k = makeMatchKey(eventIdx, i);
     if (RATINGS[k]) RATINGS[k].motm = false;
@@ -800,6 +778,7 @@ function toggleMotm(key, eventIdx, matchIdx) {
     }
     if (k !== key) persistMatchData(k);
   });
+  
   if (isNowMotm) {
     RATINGS[key].motm = true;
     const btn = document.getElementById(`motm-btn-${key}`);
@@ -815,9 +794,6 @@ function toggleMotm(key, eventIdx, matchIdx) {
   persistMatchData(key);
 }
 
-// ══════════════════════════════════════════════════════
-//  FIREBASE PERSISTENCE
-// ══════════════════════════════════════════════════════
 function persistMatchData(key) {
   if (!db) return;
   const data = RATINGS[key] || {};
@@ -826,7 +802,7 @@ function persistMatchData(key) {
 }
 
 // ══════════════════════════════════════════════════════
-//  STATS
+//  STATS & FILTERS
 // ══════════════════════════════════════════════════════
 function updateStats() {
   let total = 0, rated = 0, ratingSum = 0, noted = 0;
@@ -882,9 +858,6 @@ function updateTopMatches() {
     </div>`).join('');
 }
 
-// ══════════════════════════════════════════════════════
-//  FILTER
-// ══════════════════════════════════════════════════════
 function filterEvents() {
   const val = document.getElementById('show-filter').value;
   let visible = 0;
@@ -925,7 +898,13 @@ if (db) {
 });
 
 function castVote(pollId, choiceKey, n1, n2) {
-  // ... existing UI logic ...
+  // Update UI immediately to prevent multiple clicks
+  localStorage.setItem(`voted_${pollId}`, '1');
+  document.getElementById(`${pollId}-buttons`).classList.add('hidden');
+  document.getElementById(`${pollId}-results`).classList.remove('hidden');
+  document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-600 diary-font italic">Sending vote…</p>`;
+  
+  // Send vote to Firebase
   if (db && firebase.auth().currentUser) {
     db.collection("trackerData").doc(pollId).set(
       { [choiceKey]: firebase.firestore.FieldValue.increment(1) }, 
@@ -937,10 +916,10 @@ function castVote(pollId, choiceKey, n1, n2) {
       renderPollBars(pollId, 50, 50, n1, n2); 
     });
   } else {
-    // If user isn't logged in, they shouldn't be here, but just in case:
-    alert("Please log in to vote.");
+    alert("You must be logged in to cast a vote.");
   }
 }
+
 function renderPollBars(pollId, v1, v2, n1, n2) {
   const total = v1 + v2;
   const p1 = total === 0 ? 50 : Math.round((v1/total)*100);
@@ -959,12 +938,6 @@ function renderPollBars(pollId, v1, v2, n1, n2) {
     </div>`;
 }
 
-// ══════════════════════════════════════════════════════
-//  BOOT
-// ══════════════════════════════════════════════════════
-loadRatingsAndRender();
 </script>
-<div id="main-content" style="display: none;">
-      </div>
 </body>
 </html>
