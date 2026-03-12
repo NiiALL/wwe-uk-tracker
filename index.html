@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | Community Hub</title>
+    <title>NiiALL's WWE Tracker | Fan Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -16,23 +16,21 @@
         .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
         .scroll-container:hover { animation-play-state: paused; }
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Adds a nice golden glow behind the realistic belts */
         .belt-glow { filter: drop-shadow(0px 10px 15px rgba(234, 179, 8, 0.25)); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
-        // Updated to use real image URLs instead of SVG types
+        // Notice the image paths now look for a local 'images' folder!
         const CHAMPIONS = [
-            { title: "Undisputed WWE", holder: "Cody Rhodes", img: "https://upload.wikimedia.org/wikipedia/en/5/5a/Undisputed_WWE_Universal_Championship.png" },
-            { title: "World Heavyweight", holder: "CM Punk", img: "https://upload.wikimedia.org/wikipedia/en/1/1b/World_Heavyweight_Championship_%28WWE%29_2023.png" },
-            { title: "Intercontinental", holder: "Penta", img: "https://upload.wikimedia.org/wikipedia/en/1/18/WWE_Intercontinental_Championship_2019.png" },
-            { title: "United States", holder: "Carmelo Hayes", img: "https://upload.wikimedia.org/wikipedia/en/f/fa/WWE_United_States_Championship_2020.png" },
-            { title: "Women's World", holder: "Stephanie Vaquer", img: "https://upload.wikimedia.org/wikipedia/en/2/22/Women%27s_World_Championship_2023.png" },
-            { title: "WWE Women's", holder: "Jade Cargill", img: "https://upload.wikimedia.org/wikipedia/en/3/30/WWE_Women%27s_Championship_2023.png" },
-            { title: "Women's IC", holder: "AJ Lee", img: "https://upload.wikimedia.org/wikipedia/en/1/18/WWE_Intercontinental_Championship_2019.png" } // Placeholder
+            { title: "Undisputed WWE", holder: "Cody Rhodes", img: "images/undisputed.png" },
+            { title: "World Heavyweight", holder: "CM Punk", img: "images/whc.png" },
+            { title: "Intercontinental", holder: "Penta", img: "images/ic.png" },
+            { title: "United States", holder: "Carmelo Hayes", img: "images/us.png" },
+            { title: "Women's World", holder: "Stephanie Vaquer", img: "images/womens_world.png" },
+            { title: "WWE Women's", holder: "Jade Cargill", img: "images/womens.png" },
+            { title: "Women's IC", holder: "AJ Lee", img: "images/womens_ic.png" }
         ];
 
         const WWE_LOGS = [
@@ -57,7 +55,7 @@
                 </div>
                 <div>
                     <h1 class="text-4xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Fan-Made Community Hub • 2026</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Fan-Made Watch Party Hub</p>
                 </div>
             </div>
             <div class="text-right">
@@ -120,17 +118,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- Static UI Generation (Updated with real img tags) ---
+        // --- Static UI Generation with Image Fallback ---
         document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
             <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
-                <img src="${c.img}" alt="${c.title}" class="h-16 object-contain belt-glow mb-2">
+                <img src="${c.img}" alt="${c.title}" class="h-16 object-contain belt-glow mb-2" onerror="this.onerror=null; this.src='https://placehold.co/200x80/111/eab308?text=Missing+Image';">
                 <span class="text-[9px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
                 <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
             </div>
         `).join('');
         
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `<div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}"><p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}</div>`).join('');
-        
         document.getElementById('champ-history-list').innerHTML = `<table class="w-full text-left text-xs"><thead class="bg-zinc-800 text-zinc-500 uppercase font-bold"><tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr></thead><tbody class="divide-y divide-zinc-800">${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}</tbody></table>`;
 
         // --- Firebase Initialization ---
@@ -160,7 +157,6 @@
             }
         });
 
-        // --- Check on Page Load ---
         if(localStorage.getItem('voted_poll1')) {
             document.getElementById('poll1-buttons').classList.add('hidden');
             document.getElementById('poll1-results').classList.remove('hidden');
@@ -172,7 +168,6 @@
             document.getElementById('poll2-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
         }
 
-        // --- Voting Function ---
         function castVote(pollId, choiceDbKey, name1, name2) {
             localStorage.setItem(`voted_${pollId}`, 'true');
             document.getElementById(`${pollId}-buttons`).classList.add('hidden');
@@ -185,7 +180,6 @@
             .catch((error) => console.error("Firebase Error: ", error));
         }
 
-        // --- Render UI Math Function ---
         function renderRealTimeBars(pollId, val1, val2, name1, name2) {
             const total = val1 + val2;
             const pct1 = total === 0 ? 0 : Math.round((val1 / total) * 100);
