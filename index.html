@@ -6,123 +6,61 @@
     <title>NiiALL's Main Event | WWE Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS Variables for our Dynamic Theme */
         :root {
-            --theme: #ef4444; /* Defaults to Red */
-            --theme-glow: rgba(239, 68, 68, 0.3);
+            --theme: #3b82f6; /* Default Blue */
+            --theme-glow: rgba(59, 130, 246, 0.3);
         }
 
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
         
-        /* Dynamic Theme Classes */
         .theme-text { color: var(--theme); }
         .theme-bg { background-color: var(--theme); }
         .theme-border { border-color: var(--theme); }
-        .theme-shadow { box-shadow: 0 0 20px var(--theme-glow); }
-        .theme-hover:hover { border-color: var(--theme); }
+        .theme-shadow { box-shadow: 0 0 25px var(--theme-glow); }
+        .theme-hover:hover { border-color: var(--theme); color: white; }
 
-        .raw-border { border-left: 4px solid #ef4444; }
-        .sd-border { border-left: 4px solid #3b82f6; }
-        .nxt-border { border-left: 4px solid #a1a1aa; }
-        .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
-        
+        .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #1a1a1a, #000); }
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); background-color: var(--theme-glow); }
         
-        /* Animations */
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
         .scroll-container:hover { animation-play-state: paused; }
-        
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; animation: marquee 25s linear infinite; }
     </style>
 </head>
-<body class="pb-10 md:pb-12">
+<body class="p-4 md:p-8">
 
-    <div class="bg-zinc-950 border-b border-zinc-800 text-[10px] font-bold uppercase tracking-widest flex items-center overflow-hidden h-8">
-        <div class="theme-bg px-4 h-full flex items-center text-white z-10 relative shadow-xl whitespace-nowrap">
-            <span class="w-2 h-2 bg-white rounded-full animate-pulse mr-2"></span> 2026 UNIVERSE NEWS
-        </div>
-        <div class="flex-1 overflow-hidden relative h-full">
-            <div class="animate-marquee whitespace-nowrap text-zinc-400 absolute top-2">
-                <span class="mx-8">🚨 RUMOR: Oba Femi heavily favored to answer Brock Lesnar's open challenge at WrestleMania</span>
-                <span class="mx-8">🚨 OFFICIAL: Stephanie Vaquer vs Liv Morgan confirmed for Night 2</span>
-                <span class="mx-8">🚨 RAW AFTERMATH: Seth Rollins attacks Paul Heyman backstage</span>
-                <span class="mx-8">🚨 SMACKDOWN PREVIEW: Carmelo Hayes sets open challenge for US Title</span>
-                <span class="mx-8">🚨 SIGNED: Giulia vs IYO SKY made official by Nick Aldis</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const CHAMPIONS = [
-            { title: "Undisputed WWE", holder: "Cody Rhodes" },
-            { title: "World Heavyweight", holder: "CM Punk" },
-            { title: "Intercontinental", holder: "Penta" },
-            { title: "United States", holder: "Carmelo Hayes" },
-            { title: "Women's World", holder: "Stephanie Vaquer" },
-            { title: "WWE Women's", holder: "Jade Cargill" },
-            { title: "Women's IC", holder: "AJ Lee" }
-        ];
-
-        const WWE_LOGS = [
-            { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}, {m:"Ethan Page vs. Trick Williams", w:"Ethan Page"}, {m:"Tatum Paxley vs. Izzi Dame", w:"Tatum Paxley"}] },
-            { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}, {m:"Bron Breakker vs. Ilja Dragunov", w:"Bron Breakker"}, {m:"Bayley vs. Iyo Sky vs. Dakota Kai", w:"Bayley"}] },
-            { show: "SmackDown", date: "Mar 6", results: [{m:"Cody Rhodes vs. Drew McIntyre", w:"Cody Rhodes"}, {m:"Carmelo Hayes vs. LA Knight", w:"Carmelo Hayes"}, {m:"Jade Cargill vs. Nia Jax", w:"Jade Cargill"}, {m:"Street Profits vs. A-Town Down Under", w:"Street Profits"}] },
-            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber Match", w:"Randy Orton"}, {m:"Women's Chamber Match", w:"Rhea Ripley"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}, {m:"Gunther vs. Seth Rollins", w:"Gunther"}] }
-        ];
-
-        const CHAMP_HISTORY = [
-            { title: "Undisputed WWE", dates: "Mar 6 - Present", holder: "Cody Rhodes", prev: "Drew McIntyre" },
-            { title: "Intercontinental", dates: "Feb 2 - Present", holder: "Penta", prev: "Dominik Mysterio" },
-            { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" },
-            { title: "United States", dates: "Jan 2 - Present", holder: "Carmelo Hayes", prev: "Logan Paul" }
-        ];
-    </script>
-
-    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+    <div class="max-w-7xl mx-auto">
         
         <header class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-zinc-800 pb-6 gap-4">
             <div class="flex items-center gap-5">
                 
-                <div class="relative flex items-center justify-center w-20 h-20 bg-black rounded-3xl border-2 theme-border theme-shadow p-2 transition-colors duration-1000">
-                    <svg class="w-full h-full theme-text transition-colors duration-1000" viewBox="0 0 100 120" fill="currentColor">
-                        <path d="M50,0 C20,0 10,30 10,60 C10,90 20,120 50,120 C80,120 90,90 90,60 C90,30 80,0 50,0 Z" />
-                        <path d="M50,10 C25,10 18,35 18,60 C18,85 25,110 50,110 C75,110 82,85 82,60 C82,35 75,10 50,10 Z" fill="#050505" />
-                        <path d="M28,45 C22,48 18,55 18,62 C18,69 22,76 28,79 L38,62 Z" class="theme-text" fill="currentColor"/>
-                        <path d="M72,45 C78,48 82,55 82,62 C82,69 78,76 72,79 L62,62 Z" class="theme-text" fill="currentColor"/>
-                        <circle cx="33" cy="62" r="2.5" fill="#050505"/>
-                        <circle cx="67" cy="62" r="2.5" fill="#050505"/>
-                        <path d="M40,95 L60,95 L55,105 L45,105 Z" class="theme-text" fill="currentColor"/>
-                        <path d="M48,97 L52,97" stroke="#050505" stroke-width="1"/>
-                        <text x="50" y="32" font-family="Inter" font-weight="900" font-size="24" text-anchor="middle" fill="#050505" style="font-style: italic;">N</text>
-                    </svg>
+                <div class="flex items-center justify-center w-16 h-16 bg-zinc-950 border-[3px] theme-border transform -skew-x-12 theme-shadow">
+                    <span class="text-white font-black text-4xl italic transform skew-x-12">N</span>
                 </div>
 
                 <div>
-                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="theme-text transition-colors duration-1000">MAIN EVENT</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] mt-1">2026 Season Watch Party Hub</p>
+                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="theme-text transition-colors duration-500">MAIN EVENT</span></h1>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] mt-1">2026 Season Tracking Hub</p>
                 </div>
             </div>
             
             <div class="text-right">
-                <p id="next-show-label" class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest flex items-center justify-end gap-2">
-                    COUNTDOWN TO WRESTLEMANIA
-                </p>
-                <p id="countdown" class="text-2xl font-black italic theme-text tracking-tighter mt-1 transition-colors duration-1000">
+                <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">WRESTLEMANIA 42 KICKOFF</p>
+                <p id="countdown" class="text-2xl font-black italic theme-text tracking-tighter mt-1 transition-colors duration-500">
                     --D : --H : --M : --S
                 </p>
             </div>
         </header>
 
-        <section class="mb-10 overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/50">
+        <section class="mb-10 overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/40">
             <div class="scroll-container" id="carousel"></div>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
             <div class="lg:col-span-7 space-y-12">
                 <section>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] theme-text mb-6 flex items-center gap-2">🔥 2026 Match Archives</h2>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] theme-text mb-6">🔥 2026 Match Archives</h2>
                     <div id="event-logs" class="grid gap-4"></div>
                 </section>
                 <section>
@@ -166,59 +104,70 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- 1. DYNAMIC THEME & TIME LOGIC ---
-        function initializeDynamicTheme() {
-            const now = new Date();
-            // Get current hour of the week in GMT (Sun=0, Mon=24, Tue=48, etc)
-            const currentHourOfWeek = (now.getUTCDay() * 24) + now.getUTCHours();
-            
-            let colorHex = "#ef4444"; // Raw Red
-            let glowHex = "rgba(239, 68, 68, 0.3)";
-            let nextShow = "RAW";
+        // --- 1. DATA CENTER ---
+        const CHAMPIONS = [
+            { title: "Undisputed WWE", holder: "Cody Rhodes" },
+            { title: "World Heavyweight", holder: "CM Punk" },
+            { title: "Intercontinental", holder: "Penta" },
+            { title: "United States", holder: "Carmelo Hayes" },
+            { title: "Women's World", holder: "Stephanie Vaquer" },
+            { title: "WWE Women's", holder: "Jade Cargill" },
+            { title: "Women's IC", holder: "AJ Lee" }
+        ];
 
-            // Tue 1am GMT = hour 49. Wed 1am GMT = hour 73. Sat 1am GMT = hour 145.
-            if (currentHourOfWeek >= 49 && currentHourOfWeek < 73) {
-                // NXT Time
-                colorHex = "#d4d4d8"; // Silver
-                glowHex = "rgba(212, 212, 216, 0.3)";
-                nextShow = "NXT";
-            } else if (currentHourOfWeek >= 73 && currentHourOfWeek < 145) {
-                // SmackDown Time
-                colorHex = "#3b82f6"; // Blue
-                glowHex = "rgba(59, 130, 246, 0.3)";
-                nextShow = "SMACKDOWN";
+        const WWE_LOGS = [
+            { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}, {m:"Ethan Page vs. Trick Williams", w:"Ethan Page"}, {m:"Tatum Paxley vs. Izzi Dame", w:"Tatum Paxley"}] },
+            { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}, {m:"Bron Breakker vs. Ilja Dragunov", w:"Bron Breakker"}, {m:"Bayley vs. Iyo Sky vs. Dakota Kai", w:"Bayley"}] },
+            { show: "SmackDown", date: "Mar 6", results: [{m:"Cody Rhodes vs. Drew McIntyre", w:"Cody Rhodes"}, {m:"Carmelo Hayes vs. LA Knight", w:"Carmelo Hayes"}, {m:"Jade Cargill vs. Nia Jax", w:"Jade Cargill"}, {m:"Street Profits vs. A-Town Down Under", w:"Street Profits"}] },
+            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber Match", w:"Randy Orton"}, {m:"Women's Chamber Match", w:"Rhea Ripley"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}, {m:"Gunther vs. Seth Rollins", w:"Gunther"}] }
+        ];
+
+        const CHAMP_HISTORY = [
+            { title: "Undisputed WWE", dates: "Mar 6 - Present", holder: "Cody Rhodes", prev: "Drew McIntyre" },
+            { title: "Intercontinental", dates: "Feb 2 - Present", holder: "Penta", prev: "Dominik Mysterio" },
+            { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" },
+            { title: "United States", dates: "Jan 2 - Present", holder: "Carmelo Hayes", prev: "Logan Paul" }
+        ];
+
+        // --- 2. DYNAMIC THEME LOGIC ---
+        function setDailyTheme() {
+            const day = new Date().getDay(); // 0 is Sunday, 1 is Monday, etc.
+            let color = '#3b82f6'; // Fallback to Blue
+            let glow = 'rgba(59, 130, 246, 0.3)';
+
+            if (day === 1 || day === 2) { 
+                color = '#ef4444'; glow = 'rgba(239, 68, 68, 0.3)'; // RAW RED
+            } else if (day === 3) { 
+                color = '#eab308'; glow = 'rgba(234, 179, 8, 0.3)'; // NXT GOLD
+            } else if (day === 4 || day === 5 || day === 6) { 
+                color = '#3b82f6'; glow = 'rgba(59, 130, 246, 0.3)'; // SMACKDOWN BLUE
+            } else { 
+                color = '#ffffff'; glow = 'rgba(255, 255, 255, 0.3)'; // PLE WHITE
             }
 
-            document.documentElement.style.setProperty('--theme', colorHex);
-            document.documentElement.style.setProperty('--theme-glow', glowHex);
-            
-            // Log it for debugging
-            console.log(`Current GMT Hour of Week: ${currentHourOfWeek}. Next show: ${nextShow}`);
+            document.documentElement.style.setProperty('--theme', color);
+            document.documentElement.style.setProperty('--theme-glow', glow);
         }
-        initializeDynamicTheme();
+        setDailyTheme();
 
-        // --- 2. LIVE COUNTDOWN TO WRESTLEMANIA ---
+        // --- 3. COUNTDOWN TIMER ---
         const targetDate = new Date("April 18, 2026 01:00:00 GMT").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const distance = targetDate - now;
             
             if (distance < 0) {
-                document.getElementById('countdown').innerText = "WRESTLEMANIA IS LIVE!";
+                document.getElementById('countdown').innerText = "LIVE NOW";
                 return;
             }
-            
             const d = Math.floor(distance / (1000 * 60 * 60 * 24));
             const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Formatting with leading zeros
-            document.getElementById('countdown').innerText = 
-                `${d}D : ${h.toString().padStart(2, '0')}H : ${m.toString().padStart(2, '0')}M : ${s.toString().padStart(2, '0')}S`;
+            document.getElementById('countdown').innerText = `${d}D : ${h.toString().padStart(2, '0')}H : ${m.toString().padStart(2, '0')}M : ${s.toString().padStart(2, '0')}S`;
         }, 1000);
 
-        // --- 3. UI RENDER ENGINE ---
+        // --- 4. RENDER UI ---
         const beltSVG = `<svg class="w-10 h-10 theme-text mb-1 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
         document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
             <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
@@ -254,10 +203,87 @@
             </table>
         `;
 
-        // --- 4. FIREBASE ENGINE ---
+        // --- 5. FIREBASE & POLL LOGIC ---
         let db;
         try {
             const firebaseConfig = {
                 apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
                 authDomain: "niialls-wwe-tracker.firebaseapp.com",
-                projectId: "niialls-w
+                projectId: "niialls-wwe-tracker",
+                storageBucket: "niialls-wwe-tracker.firebasestorage.app",
+                messagingSenderId: "71961326154",
+                appId: "1:71961326154:web:edc852be18742537ba6cb3"
+            };
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+
+            db.collection("trackerData").doc("poll1").onSnapshot((doc) => {
+                if (doc.exists && localStorage.getItem('voted_poll1')) {
+                    const data = doc.data();
+                    renderRealTimeBars('poll1', data.codyRhodes || 0, data.randyOrton || 0, 'Cody Rhodes', 'Randy Orton');
+                }
+            });
+
+            db.collection("trackerData").doc("poll2").onSnapshot((doc) => {
+                if (doc.exists && localStorage.getItem('voted_poll2')) {
+                    const data = doc.data();
+                    renderRealTimeBars('poll2', data.cmPunk || 0, data.romanReigns || 0, 'CM Punk', 'Roman Reigns');
+                }
+            });
+        } catch (error) {
+            console.error("Firebase connection failed.", error);
+        }
+
+        // Check local storage on load
+        if(localStorage.getItem('voted_poll1')) {
+            document.getElementById('poll1-buttons').classList.add('hidden');
+            document.getElementById('poll1-results').classList.remove('hidden');
+            document.getElementById('poll1-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
+        }
+        if(localStorage.getItem('voted_poll2')) {
+            document.getElementById('poll2-buttons').classList.add('hidden');
+            document.getElementById('poll2-results').classList.remove('hidden');
+            document.getElementById('poll2-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
+        }
+
+        function castVote(pollId, choiceDbKey, name1, name2) {
+            localStorage.setItem(`voted_${pollId}`, 'true');
+            document.getElementById(`${pollId}-buttons`).classList.add('hidden');
+            document.getElementById(`${pollId}-results`).classList.remove('hidden');
+            document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-500">Sending vote to cloud...</p>`;
+
+            if (db) {
+                db.collection("trackerData").doc(pollId).set({
+                    [choiceDbKey]: firebase.firestore.FieldValue.increment(1)
+                }, { merge: true })
+                .catch((error) => console.error("Firebase Error: ", error));
+            } else {
+                renderRealTimeBars(pollId, 50, 50, name1, name2); // Fallback
+            }
+        }
+
+        function renderRealTimeBars(pollId, val1, val2, name1, name2) {
+            const total = val1 + val2;
+            const pct1 = total === 0 ? 0 : Math.round((val1 / total) * 100);
+            const pct2 = total === 0 ? 0 : Math.round((val2 / total) * 100);
+
+            const container = document.getElementById(`${pollId}-results`);
+            container.innerHTML = `
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
+                    <div class="absolute top-0 left-0 h-full poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name1}</span><span class="theme-text">${pct1}%</span>
+                    </div>
+                </div>
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3 mt-2">
+                    <div class="absolute top-0 left-0 h-full poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name2}</span><span class="theme-text">${pct2}%</span>
+                    </div>
+                </div>
+                <p class="text-[9px] text-zinc-500 mt-2 text-right uppercase tracking-widest">${total} Total Votes</p>
+            `;
+        }
+    </script>
+</body>
+</html>
