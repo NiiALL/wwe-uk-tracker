@@ -98,6 +98,8 @@
         // If the user is already logged in, instantly kick them back to the index page!
         auth.onAuthStateChanged(user => {
             if (user) {
+                // Save a badge to the browser's memory
+        localStorage.setItem("isLoggedIn", "true"); 
                 window.location.href = 'home.html';
             }
         });
