@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWE UK | The Netflix Archive 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
+        .raw-border { border-left: 4px solid #ef4444; }
+        .sd-border { border-left: 4px solid #3b82f6; }
+        .nxt-border { border-left: 4px solid #eab308; }
+        .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
+        .mvp-winner { border-color: #eab308 !important; background: #422006 !important; pointer-events: none; }
+        .mvp-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .scroll-container { display: flex; width: max-content; animation: scroll 35s linear infinite; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <script>
+        // 1. FULL 2026 LOGS (Expanded Archive)
+        const WWE_LOGS = [
+            { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}] },
+            { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}] },
+            { show: "SmackDown", date: "Mar 6", results: [{m:"Cody Rhodes vs. Drew McIntyre", w:"Cody Rhodes (New Champ)"}] },
+            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber", w:"Randy Orton"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}] },
+            { show: "PLE", name: "Royal Rumble", date: "Jan 31", results: [{m:"Men's Rumble", w:"Roman Reigns"}, {m:"Women's Rumble", w:"Liv Morgan"}] }
+        ];
+
+        // 2. CHAMPIONSHIP HISTORY 2026
+        const CHAMP_HISTORY = [
+            { title: "Undisputed WWE", dates: "Mar 6 - Present", holder: "Cody Rhodes", prev: "Drew McIntyre" },
+            { title: "Undisputed WWE", dates: "Jan 31 - Mar 6", holder: "Drew McIntyre", prev: "Cody Rhodes" },
+            { title: "Intercontinental", dates: "Feb 2 - Present", holder: "Penta", prev: "Dominik Mysterio" },
+            { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" }
+        ];
+
+        const ROSTER = ["Cody Rhodes", "Jacob Fatu", "Bron Breakker", "Penta", "AJ Lee", "Gunther"];
+    </script>
+
+    <div class="max-w-7xl mx-auto">
+        <header class="flex justify-between items-end mb-8 border-b border-zinc-800 pb-6">
+            <h1 class="text-4xl font-black italic uppercase italic">WWE<span class="text-red-600">UK</span></h1>
+            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Last Sync: March 12, 2026</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-8 space-y-12">
+                
+                <section>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-red-600 mb-6">2026 Match Archives</h2>
+                    <div id="event-logs" class="grid gap-4"></div>
+                </section>
+
+                <section>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-zinc-500 mb-6">Championship Lineage 2026</h2>
+                    <div id="champ-history-list" class="bg-zinc-900/30 rounded-xl overflow-hidden border border-zinc-800">
+                        </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-4 space-y-8">
+                <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800">
+                    <h3 class="font-bold mb-1 uppercase text-xs text-yellow-500 italic">MVP of the Night</h3>
+                    <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote is final. No changes allowed.</p>
+                    <div class="grid grid-cols-2 gap-2" id="mvp-grid"></div>
+                    <div id="lock-msg" class="mt-4 text-[10px] font-bold text-center text-zinc-500 hidden bg-zinc-800 p-2 rounded tracking-widest">
+                        SYSTEM: VOTE REGISTERED & LOCKED
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inject Event Logs
+        document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
+            <div class="bg-zinc-900/30 p-4 rounded border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
+                <p class="text-[10px] font-bold text-zinc-500 uppercase mb-2">${ev.show} • ${ev.date}</p>
+                ${ev.results.map(r => `<div class="flex justify-between text-xs mb-1"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}
+            </div>
+        `).join('');
+
+        // Inject Champ History
+        document.getElementById('champ-history-list').innerHTML = `
+            <table class="w-full text-left text-xs">
+                <thead class="bg-zinc-800 text-zinc-500 uppercase font-bold">
+                    <tr><th class="p-3">Title</th><th class="p-3">Current Holder</th><th class="p-3">Dates</th></tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800">
+                    ${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}
+                </tbody>
+            </table>
+        `;
+
+        // MVP Logic (Locked)
+        document.getElementById('mvp-grid').innerHTML = ROSTER.map(name => `
+            <button onclick="lockVote(this)" class="mvp-btn bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase">${name}</button>
+        `).join('');
+
+        function lockVote(btn) {
+            document.querySelectorAll('.mvp-btn').forEach(b => { b.disabled = true; });
+            btn.classList.add('mvp-winner');
+            document.getElementById('lock-msg').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
