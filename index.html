@@ -1,52 +1,970 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NiiALL's Main Event | WWE Diary 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --theme: #ef4444;
+    --theme-glow: rgba(239, 68, 68, 0.25);
+    --theme-subtle: rgba(239, 68, 68, 0.08);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background-color: #080808;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, var(--theme-glow), transparent),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    color: #e4e4e7;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    transition: background 1.2s ease;
+  }
+
+  h1, h2, h3, .bebas { font-family: 'Bebas Neue', cursive; letter-spacing: 0.05em; }
+  .diary-font { font-family: 'Special Elite', monospace; }
+
+  .theme-text { color: var(--theme); transition: color 1s; }
+  .theme-bg { background-color: var(--theme); transition: background-color 1s; }
+  .theme-border { border-color: var(--theme); transition: border-color 1s; }
+  .theme-glow-box { box-shadow: 0 0 30px var(--theme-glow); }
+
+  /* ── TICKER ── */
+  .ticker-wrap { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; height: 36px; overflow: hidden; display: flex; align-items: center; }
+  .ticker-label { font-family: 'Bebas Neue', cursive; letter-spacing: 0.15em; font-size: 11px; background: var(--theme); color: #000; padding: 0 16px; height: 100%; display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; transition: background 1s; }
+  @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+  .ticker-text { white-space: nowrap; animation: ticker 35s linear infinite; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #71717a; }
+
+  /* ── CHAMPION CAROUSEL ── */
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .scroll-track { display: flex; width: max-content; animation: scroll 35s linear infinite; }
+  .scroll-track:hover { animation-play-state: paused; }
+
+  /* ── EVENT CARDS ── */
+  .event-card {
+    background: #0f0f0f;
+    border: 1px solid #1c1c1c;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .event-card:hover { border-color: #2a2a2a; }
+
+  .show-pill {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 0.15em;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .pill-raw { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+  .pill-smackdown { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+  .pill-nxt { background: rgba(161,161,170,0.15); color: #a1a1aa; border: 1px solid rgba(161,161,170,0.3); }
+  .pill-ple { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+
+  /* ── MATCH ROW ── */
+  .match-row {
+    border-bottom: 1px solid #1a1a1a;
+    transition: background 0.2s;
+  }
+  .match-row:last-child { border-bottom: none; }
+  .match-row:hover { background: rgba(255,255,255,0.02); }
+
+  /* ── STAR RATING ── */
+  .star-group { display: flex; gap: 2px; }
+  .star {
+    font-size: 16px;
+    cursor: pointer;
+    color: #2a2a2a;
+    transition: color 0.15s, transform 0.1s;
+    line-height: 1;
+    user-select: none;
+  }
+  .star.filled { color: #f59e0b; }
+  .star.half { color: #f59e0b; opacity: 0.55; }
+  .star:hover { transform: scale(1.2); }
+
+  /* ── NOTES ── */
+  .notes-area {
+    background: #0a0a0a;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    color: #a1a1aa;
+    width: 100%;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s, color 0.2s;
+    min-height: 60px;
+  }
+  .notes-area:focus { border-color: var(--theme); color: #e4e4e7; }
+  .notes-area::placeholder { color: #3f3f46; font-style: italic; }
+
+  .save-btn {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    background: var(--theme);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background 1s;
+  }
+  .save-btn.visible { opacity: 1; }
+  .save-btn:hover { filter: brightness(1.15); }
+  .save-btn.saved { background: #22c55e; color: #000; }
+
+  .notes-display {
+    font-family: 'Special Elite', monospace;
+    font-size: 13px;
+    color: #71717a;
+    font-style: italic;
+    line-height: 1.5;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .notes-display:hover { color: #a1a1aa; }
+
+  /* ── MOTM BADGE ── */
+  .motm-badge {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  /* ── POLLS ── */
+  .poll-bar-fill { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+  .vote-btn {
+    border: 1px solid #222;
+    background: #0a0a0a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #a1a1aa;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    width: 100%;
+  }
+  .vote-btn:hover { border-color: var(--theme); color: #fff; }
+
+  /* ── HISTORY TABLE ── */
+  .history-table td, .history-table th {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+  .history-table thead th {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 0.1em;
+    font-size: 13px;
+    color: #52525b;
+    border-bottom: 1px solid #1c1c1c;
+  }
+  .history-table tbody tr { border-bottom: 1px solid #131313; }
+  .history-table tbody tr:hover { background: rgba(255,255,255,0.015); }
+
+  /* ── SCROLL BAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+
+  /* ── FADE IN ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeUp 0.5s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* ── EXPAND TOGGLE ── */
+  .expand-toggle { cursor: pointer; user-select: none; }
+  .notes-panel { overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 0; opacity: 0; }
+  .notes-panel.open { max-height: 200px; opacity: 1; }
+</style>
 </head>
-<body>
 
-    <h2>Welcome! Please Log In</h2>
-    
-    <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" required>
-        <br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" required>
-        <br><br>
-        
-        <button type="submit">Log In</button>
-    </form>
+<body class="bg-[#080808]">
+  <div id="login-overlay" class="fixed inset-0 z-[100] bg-[#080808] flex items-center justify-center p-6">
+    <div class="event-card p-8 w-full max-w-md text-center fade-up">
+      <h2 class="text-4xl theme-text mb-6">RESTRICTED ACCESS</h2>
+      <p class="diary-font text-zinc-500 text-sm mb-8">Enter credentials to access the 2026 Archive</p>
+      <input type="email" id="email" placeholder="Email" class="notes-area mb-4 border-zinc-800">
+      <input type="password" id="password" placeholder="Password" class="notes-area mb-6 border-zinc-800">
+      <button onclick="handleLogin()" class="w-full theme-bg text-black bebas py-3 rounded-lg text-xl">Unlock Diary</button>
+      <p id="login-error" class="text-red-500 text-xs mt-4 diary-font"></p>
+    </div>
+  </div>
 
-    <p id="errorMessage" style="color: red; display: none;">Invalid username or password.</p>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">2026 UNIVERSE</div>
+  <div style="overflow:hidden; flex:1; padding: 0 20px;">
+    <div class="ticker-text">
+      🚨 RUMOR: Oba Femi heavily favored to answer Brock Lesnar's open challenge at WrestleMania &nbsp;&nbsp;·&nbsp;&nbsp;
+      🚨 OFFICIAL: Stephanie Vaquer vs Liv Morgan confirmed for Night 2 &nbsp;&nbsp;·&nbsp;&nbsp;
+      🚨 RAW AFTERMATH: Seth Rollins attacks Paul Heyman backstage &nbsp;&nbsp;·&nbsp;&nbsp;
+      🚨 SMACKDOWN PREVIEW: Carmelo Hayes sets open challenge for US Title &nbsp;&nbsp;·&nbsp;&nbsp;
+      🚨 SIGNED: Giulia vs IYO SKY made official by Nick Aldis
+    </div>
+  </div>
+</div>
 
-    <script>
-        document.getElementById("loginForm").addEventListener("submit", function(event) {
-            // 1. Stop the form from refreshing the page (which is the default behavior)
-            event.preventDefault();
+<div class="max-w-7xl mx-auto px-4 md:px-8">
 
-            // 2. Grab what the user typed in
-            const userBox = document.getElementById("username").value;
-            const passBox = document.getElementById("password").value;
+  <!-- HEADER -->
+  <header class="pt-10 pb-8 border-b border-zinc-900 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 fade-up">
+    <div>
+      <p class="text-xs font-bold tracking-[0.4em] text-zinc-600 uppercase mb-2">Personal Match Diary</p>
+      <h1 class="text-6xl md:text-8xl leading-none" style="font-family:'Bebas Neue',cursive; letter-spacing:0.02em;">
+        NiiALL'S <span class="theme-text">MAIN</span><br>EVENT
+      </h1>
+      <p class="text-zinc-500 text-sm mt-3" style="font-family:'Special Elite',monospace;">
+        — 2026 Season · Road to WrestleMania 42 —
+      </p>
+    </div>
+    <div class="text-left md:text-right">
+      <p class="text-[10px] tracking-[0.3em] text-zinc-600 uppercase font-bold mb-1">Countdown to WrestleMania</p>
+      <div class="text-left md:text-right">
+  <button onclick="handleLogout()" class="text-[9px] text-zinc-500 hover:text-red-500 tracking-[0.3em] uppercase font-bold mb-4 transition-colors">
+    Logout Session [X]
+  </button>
+  <p class="text-[10px] tracking-[0.3em] text-zinc-600 uppercase font-bold mb-1">Countdown to WrestleMania</p>
+  <div id="countdown" class="theme-text" style="font-family:'Bebas Neue',cursive; font-size: 2.2rem; letter-spacing:0.08em; line-height:1;">
+    --D : --H : --M : --S
+  </div>
+  <p class="text-zinc-600 text-[10px] tracking-widest uppercase font-bold mt-1">Las Vegas · Apr 18–19, 2026</p>
+</div>
 
-            // 3. Check the credentials (we are hardcoding "admin" and "1234" for this test)
-            if (userBox === "admin" && passBox === "1234") {
-                
-                // Success! Give them the "badge"
-                localStorage.setItem("isLoggedIn", "true"); 
-                
-                // Redirect to the dashboard
-                window.location.href = "dashboard.html"; 
+<div id="countdown" class="theme-text" style="font-family:'Bebas Neue',cursive; font-size: 2.2rem; letter-spacing:0.08em; line-height:1;">
+        --D : --H : --M : --S
+      </div>
+      <p class="text-zinc-600 text-[10px] tracking-widest uppercase font-bold mt-1">Las Vegas · Apr 18–19, 2026</p>
+    </div>
+  </header>
 
-            } else {
-                // Failure! Show the error message
-                document.getElementById("errorMessage").style.display = "block";
-            }
-        });
-    </script>
+  <!-- CHAMPIONS CAROUSEL -->
+  <section class="py-8 border-b border-zinc-900 overflow-hidden fade-up delay-1">
+    <p class="text-[10px] tracking-[0.4em] text-zinc-600 uppercase font-bold mb-5">Current Champions</p>
+    <div style="overflow:hidden; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);">
+      <div class="scroll-track" id="carousel"></div>
+    </div>
+  </section>
 
+  <!-- MAIN GRID -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 pb-20">
+
+    <!-- LEFT: MATCH ARCHIVE -->
+    <main class="lg:col-span-8 space-y-10 fade-up delay-2">
+      <div>
+        <div class="flex items-baseline justify-between mb-7">
+          <div>
+            <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="theme-text">Match Archive</h2>
+            <p class="text-zinc-600 text-xs mt-0.5" style="font-family:'Special Elite',monospace;">Rate matches. Leave notes. Build your diary.</p>
+          </div>
+          <div class="flex gap-2 items-center">
+            <span class="text-[9px] text-zinc-600 tracking-widest uppercase font-bold">Filter:</span>
+            <select id="show-filter" onchange="filterEvents()" class="bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs rounded-lg px-3 py-1.5 outline-none cursor-pointer hover:border-zinc-600 transition-colors">
+              <option value="all">All Shows</option>
+              <option value="Raw">Raw</option>
+              <option value="SmackDown">SmackDown</option>
+              <option value="NXT">NXT</option>
+              <option value="PLE">PLEs</option>
+            </select>
+          </div>
+        </div>
+        <div id="event-logs" class="space-y-6"></div>
+        <p id="no-results" class="hidden text-center text-zinc-700 py-10 diary-font italic">No events found for this filter.</p>
+      </div>
+
+      <!-- CHAMP HISTORY TABLE -->
+      <div>
+        <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="text-zinc-300 mb-5">Title History <span class="text-zinc-700">2026</span></h2>
+        <div class="event-card overflow-x-auto">
+          <table class="w-full history-table" id="history-table"></table>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="lg:col-span-4 space-y-8 fade-up delay-3">
+
+      <!-- STATS CARD -->
+      <div class="event-card p-6" id="stats-panel">
+        <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 mb-5 border-b border-zinc-900 pb-3">
+          My Diary Stats
+        </h3>
+        <div class="grid grid-cols-2 gap-4" id="stats-grid">
+          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-matches">—</div>
+            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Matches Watched</div>
+          </div>
+          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-rated">—</div>
+            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Rated</div>
+          </div>
+          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-avg">—</div>
+            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Avg Rating</div>
+          </div>
+          <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+            <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-notes">—</div>
+            <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">With Notes</div>
+          </div>
+        </div>
+        <div id="best-match-wrap" class="mt-4 hidden">
+          <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-2">Top Rated Match</p>
+          <p id="best-match-name" class="diary-font text-sm text-yellow-500 italic"></p>
+        </div>
+      </div>
+
+      <!-- COMMUNITY POLLS -->
+      <div class="event-card p-6">
+        <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-5">
+          <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300">WrestleMania Predictions</h3>
+          <span class="text-[9px] theme-bg text-black font-black px-2 py-1 rounded tracking-widest" style="font-family:'Bebas Neue',cursive;">LIVE</span>
+        </div>
+
+        <div class="space-y-6" id="polls-container">
+
+          <div id="poll1-wrap">
+            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 1 Main Event</p>
+            <p class="font-bold text-sm mb-3">Cody Rhodes vs. Randy Orton</p>
+            <div id="poll1-buttons" class="space-y-2">
+              <button class="vote-btn" onclick="castVote('poll1','codyRhodes','Cody Rhodes','Randy Orton')">Cody Rhodes</button>
+              <button class="vote-btn" onclick="castVote('poll1','randyOrton','Cody Rhodes','Randy Orton')">Randy Orton</button>
+            </div>
+            <div id="poll1-results" class="hidden"></div>
+          </div>
+
+          <div id="poll2-wrap">
+            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 2 Main Event</p>
+            <p class="font-bold text-sm mb-3">CM Punk vs. Roman Reigns</p>
+            <div id="poll2-buttons" class="space-y-2">
+              <button class="vote-btn" onclick="castVote('poll2','cmPunk','CM Punk','Roman Reigns')">CM Punk</button>
+              <button class="vote-btn" onclick="castVote('poll2','romanReigns','CM Punk','Roman Reigns')">Roman Reigns</button>
+            </div>
+            <div id="poll2-results" class="hidden"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TOP MATCHES THIS YEAR -->
+      <div class="event-card p-6">
+        <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300 border-b border-zinc-900 pb-3 mb-4">
+          My Top Rated <span class="theme-text">2026</span>
+        </h3>
+        <div id="top-matches" class="space-y-2">
+          <p class="diary-font text-xs text-zinc-700 italic">Rate some matches to see your top picks appear here.</p>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
+<script>
+function handleLogout() {
+  firebase.auth().signOut().then(() => {
+    console.log("Logged out successfully");
+    // Force a reload if you want to clear any local memory/caches
+    window.location.reload();
+  }).catch((error) => {
+    console.error("Logout Error:", error);
+  });
+}
+// Auth State Observer
+firebase.auth().onAuthStateChanged((user) => {
+  const overlay = document.getElementById('login-overlay');
+  const content = document.getElementById('main-content');
+  
+  if (user) {
+    overlay.style.display = 'none';
+    content.style.display = 'block';
+    loadRatingsAndRender(); // Start your app
+  } else {
+    overlay.style.display = 'flex';
+    content.style.display = 'none';
+  }
+});
+
+async function handleLogin() {
+  const email = document.getElementById('email').value;
+  const pass = document.getElementById('password').value;
+  const errEl = document.getElementById('login-error');
+  
+  try {
+    await firebase.auth().signInWithEmailAndPassword(email, pass);
+  } catch (error) {
+    errEl.textContent = "INVALID CREDENTIALS";
+  }
+}
+// ══════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════
+const CHAMPIONS = [
+  { title: "WWE Championship", holder: "Cody Rhodes", show: "SmackDown" },
+  { title: "World Hvt. Championship", holder: "Gunther", show: "Raw" },
+  { title: "Women's Championship", holder: "Tiffany Stratton", show: "SmackDown" },
+  { title: "Women's World Title", holder: "Rhea Ripley", show: "Raw" },
+  { title: "Intercontinental Title", holder: "Penta", show: "Raw" },
+  { title: "US Championship", holder: "Carmelo Hayes", show: "SmackDown" },
+  { title: "Tag Team Titles", holder: "Motor City Machine Guns", show: "Raw" },
+  { title: "Women's Tag Titles", holder: "Jade & Bianca", show: "Raw" },
+  { title: "NXT Championship", holder: "Ethan Page", show: "NXT" },
+  { title: "Women's IC Title", holder: "AJ Lee", show: "Raw" },
+];
+
+const WWE_LOGS = [
+  {
+    show: "NXT", date: "Mar 10",
+    results: [
+      { m: "Wren Sinclair vs. Thea Hail", w: "Wren Sinclair" },
+      { m: "Sol Ruca vs. Lainey Reid", w: "Sol Ruca" },
+      { m: "Ethan Page vs. Trick Williams (NXT Title)", w: "Ethan Page" },
+      { m: "Tatum Paxley vs. Izzi Dame", w: "Tatum Paxley" }
+    ]
+  },
+  {
+    show: "Raw", date: "Mar 9",
+    results: [
+      { m: "Penta vs. El Grande Americano (IC Title)", w: "Penta" },
+      { m: "Oba Femi vs. Rusev", w: "Oba Femi" },
+      { m: "Bron Breakker vs. Ilja Dragunov", w: "Bron Breakker" },
+      { m: "Bayley vs. Iyo Sky vs. Dakota Kai", w: "Bayley" },
+      { m: "The Usos vs. Alpha Academy", w: "The Usos" }
+    ]
+  },
+  {
+    show: "SmackDown", date: "Mar 6",
+    results: [
+      { m: "Cody Rhodes vs. Drew McIntyre (WWE Title)", w: "Cody Rhodes" },
+      { m: "Carmelo Hayes vs. LA Knight (US Title)", w: "Carmelo Hayes" },
+      { m: "Jade Cargill vs. Nia Jax", w: "Jade Cargill" },
+      { m: "Street Profits vs. A-Town Down Under", w: "Street Profits" }
+    ]
+  },
+  {
+    show: "PLE", name: "Elimination Chamber", date: "Feb 28",
+    results: [
+      { m: "Men's Chamber Match", w: "Randy Orton" },
+      { m: "Women's Chamber Match", w: "Rhea Ripley" },
+      { m: "AJ Lee vs. Becky Lynch (Women's IC)", w: "AJ Lee" },
+      { m: "Motor City Machine Guns vs. DIY", w: "MCMG" },
+      { m: "Gunther vs. Seth Rollins", w: "Gunther" }
+    ]
+  }
+];
+
+const CHAMP_HISTORY = [
+  { title: "WWE Championship", holder: "Cody Rhodes", dates: "Jan 1 – Present" },
+  { title: "World Hvt. Championship", holder: "Gunther", dates: "Feb 28 – Present" },
+  { title: "IC Title", holder: "Penta", dates: "Mar 9 – Present" },
+  { title: "US Championship", holder: "Carmelo Hayes", dates: "Jan 18 – Present" },
+  { title: "Women's IC Title", holder: "AJ Lee", dates: "Feb 28 – Present" },
+  { title: "Tag Team Titles", holder: "Motor City Machine Guns", dates: "Feb 28 – Present" },
+  { title: "NXT Championship", holder: "Ethan Page", dates: "Mar 3 – Present" },
+];
+
+// ══════════════════════════════════════════════════════
+//  DYNAMIC THEME
+// ══════════════════════════════════════════════════════
+(function() {
+  const now = new Date();
+  const hourOfWeek = (now.getUTCDay() * 24) + now.getUTCHours();
+  let hex = "#ef4444", glow = "rgba(239,68,68,0.25)";
+  if (hourOfWeek >= 49 && hourOfWeek < 73)   { hex = "#d4d4d8"; glow = "rgba(212,212,216,0.25)"; }
+  else if (hourOfWeek >= 73 && hourOfWeek < 145) { hex = "#3b82f6"; glow = "rgba(59,130,246,0.25)"; }
+  document.documentElement.style.setProperty('--theme', hex);
+  document.documentElement.style.setProperty('--theme-glow', glow);
+})();
+
+// ══════════════════════════════════════════════════════
+//  COUNTDOWN
+// ══════════════════════════════════════════════════════
+const WM_DATE = new Date("April 18, 2026 01:00:00 GMT").getTime();
+function tick() {
+  const dist = WM_DATE - Date.now();
+  if (dist < 0) { document.getElementById('countdown').textContent = "WM IS LIVE!"; return; }
+  const d = Math.floor(dist / 86400000);
+  const h = Math.floor((dist % 86400000) / 3600000);
+  const m = Math.floor((dist % 3600000) / 60000);
+  const s = Math.floor((dist % 60000) / 1000);
+  document.getElementById('countdown').textContent =
+    `${d}D : ${String(h).padStart(2,'0')}H : ${String(m).padStart(2,'0')}M : ${String(s).padStart(2,'0')}S`;
+}
+tick(); setInterval(tick, 1000);
+
+// ══════════════════════════════════════════════════════
+//  FIREBASE
+// ══════════════════════════════════════════════════════
+let db = null;
+const RATINGS = {}; // local cache: { "key": { stars, notes, motm } }
+
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
+    authDomain: "niialls-wwe-tracker.firebaseapp.com",
+    projectId: "niialls-wwe-tracker",
+    storageBucket: "niialls-wwe-tracker.firebasestorage.app",
+    messagingSenderId: "71961326154",
+    appId: "1:71961326154:web:edc852be18742537ba6cb3"
+  });
+  db = firebase.firestore();
+  console.log("Firebase connected ✓");
+} catch(e) {
+  console.warn("Firebase offline:", e);
+}
+
+// Load all match ratings from Firestore, then render
+async function loadRatingsAndRender() {
+  if (db) {
+    try {
+      const snap = await db.collection("matchDiary").get();
+      snap.forEach(doc => { RATINGS[doc.id] = doc.data(); });
+    } catch(e) {
+      console.warn("Could not load ratings:", e);
+    }
+  }
+  renderAll();
+  updateStats();
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER ENGINE
+// ══════════════════════════════════════════════════════
+function makeMatchKey(eventIdx, matchIdx) {
+  const ev = WWE_LOGS[eventIdx];
+  return `${ev.show}_${ev.date}_${matchIdx}`.replace(/[^a-zA-Z0-9_]/g, '_');
+}
+
+function pillClass(show) {
+  const map = { Raw: 'pill-raw', SmackDown: 'pill-smackdown', NXT: 'pill-nxt', PLE: 'pill-ple' };
+  return map[show] || 'pill-raw';
+}
+
+function renderStars(key, currentStars) {
+  return Array.from({length: 5}, (_, i) => {
+    const n = i + 1;
+    const filled = n <= currentStars ? 'filled' : '';
+    return `<span class="star ${filled}" data-key="${key}" data-val="${n}" onclick="rateStar('${key}', ${n})">★</span>`;
+  }).join('');
+}
+
+function renderEventCard(ev, eventIdx) {
+  const showName = ev.name || ev.show;
+  const motmKey = WWE_LOGS.findIndex(e => e === ev);
+  // find motm from cached data
+  let motmIdx = -1;
+  ev.results.forEach((r, i) => {
+    const k = makeMatchKey(eventIdx, i);
+    if (RATINGS[k] && RATINGS[k].motm) motmIdx = i;
+  });
+
+  const matchRows = ev.results.map((r, i) => {
+    const key = makeMatchKey(eventIdx, i);
+    const data = RATINGS[key] || {};
+    const stars = data.stars || 0;
+    const notes = data.notes || '';
+    const isMotm = data.motm || false;
+
+    return `
+    <div class="match-row px-5 py-3" id="row-${key}">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-sm font-bold text-zinc-200 leading-tight">${r.m}</span>
+            ${isMotm ? '<span class="motm-badge">★ MOTM</span>' : ''}
+          </div>
+          <div class="flex items-center gap-3 mt-1.5 flex-wrap">
+            <span class="text-xs text-zinc-500 font-medium">W: <span class="theme-text font-bold">${r.w}</span></span>
+            <div class="star-group" id="stars-${key}">${renderStars(key, stars)}</div>
+            <button class="text-[10px] text-zinc-700 hover:text-zinc-400 transition-colors tracking-widest uppercase font-bold expand-toggle motm-btn" onclick="toggleMotm('${key}', ${eventIdx}, ${i})" id="motm-btn-${key}">
+              ${isMotm ? '✓ MOTM' : '+ MOTM'}
+            </button>
+          </div>
+        </div>
+        <button class="expand-toggle text-zinc-700 hover:text-zinc-400 transition-colors text-xs tracking-widest uppercase font-bold whitespace-nowrap mt-1"
+          onclick="toggleNotes('${key}')" id="toggle-btn-${key}">
+          ${notes ? '📝 Notes' : '+ Note'}
+        </button>
+      </div>
+      <div class="notes-panel mt-2" id="panel-${key}">
+        ${notes ? `<p class="notes-display mb-2" onclick="openEdit('${key}')" title="Click to edit">"${notes}"</p>` : ''}
+        <div id="editor-${key}" class="${notes ? 'hidden' : ''}">
+          <textarea class="notes-area" id="textarea-${key}" placeholder="How was this match? Write your thoughts…" oninput="onNoteInput('${key}')">${notes}</textarea>
+          <div class="flex justify-end mt-2">
+            <button class="save-btn" id="save-${key}" onclick="saveNote('${key}')">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="event-card fade-up" data-show="${ev.show}" id="card-${eventIdx}">
+    <div class="px-5 py-4 border-b border-zinc-900 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="show-pill ${pillClass(ev.show)}">${showName}</span>
+        <span class="text-xs text-zinc-600 font-bold tracking-widest uppercase">${ev.date}</span>
+      </div>
+      <div class="flex gap-1 items-center">
+        ${ev.results.map((_,i) => {
+          const k = makeMatchKey(eventIdx, i);
+          const s = (RATINGS[k] && RATINGS[k].stars) || 0;
+          return s > 0 ? `<span style="color:#f59e0b; font-size:8px;">★</span>` : `<span style="color:#2a2a2a; font-size:8px;">★</span>`;
+        }).join('')}
+      </div>
+    </div>
+    ${matchRows}
+  </div>`;
+}
+
+function renderAll() {
+  const logs = document.getElementById('event-logs');
+  logs.innerHTML = WWE_LOGS.map((ev, i) => renderEventCard(ev, i)).join('');
+  renderCarousel();
+  renderHistoryTable();
+  applyFilter();
+}
+
+function renderCarousel() {
+  const beltIcon = `<svg class="w-8 h-8 theme-text" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
+  document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
+    <div class="flex flex-col items-center mx-8 min-w-[130px] cursor-default hover:scale-105 transition-transform">
+      ${beltIcon}
+      <p class="text-[9px] text-zinc-600 uppercase tracking-widest font-bold mt-2 text-center">${c.title}</p>
+      <p class="font-bold text-xs text-center mt-0.5 text-zinc-200">${c.holder}</p>
+    </div>`).join('');
+}
+
+function renderHistoryTable() {
+  document.getElementById('history-table').innerHTML = `
+    <thead><tr>
+      <th class="p-3 text-left">Title</th>
+      <th class="p-3 text-left">Holder</th>
+      <th class="p-3 text-left">Since</th>
+    </tr></thead>
+    <tbody>${CHAMP_HISTORY.map(c => `
+      <tr class="hover:bg-zinc-900/30 transition-colors">
+        <td class="p-3 font-bold text-zinc-300">${c.title}</td>
+        <td class="p-3 theme-text font-black italic" style="font-family:'Bebas Neue',cursive; font-size:1rem; letter-spacing:0.05em;">${c.holder}</td>
+        <td class="p-3 text-zinc-600 text-xs">${c.dates}</td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+
+// ══════════════════════════════════════════════════════
+//  STAR RATING
+// ══════════════════════════════════════════════════════
+function rateStar(key, val) {
+  const current = (RATINGS[key] && RATINGS[key].stars) || 0;
+  const newVal = current === val ? 0 : val; // clicking same star clears it
+  if (!RATINGS[key]) RATINGS[key] = {};
+  RATINGS[key].stars = newVal;
+  // Update DOM
+  const container = document.getElementById(`stars-${key}`);
+  if (container) container.innerHTML = renderStars(key, newVal);
+  // Update header dots
+  updateCardDots();
+  updateStats();
+  updateTopMatches();
+  // Save to Firebase
+  persistMatchData(key);
+}
+
+function updateCardDots() {
+  WWE_LOGS.forEach((ev, i) => {
+    const header = document.querySelector(`#card-${i} .flex.gap-1`);
+    if (!header) return;
+    header.innerHTML = ev.results.map((_,j) => {
+      const k = makeMatchKey(i,j);
+      const s = (RATINGS[k] && RATINGS[k].stars) || 0;
+      return s > 0 ? `<span style="color:#f59e0b;font-size:8px;">★</span>` : `<span style="color:#2a2a2a;font-size:8px;">★</span>`;
+    }).join('');
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  NOTES
+// ══════════════════════════════════════════════════════
+function toggleNotes(key) {
+  const panel = document.getElementById(`panel-${key}`);
+  const isOpen = panel.classList.contains('open');
+  if (!isOpen) {
+    panel.classList.add('open');
+    const editor = document.getElementById(`editor-${key}`);
+    if (editor) editor.classList.remove('hidden');
+    const btn = document.getElementById(`toggle-btn-${key}`);
+    if (btn) btn.textContent = '✕ Close';
+    setTimeout(() => {
+      const ta = document.getElementById(`textarea-${key}`);
+      if (ta) ta.focus();
+    }, 100);
+  } else {
+    panel.classList.remove('open');
+    const btn = document.getElementById(`toggle-btn-${key}`);
+    const notes = (RATINGS[key] && RATINGS[key].notes) || '';
+    if (btn) btn.textContent = notes ? '📝 Notes' : '+ Note';
+  }
+}
+
+function openEdit(key) {
+  const editor = document.getElementById(`editor-${key}`);
+  if (editor) {
+    editor.classList.remove('hidden');
+    setTimeout(() => {
+      const ta = document.getElementById(`textarea-${key}`);
+      if (ta) ta.focus();
+    }, 50);
+  }
+}
+
+function onNoteInput(key) {
+  const btn = document.getElementById(`save-${key}`);
+  if (btn) { btn.classList.add('visible'); btn.classList.remove('saved'); btn.textContent = 'Save'; }
+}
+
+function saveNote(key) {
+  const ta = document.getElementById(`textarea-${key}`);
+  if (!ta) return;
+  const notes = ta.value.trim();
+  if (!RATINGS[key]) RATINGS[key] = {};
+  RATINGS[key].notes = notes;
+  // Update toggle button
+  const btn = document.getElementById(`toggle-btn-${key}`);
+  if (btn) btn.textContent = notes ? '📝 Notes' : '+ Note';
+  // Update display
+  const editor = document.getElementById(`editor-${key}`);
+  const panel = document.getElementById(`panel-${key}`);
+  if (editor && notes) {
+    // Add/update display paragraph
+    let display = panel.querySelector('.notes-display');
+    if (!display) {
+      display = document.createElement('p');
+      display.className = 'notes-display mb-2';
+      display.title = 'Click to edit';
+      display.onclick = () => openEdit(key);
+      panel.insertBefore(display, editor);
+    }
+    display.textContent = `"${notes}"`;
+    editor.classList.add('hidden');
+  }
+  const saveBtn = document.getElementById(`save-${key}`);
+  if (saveBtn) { saveBtn.textContent = 'Saved ✓'; saveBtn.classList.add('saved'); setTimeout(() => saveBtn.classList.remove('visible','saved'), 1500); }
+  updateStats();
+  updateTopMatches();
+  persistMatchData(key);
+}
+
+// ══════════════════════════════════════════════════════
+//  MATCH OF THE NIGHT
+// ══════════════════════════════════════════════════════
+function toggleMotm(key, eventIdx, matchIdx) {
+  if (!RATINGS[key]) RATINGS[key] = {};
+  const isNowMotm = !RATINGS[key].motm;
+  // Remove MOTM from other matches in same event
+  WWE_LOGS[eventIdx].results.forEach((_, i) => {
+    const k = makeMatchKey(eventIdx, i);
+    if (RATINGS[k]) RATINGS[k].motm = false;
+    const btn = document.getElementById(`motm-btn-${k}`);
+    if (btn) btn.textContent = '+ MOTM';
+    const row = document.getElementById(`row-${k}`);
+    if (row) {
+      const badge = row.querySelector('.motm-badge');
+      if (badge) badge.remove();
+    }
+    if (k !== key) persistMatchData(k);
+  });
+  if (isNowMotm) {
+    RATINGS[key].motm = true;
+    const btn = document.getElementById(`motm-btn-${key}`);
+    if (btn) btn.textContent = '✓ MOTM';
+    const nameEl = document.querySelector(`#row-${key} .text-sm.font-bold`);
+    if (nameEl && !nameEl.nextElementSibling?.classList.contains('motm-badge')) {
+      const badge = document.createElement('span');
+      badge.className = 'motm-badge';
+      badge.textContent = '★ MOTM';
+      nameEl.insertAdjacentElement('afterend', badge);
+    }
+  }
+  persistMatchData(key);
+}
+
+// ══════════════════════════════════════════════════════
+//  FIREBASE PERSISTENCE
+// ══════════════════════════════════════════════════════
+function persistMatchData(key) {
+  if (!db) return;
+  const data = RATINGS[key] || {};
+  db.collection("matchDiary").doc(key).set(data, { merge: true })
+    .catch(e => console.warn("Save failed:", e));
+}
+
+// ══════════════════════════════════════════════════════
+//  STATS
+// ══════════════════════════════════════════════════════
+function updateStats() {
+  let total = 0, rated = 0, ratingSum = 0, noted = 0;
+  let best = null, bestStars = 0;
+  WWE_LOGS.forEach((ev, i) => {
+    ev.results.forEach((r, j) => {
+      total++;
+      const k = makeMatchKey(i, j);
+      const d = RATINGS[k] || {};
+      if (d.stars) { rated++; ratingSum += d.stars; if (d.stars > bestStars) { bestStars = d.stars; best = r.m; } }
+      if (d.notes) noted++;
+    });
+  });
+  document.getElementById('stat-matches').textContent = total;
+  document.getElementById('stat-rated').textContent = rated;
+  document.getElementById('stat-avg').textContent = rated ? (ratingSum/rated).toFixed(1) : '—';
+  document.getElementById('stat-notes').textContent = noted;
+  const bw = document.getElementById('best-match-wrap');
+  if (best) {
+    bw.classList.remove('hidden');
+    document.getElementById('best-match-name').textContent = best;
+  } else {
+    bw.classList.add('hidden');
+  }
+}
+
+function updateTopMatches() {
+  const matches = [];
+  WWE_LOGS.forEach((ev, i) => {
+    ev.results.forEach((r, j) => {
+      const k = makeMatchKey(i, j);
+      const d = RATINGS[k] || {};
+      if (d.stars) matches.push({ m: r.m, stars: d.stars, show: ev.show, date: ev.date });
+    });
+  });
+  matches.sort((a,b) => b.stars - a.stars);
+  const top = matches.slice(0, 5);
+  const el = document.getElementById('top-matches');
+  if (!top.length) {
+    el.innerHTML = `<p class="diary-font text-xs text-zinc-700 italic">Rate some matches to see your top picks appear here.</p>`;
+    return;
+  }
+  el.innerHTML = top.map((m, idx) => `
+    <div class="flex items-start gap-3 py-2 border-b border-zinc-900 last:border-0">
+      <span class="text-zinc-700 font-bold" style="font-family:'Bebas Neue',cursive; font-size:1.3rem; min-width:1.5rem;">${idx+1}</span>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-bold text-zinc-300 leading-tight truncate">${m.m}</p>
+        <div class="flex items-center gap-2 mt-0.5">
+          <span class="text-yellow-500 text-xs">${'★'.repeat(m.stars)}${'☆'.repeat(5-m.stars)}</span>
+          <span class="text-[10px] text-zinc-600">${m.show} · ${m.date}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  FILTER
+// ══════════════════════════════════════════════════════
+function filterEvents() {
+  const val = document.getElementById('show-filter').value;
+  let visible = 0;
+  WWE_LOGS.forEach((ev, i) => {
+    const card = document.getElementById(`card-${i}`);
+    if (!card) return;
+    const match = val === 'all' || ev.show === val;
+    card.style.display = match ? '' : 'none';
+    if (match) visible++;
+  });
+  document.getElementById('no-results').classList.toggle('hidden', visible > 0);
+}
+
+// ══════════════════════════════════════════════════════
+//  POLLS
+// ══════════════════════════════════════════════════════
+if (db) {
+  db.collection("trackerData").doc("poll1").onSnapshot(doc => {
+    if (doc.exists && localStorage.getItem('voted_poll1')) {
+      const d = doc.data();
+      renderPollBars('poll1', d.codyRhodes||0, d.randyOrton||0, 'Cody Rhodes', 'Randy Orton');
+    }
+  });
+  db.collection("trackerData").doc("poll2").onSnapshot(doc => {
+    if (doc.exists && localStorage.getItem('voted_poll2')) {
+      const d = doc.data();
+      renderPollBars('poll2', d.cmPunk||0, d.romanReigns||0, 'CM Punk', 'Roman Reigns');
+    }
+  });
+}
+
+['poll1','poll2'].forEach(p => {
+  if (localStorage.getItem(`voted_${p}`)) {
+    document.getElementById(`${p}-buttons`).classList.add('hidden');
+    document.getElementById(`${p}-results`).classList.remove('hidden');
+    document.getElementById(`${p}-results`).innerHTML = `<p class="text-xs text-zinc-600 diary-font italic">Loading live results…</p>`;
+  }
+});
+
+function castVote(pollId, choiceKey, n1, n2) {
+  // ... existing UI logic ...
+  if (db && firebase.auth().currentUser) {
+    db.collection("trackerData").doc(pollId).set(
+      { [choiceKey]: firebase.firestore.FieldValue.increment(1) }, 
+      { merge: true }
+    ).then(() => {
+      console.log("Vote recorded!");
+    }).catch(e => { 
+      console.error("Poll error:", e);
+      renderPollBars(pollId, 50, 50, n1, n2); 
+    });
+  } else {
+    // If user isn't logged in, they shouldn't be here, but just in case:
+    alert("Please log in to vote.");
+  }
+}
+function renderPollBars(pollId, v1, v2, n1, n2) {
+  const total = v1 + v2;
+  const p1 = total === 0 ? 50 : Math.round((v1/total)*100);
+  const p2 = 100 - p1;
+  document.getElementById(`${pollId}-results`).innerHTML = `
+    <div class="space-y-2">
+      ${[[n1,p1,v1],[n2,p2,v2]].map(([name,pct,votes]) => `
+      <div class="relative bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
+        <div class="absolute top-0 left-0 h-full poll-bar-fill" style="width:${pct}%; background: var(--theme-glow);"></div>
+        <div class="relative flex justify-between text-xs font-bold z-10">
+          <span class="text-zinc-300">${name}</span>
+          <span class="theme-text">${pct}% <span class="text-zinc-600 font-normal">(${votes})</span></span>
+        </div>
+      </div>`).join('')}
+      <p class="text-[9px] text-zinc-700 text-right uppercase tracking-widest font-bold">${total} total votes</p>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════
+loadRatingsAndRender();
+</script>
+<div id="main-content" style="display: none;">
+      </div>
 </body>
 </html>
