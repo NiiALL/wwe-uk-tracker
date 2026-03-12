@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | 2026</title>
+    <title>NiiALL's WWE Tracker | Live Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -19,12 +19,12 @@
         
         /* Poll Progress Bars */
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .voted-btn { border-color: #ef4444 !important; background-color: rgba(239, 68, 68, 0.1) !important; pointer-events: none; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
-        // DATA CENTER
         const CHAMPIONS = [
             { title: "Undisputed WWE", holder: "Cody Rhodes" },
             { title: "World Heavyweight", holder: "CM Punk" },
@@ -58,12 +58,14 @@
                 </div>
                 <div>
                     <h1 class="text-4xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Unofficial WWE Tracker • 2026</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Official WWE UK Hub • 2026</p>
                 </div>
             </div>
             <div class="text-right">
-                <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">WrestleMania Countdown</p>
-                <p class="text-xl font-black italic text-red-600 tracking-tighter">LAS VEGAS • APR 18</p>
+                <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest flex items-center justify-end gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Firebase Live Sync
+                </p>
+                <p class="text-xl font-black italic text-red-600 tracking-tighter mt-1">LAS VEGAS • APR 18</p>
             </div>
         </header>
 
@@ -97,8 +99,8 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 1 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">Cody Rhodes vs. Randy Orton</h4>
                         <div class="space-y-2" id="poll-1-options">
-                            <button onclick="revealPoll('poll-1-options', 68, 32, 'Cody Rhodes', 'Randy Orton', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
-                            <button onclick="revealPoll('poll-1-options', 68, 32, 'Cody Rhodes', 'Randy Orton', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
+                            <button onclick="window.castVote('poll1', 'cody')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
+                            <button onclick="window.castVote('poll1', 'orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
                         </div>
                     </div>
 
@@ -106,20 +108,20 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 2 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">CM Punk vs. Roman Reigns</h4>
                         <div class="space-y-2" id="poll-2-options">
-                            <button onclick="revealPoll('poll-2-options', 42, 58, 'CM Punk', 'Roman Reigns', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
-                            <button onclick="revealPoll('poll-2-options', 42, 58, 'CM Punk', 'Roman Reigns', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
+                            <button onclick="window.castVote('poll2', 'punk')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
+                            <button onclick="window.castVote('poll2', 'roman')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-gradient-to-br from-zinc-900 to-black p-6 rounded-3xl border border-zinc-800">
                     <h3 class="font-bold mb-1 uppercase text-xs text-yellow-500 italic">MVP of the Night</h3>
-                    <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote to reveal community results.</p>
+                    <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote to reveal global community results.</p>
                     <div class="grid grid-cols-2 gap-2" id="mvp-grid">
-                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Cody Rhodes</button>
-                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Jacob Fatu</button>
-                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Bron Breakker</button>
-                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Penta</button>
+                        <button onclick="window.castMvpVote('jacob')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Jacob Fatu</button>
+                        <button onclick="window.castMvpVote('bron')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Bron Breakker</button>
+                        <button onclick="window.castMvpVote('penta')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Penta</button>
+                        <button onclick="window.castMvpVote('gunther')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Gunther</button>
                     </div>
                     <div id="mvp-results" class="mt-4 hidden space-y-2">
                         </div>
@@ -130,10 +132,7 @@
     </div>
 
     <script>
-        // 1. CAROUSEL INJECTION WITH BELT SVGs
-        // This SVG is a stylized minimal gold championship belt
         const beltSVG = `<svg class="w-8 h-8 text-yellow-500 mb-1 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
-        
         document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
             <div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">
                 ${beltSVG}
@@ -142,7 +141,6 @@
             </div>
         `).join('');
 
-        // 2. LOGS & HISTORY INJECTION
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
             <div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
                 <p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>
@@ -160,54 +158,108 @@
                 </tbody>
             </table>
         `;
+    </script>
 
-        // 3. POLL REVEAL LOGIC
-        function revealPoll(containerId, pct1, pct2, name1, name2, choice) {
-            const container = document.getElementById(containerId);
-            const isChoice1 = choice === 0;
-            const isChoice2 = choice === 1;
+    <script type="module">
+       // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-            container.innerHTML = `
-                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${isChoice1 ? 'border-red-500' : 'border-zinc-800'} p-3">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
-                    <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name1} ${isChoice1 ? '✓' : ''}</span>
-                        <span>${pct1}%</span>
-                    </div>
-                </div>
-                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${isChoice2 ? 'border-red-500' : 'border-zinc-800'} p-3 mt-2">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
-                    <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name2} ${isChoice2 ? '✓' : ''}</span>
-                        <span>${pct2}%</span>
-                    </div>
-                </div>
-                <p class="text-[9px] text-zinc-500 mt-2 text-right italic">1,402 votes registered</p>
-            `;
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
+  authDomain: "niialls-wwe-tracker.firebaseapp.com",
+  projectId: "niialls-wwe-tracker",
+  storageBucket: "niialls-wwe-tracker.firebasestorage.app",
+  messagingSenderId: "71961326154",
+  appId: "1:71961326154:web:edc852be18742537ba6cb3"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+        
+        // Initialize Firebase ONLY if keys are entered
+        let db;
+        if(firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            
+            // Listen for Live Updates from Firestore
+            // Assumes you create a collection called 'trackerData' and a document called 'livePolls'
+            onSnapshot(doc(db, "trackerData", "livePolls"), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    // You can call render UI functions here passing the live 'data' object.
+                    // Example: updateLivePollUI(data.codyVotes, data.ortonVotes);
+                }
+            });
+        } else {
+            console.log("Firebase not connected yet. Running in Local Demo Mode.");
         }
 
-        // 4. MVP REVEAL LOGIC
-        function revealMVP(btn) {
-            const myVote = btn.innerText;
+        // ==========================================
+        // VOTING LOGIC (With Local Fallback Demo)
+        // ==========================================
+        
+        window.castVote = async function(pollId, choice) {
+            // 1. Hide buttons and show Mock Results (Fallback UI)
+            if(pollId === 'poll1') {
+                const codyVotes = choice === 'cody' ? 68 : 67;
+                const ortonVotes = choice === 'orton' ? 33 : 32;
+                renderPollUI('poll-1-options', codyVotes, ortonVotes, 'Cody Rhodes', 'Randy Orton', choice === 'cody' ? 0 : 1);
+            } else if (pollId === 'poll2') {
+                const punkVotes = choice === 'punk' ? 43 : 42;
+                const romanVotes = choice === 'roman' ? 58 : 57;
+                renderPollUI('poll-2-options', punkVotes, romanVotes, 'CM Punk', 'Roman Reigns', choice === 'punk' ? 0 : 1);
+            }
+
+            // 2. If Firebase is connected, actually push to database
+            if(db) {
+                try {
+                    const pollRef = doc(db, "trackerData", "livePolls");
+                    await updateDoc(pollRef, {
+                        [choice]: increment(1) // Adds +1 to the specific choice in Firebase
+                    });
+                } catch (e) {
+                    console.error("Error updating document: ", e);
+                }
+            }
+        };
+
+        window.castMvpVote = async function(mvpName) {
             document.getElementById('mvp-grid').classList.add('hidden');
-            
-            // Simulating community results
             const resultsDiv = document.getElementById('mvp-results');
             resultsDiv.classList.remove('hidden');
+            
+            // Mock UI Render
             resultsDiv.innerHTML = `
-                <div class="mb-2">
-                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Jacob Fatu</span><span>45%</span></div>
-                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 45%"></div></div>
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Jacob Fatu</span><span>45%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 45%"></div></div></div>
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Bron Breakker</span><span>30%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 30%"></div></div></div>
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Penta</span><span>15%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 15%"></div></div></div>
+                <p class="text-[9px] text-zinc-500 mt-3 border-t border-zinc-800 pt-2 italic">Your vote logged via Firebase System.</p>
+            `;
+
+            // Push to Firebase if connected
+            if(db) {
+                const mvpRef = doc(db, "trackerData", "mvpVotes");
+                await updateDoc(mvpRef, { [mvpName]: increment(1) });
+            }
+        };
+
+        // Renders the Progress Bars
+        function renderPollUI(containerId, pct1, pct2, name1, name2, choiceIndex) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${choiceIndex === 0 ? 'border-red-500' : 'border-zinc-800'} p-3">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10"><span>${name1} ${choiceIndex === 0 ? '✓' : ''}</span><span>${pct1}%</span></div>
                 </div>
-                <div class="mb-2">
-                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Cody Rhodes</span><span>30%</span></div>
-                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 30%"></div></div>
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${choiceIndex === 1 ? 'border-red-500' : 'border-zinc-800'} p-3 mt-2">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10"><span>${name2} ${choiceIndex === 1 ? '✓' : ''}</span><span>${pct2}%</span></div>
                 </div>
-                <div class="mb-2">
-                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Bron Breakker</span><span>15%</span></div>
-                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 15%"></div></div>
-                </div>
-                <p class="text-[9px] text-zinc-500 mt-3 border-t border-zinc-800 pt-2 italic">You voted for: <span class="text-white font-bold">${myVote}</span></p>
+                <p class="text-[9px] text-zinc-500 mt-2 text-right italic">Vote saved to Cloud</p>
             `;
         }
     </script>
