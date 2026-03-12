@@ -204,4 +204,86 @@
         try {
             const firebaseConfig = {
                 apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
-                authDomain: "niialls-wwe-
+                authDomain: "niialls-wwe-tracker.firebaseapp.com",
+                projectId: "niialls-wwe-tracker",
+                storageBucket: "niialls-wwe-tracker.firebasestorage.app",
+                messagingSenderId: "71961326154",
+                appId: "1:71961326154:web:edc852be18742537ba6cb3"
+            };
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+
+            // REAL-TIME LISTENERS
+            db.collection("trackerData").doc("poll1").onSnapshot((doc) => {
+                if (doc.exists && localStorage.getItem('voted_poll1')) {
+                    const data = doc.data();
+                    renderRealTimeBars('poll1', data.codyRhodes || 0, data.randyOrton || 0, 'Cody Rhodes', 'Randy Orton');
+                }
+            });
+
+            db.collection("trackerData").doc("poll2").onSnapshot((doc) => {
+                if (doc.exists && localStorage.getItem('voted_poll2')) {
+                    const data = doc.data();
+                    renderRealTimeBars('poll2', data.cmPunk || 0, data.romanReigns || 0, 'CM Punk', 'Roman Reigns');
+                }
+            });
+        } catch (error) {
+            console.warn("Firebase failed to load. Running offline.", error);
+        }
+
+        // --- 3. POLL LOGIC ---
+        
+        // Check local storage on load
+        if(localStorage.getItem('voted_poll1')) {
+            document.getElementById('poll1-buttons').classList.add('hidden');
+            document.getElementById('poll1-results').classList.remove('hidden');
+            document.getElementById('poll1-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
+        }
+        if(localStorage.getItem('voted_poll2')) {
+            document.getElementById('poll2-buttons').classList.add('hidden');
+            document.getElementById('poll2-results').classList.remove('hidden');
+            document.getElementById('poll2-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
+        }
+
+        function castVote(pollId, choiceDbKey, name1, name2) {
+            localStorage.setItem(`voted_${pollId}`, 'true');
+            document.getElementById(`${pollId}-buttons`).classList.add('hidden');
+            document.getElementById(`${pollId}-results`).classList.remove('hidden');
+            document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-500">Sending vote to cloud...</p>`;
+
+            if (db) {
+                db.collection("trackerData").doc(pollId).set({
+                    [choiceDbKey]: firebase.firestore.FieldValue.increment(1)
+                }, { merge: true })
+                .catch((error) => console.error("Firebase Error: ", error));
+            } else {
+                // Fallback if offline
+                renderRealTimeBars(pollId, 50, 50, name1, name2);
+            }
+        }
+
+        function renderRealTimeBars(pollId, val1, val2, name1, name2) {
+            const total = val1 + val2;
+            const pct1 = total === 0 ? 0 : Math.round((val1 / total) * 100);
+            const pct2 = total === 0 ? 0 : Math.round((val2 / total) * 100);
+
+            const container = document.getElementById(`${pollId}-results`);
+            container.innerHTML = `
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name1}</span><span>${pct1}%</span>
+                    </div>
+                </div>
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3 mt-2">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name2}</span><span>${pct2}%</span>
+                    </div>
+                </div>
+                <p class="text-[9px] text-zinc-500 mt-2 text-right uppercase tracking-widest">${total} Total Votes</p>
+            `;
+        }
+    </script>
+</body>
+</html>
