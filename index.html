@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | 2026 Archive</title>
+    <title>NiiALL's WWE Tracker | 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -11,51 +11,54 @@
         .sd-border { border-left: 4px solid #3b82f6; }
         .nxt-border { border-left: 4px solid #eab308; }
         .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
-        .mvp-winner { border-color: #eab308 !important; background: #422006 !important; pointer-events: none; }
-        .mvp-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         
-        /* Auto-Scroll */
+        /* Auto-Scroll Carousel */
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .scroll-container { display: flex; width: max-content; animation: scroll 35s linear infinite; }
+        .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
+        .scroll-container:hover { animation-play-state: paused; }
         
-        /* Custom Scrollbar for Chat */
-        .chat-scroll::-webkit-scrollbar { width: 4px; }
-        .chat-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        /* Poll Progress Bars */
+        .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
-        // FULL 2026 LOGS
+        // DATA CENTER
+        const CHAMPIONS = [
+            { title: "Undisputed WWE", holder: "Cody Rhodes" },
+            { title: "World Heavyweight", holder: "CM Punk" },
+            { title: "Intercontinental", holder: "Penta" },
+            { title: "United States", holder: "Carmelo Hayes" },
+            { title: "Women's World", holder: "Stephanie Vaquer" },
+            { title: "WWE Women's", holder: "Jade Cargill" },
+            { title: "Women's IC", holder: "AJ Lee" }
+        ];
+
         const WWE_LOGS = [
             { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}] },
             { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}] },
             { show: "SmackDown", date: "Mar 6", results: [{m:"Cody Rhodes vs. Drew McIntyre", w:"Cody Rhodes (New Champ)"}] },
-            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber", w:"Randy Orton"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}] },
-            { show: "PLE", name: "Royal Rumble", date: "Jan 31", results: [{m:"Men's Rumble", w:"Roman Reigns"}, {m:"Women's Rumble", w:"Liv Morgan"}] }
+            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber", w:"Randy Orton"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}] }
         ];
 
-        // CHAMPIONSHIP HISTORY
         const CHAMP_HISTORY = [
             { title: "Undisputed WWE", dates: "Mar 6 - Present", holder: "Cody Rhodes", prev: "Drew McIntyre" },
             { title: "Intercontinental", dates: "Feb 2 - Present", holder: "Penta", prev: "Dominik Mysterio" },
             { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" }
         ];
-
-        const ROSTER = ["Cody Rhodes", "Jacob Fatu", "Bron Breakker", "Penta", "AJ Lee", "Gunther"];
     </script>
 
     <div class="max-w-7xl mx-auto">
         
         <header class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-zinc-800 pb-6 gap-4">
             <div class="flex items-center gap-4">
-                <div class="relative flex items-center justify-center w-14 h-14 bg-gradient-to-br from-red-600 to-red-900 rounded-xl border-2 border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.4)] transform -rotate-6 hover:rotate-0 transition-all duration-300 cursor-pointer">
+                <div class="relative flex items-center justify-center w-14 h-14 bg-gradient-to-br from-red-600 to-red-900 rounded-xl border-2 border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.4)] transform -rotate-6">
                     <span class="text-white font-black text-3xl italic tracking-tighter">N</span>
-                    <div class="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-ping"></div>
                 </div>
                 <div>
                     <h1 class="text-4xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Unofficial WWE UK Hub • 2026</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Unofficial WWE Tracker • 2026</p>
                 </div>
             </div>
             <div class="text-right">
@@ -64,14 +67,15 @@
             </div>
         </header>
 
+        <section class="mb-10 overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/50">
+            <div class="scroll-container" id="carousel"></div>
+        </section>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
             
-            <div class="lg:col-span-8 space-y-12">
-                
+            <div class="lg:col-span-7 space-y-12">
                 <section>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-red-600 mb-6 flex items-center gap-2">
-                        <span>🔥</span> 2026 Match Archives
-                    </h2>
+                    <h2 class="text-xs font-bold uppercase tracking-[0.4em] text-red-600 mb-6 flex items-center gap-2">🔥 2026 Match Archives</h2>
                     <div id="event-logs" class="grid gap-4"></div>
                 </section>
 
@@ -81,43 +85,44 @@
                 </section>
             </div>
 
-            <div class="lg:col-span-4 space-y-8">
+            <div class="lg:col-span-5 space-y-8">
                 
-                <div class="bg-zinc-900 p-5 rounded-3xl border border-zinc-800 flex flex-col h-[350px] shadow-2xl">
-                    <h3 class="font-black mb-4 uppercase text-xs text-white flex items-center gap-2 border-b border-zinc-800 pb-3">
-                        <span class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
-                        NiiALL's Watch Party
+                <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-2xl">
+                    <h3 class="font-black mb-1 uppercase text-lg text-white italic tracking-tighter border-b border-zinc-800 pb-3 flex items-center justify-between">
+                        Community Predictions
+                        <span class="text-[9px] bg-red-600 text-white px-2 py-1 rounded tracking-widest not-italic">LIVE</span>
                     </h3>
                     
-                    <div class="flex-1 overflow-y-auto space-y-3 pr-2 mb-4 text-xs chat-scroll">
-                        <div class="bg-black/50 p-2 rounded-lg border-l-2 border-red-600">
-                            <span class="font-bold text-red-500">NiiALL (Admin):</span>
-                            <span class="text-zinc-300">Welcome to the Tracker! Who's ready for Mania?</span>
+                    <div class="mt-6" id="poll-1-container">
+                        <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 1 Main Event</p>
+                        <h4 class="font-black italic mb-3 text-sm">Cody Rhodes vs. Randy Orton</h4>
+                        <div class="space-y-2" id="poll-1-options">
+                            <button onclick="revealPoll('poll-1-options', 68, 32, 'Cody Rhodes', 'Randy Orton', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
+                            <button onclick="revealPoll('poll-1-options', 68, 32, 'Cody Rhodes', 'Randy Orton', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
                         </div>
-                        <div class="bg-black/50 p-2 rounded-lg border-l-2 border-blue-500">
-                            <span class="font-bold text-blue-400">UK_Fan99:</span>
-                            <span class="text-zinc-300">1:00 AM starts are brutal but I'm here for it!</span>
-                        </div>
-                        <div class="bg-black/50 p-2 rounded-lg border-l-2 border-green-500">
-                            <span class="font-bold text-green-400">VegasBooker:</span>
-                            <span class="text-zinc-300">Cody has to retain on Night 1 right?</span>
-                        </div>
-                        <div id="new-messages"></div>
                     </div>
 
-                    <div class="mt-auto flex gap-2">
-                        <input type="text" id="chat-input" placeholder="Say something..." class="w-full bg-black border border-zinc-800 p-2 rounded-lg text-xs focus:border-red-600 outline-none">
-                        <button onclick="sendChat()" class="bg-red-600 px-3 rounded-lg text-white font-bold text-[10px] uppercase hover:bg-red-700 transition-colors">Send</button>
+                    <div class="mt-8" id="poll-2-container">
+                        <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 2 Main Event</p>
+                        <h4 class="font-black italic mb-3 text-sm">CM Punk vs. Roman Reigns</h4>
+                        <div class="space-y-2" id="poll-2-options">
+                            <button onclick="revealPoll('poll-2-options', 42, 58, 'CM Punk', 'Roman Reigns', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
+                            <button onclick="revealPoll('poll-2-options', 42, 58, 'CM Punk', 'Roman Reigns', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-zinc-900/50 p-6 rounded-3xl border border-zinc-800">
+                <div class="bg-gradient-to-br from-zinc-900 to-black p-6 rounded-3xl border border-zinc-800">
                     <h3 class="font-bold mb-1 uppercase text-xs text-yellow-500 italic">MVP of the Night</h3>
-                    <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote is final. No changes allowed.</p>
-                    <div class="grid grid-cols-2 gap-2" id="mvp-grid"></div>
-                    <div id="lock-msg" class="mt-4 text-[10px] font-bold text-center text-zinc-500 hidden bg-zinc-800 p-2 rounded tracking-widest">
-                        SYSTEM: VOTE REGISTERED
+                    <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote to reveal community results.</p>
+                    <div class="grid grid-cols-2 gap-2" id="mvp-grid">
+                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Cody Rhodes</button>
+                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Jacob Fatu</button>
+                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Bron Breakker</button>
+                        <button onclick="revealMVP(this)" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Penta</button>
                     </div>
+                    <div id="mvp-results" class="mt-4 hidden space-y-2">
+                        </div>
                 </div>
 
             </div>
@@ -125,15 +130,26 @@
     </div>
 
     <script>
-        // 1. Inject Event Logs
+        // 1. CAROUSEL INJECTION WITH BELT SVGs
+        // This SVG is a stylized minimal gold championship belt
+        const beltSVG = `<svg class="w-8 h-8 text-yellow-500 mb-1 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
+        
+        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
+            <div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">
+                ${beltSVG}
+                <span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
+                <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
+            </div>
+        `).join('');
+
+        // 2. LOGS & HISTORY INJECTION
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
-            <div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 hover:border-zinc-600 transition-colors ${ev.show === 'PLE' ? 'ple-border' : ''}">
+            <div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
                 <p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>
                 ${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}
             </div>
         `).join('');
 
-        // 2. Inject Champ History
         document.getElementById('champ-history-list').innerHTML = `
             <table class="w-full text-left text-xs">
                 <thead class="bg-zinc-800 text-zinc-500 uppercase font-bold">
@@ -145,31 +161,55 @@
             </table>
         `;
 
-        // 3. MVP Logic
-        document.getElementById('mvp-grid').innerHTML = ROSTER.map(name => `
-            <button onclick="lockVote(this)" class="mvp-btn bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500 transition-all">${name}</button>
-        `).join('');
+        // 3. POLL REVEAL LOGIC
+        function revealPoll(containerId, pct1, pct2, name1, name2, choice) {
+            const container = document.getElementById(containerId);
+            const isChoice1 = choice === 0;
+            const isChoice2 = choice === 1;
 
-        function lockVote(btn) {
-            document.querySelectorAll('.mvp-btn').forEach(b => { b.disabled = true; });
-            btn.classList.add('mvp-winner');
-            document.getElementById('lock-msg').classList.remove('hidden');
+            container.innerHTML = `
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${isChoice1 ? 'border-red-500' : 'border-zinc-800'} p-3">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name1} ${isChoice1 ? '✓' : ''}</span>
+                        <span>${pct1}%</span>
+                    </div>
+                </div>
+                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${isChoice2 ? 'border-red-500' : 'border-zinc-800'} p-3 mt-2">
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="relative flex justify-between text-xs font-bold z-10">
+                        <span>${name2} ${isChoice2 ? '✓' : ''}</span>
+                        <span>${pct2}%</span>
+                    </div>
+                </div>
+                <p class="text-[9px] text-zinc-500 mt-2 text-right italic">1,402 votes registered</p>
+            `;
         }
 
-        // 4. Chat Simulation Logic
-        function sendChat() {
-            const input = document.getElementById('chat-input');
-            const msg = input.value;
-            if(!msg) return;
+        // 4. MVP REVEAL LOGIC
+        function revealMVP(btn) {
+            const myVote = btn.innerText;
+            document.getElementById('mvp-grid').classList.add('hidden');
             
-            const newDiv = document.createElement('div');
-            newDiv.className = "bg-black/50 p-2 rounded-lg border-l-2 border-zinc-500 mt-2";
-            newDiv.innerHTML = `<span class="font-bold text-zinc-300">You:</span> <span class="text-zinc-400">${msg}</span>`;
-            
-            document.getElementById('new-messages').appendChild(newDiv);
-            input.value = '';
+            // Simulating community results
+            const resultsDiv = document.getElementById('mvp-results');
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.innerHTML = `
+                <div class="mb-2">
+                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Jacob Fatu</span><span>45%</span></div>
+                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 45%"></div></div>
+                </div>
+                <div class="mb-2">
+                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Cody Rhodes</span><span>30%</span></div>
+                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 30%"></div></div>
+                </div>
+                <div class="mb-2">
+                    <div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Bron Breakker</span><span>15%</span></div>
+                    <div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 15%"></div></div>
+                </div>
+                <p class="text-[9px] text-zinc-500 mt-3 border-t border-zinc-800 pt-2 italic">You voted for: <span class="text-white font-bold">${myVote}</span></p>
+            `;
         }
     </script>
 </body>
 </html>
-
