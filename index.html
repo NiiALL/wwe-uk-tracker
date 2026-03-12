@@ -14,7 +14,6 @@
   :root {
     --theme: #ef4444;
     --theme-glow: rgba(239, 68, 68, 0.25);
-    --theme-subtle: rgba(239, 68, 68, 0.08);
   }
 
   * { box-sizing: border-box; }
@@ -35,15 +34,13 @@
 
   .theme-text { color: var(--theme); transition: color 1s; }
   .theme-bg { background-color: var(--theme); transition: background-color 1s; }
-  .theme-border { border-color: var(--theme); transition: border-color 1s; }
-  .theme-glow-box { box-shadow: 0 0 30px var(--theme-glow); }
 
-  /* ── CHAMPION CAROUSEL ── */
+  /* ── CAROUSEL ── */
   @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   .scroll-track { display: flex; width: max-content; animation: scroll 35s linear infinite; }
   .scroll-track:hover { animation-play-state: paused; }
 
-  /* ── EVENT CARDS ── */
+  /* ── CARDS ── */
   .event-card {
     background: #0f0f0f;
     border: 1px solid #1c1c1c;
@@ -62,120 +59,41 @@
   }
   .pill-raw { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
   .pill-smackdown { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-  .pill-nxt { background: rgba(161,161,170,0.15); color: #a1a1aa; border: 1px solid rgba(161,161,170,0.3); }
-  .pill-ple { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+  .pill-nxt { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.3); } /* NXT Yellow */
+  .pill-ple { background: rgba(168,85,247,0.15); color: #a855f7; border: 1px solid rgba(168,85,247,0.3); } /* PLE Purple */
 
-  /* ── MATCH ROW ── */
-  .match-row {
-    border-bottom: 1px solid #1a1a1a;
-    transition: background 0.2s;
-  }
+  /* ── ROW & STARS ── */
+  .match-row { border-bottom: 1px solid #1a1a1a; transition: background 0.2s; }
   .match-row:last-child { border-bottom: none; }
   .match-row:hover { background: rgba(255,255,255,0.02); }
 
-  /* ── STAR RATING ── */
   .star-group { display: flex; gap: 2px; }
-  .star {
-    font-size: 16px;
-    cursor: pointer;
-    color: #2a2a2a;
-    transition: color 0.15s, transform 0.1s;
-    line-height: 1;
-    user-select: none;
-  }
+  .star { font-size: 18px; cursor: pointer; color: #2a2a2a; transition: color 0.15s, transform 0.1s; line-height: 1; user-select: none; }
   .star.filled { color: #f59e0b; }
-  .star.half { color: #f59e0b; opacity: 0.55; }
   .star:hover { transform: scale(1.2); }
 
-  /* ── NOTES ── */
-  .notes-area {
-    background: #0a0a0a;
-    border: 1px solid #222;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'Special Elite', monospace;
-    font-size: 13px;
-    color: #a1a1aa;
-    width: 100%;
-    resize: none;
-    outline: none;
-    transition: border-color 0.2s, color 0.2s;
-    min-height: 60px;
-  }
-  .notes-area:focus { border-color: var(--theme); color: #e4e4e7; }
-  .notes-area::placeholder { color: #3f3f46; font-style: italic; }
+  .motm-badge { font-family: 'Bebas Neue', cursive; font-size: 10px; letter-spacing: 0.15em; background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; padding: 2px 8px; border-radius: 3px; }
 
-  .save-btn {
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 0.12em;
-    font-size: 12px;
-    padding: 5px 14px;
-    border-radius: 6px;
-    background: var(--theme);
-    color: #000;
-    border: none;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s, background 1s;
-  }
-  .save-btn.visible { opacity: 1; }
-  .save-btn:hover { filter: brightness(1.15); }
-  .save-btn.saved { background: #22c55e; color: #000; }
-
-  .notes-display {
-    font-family: 'Special Elite', monospace;
-    font-size: 13px;
-    color: #71717a;
-    font-style: italic;
-    line-height: 1.5;
-    cursor: pointer;
-    padding: 4px 0;
-  }
-  .notes-display:hover { color: #a1a1aa; }
-
-  /* ── MOTM BADGE ── */
-  .motm-badge {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: #000;
-    padding: 2px 8px;
-    border-radius: 3px;
-  }
-
-  /* ── HISTORY TABLE ── */
-  .history-table td, .history-table th {
-    padding: 10px 14px;
-    font-size: 12px;
-  }
-  .history-table thead th {
-    font-family: 'Bebas Neue', cursive;
-    letter-spacing: 0.1em;
-    font-size: 13px;
-    color: #52525b;
-    border-bottom: 1px solid #1c1c1c;
-  }
+  /* ── TABLES & SCROLL ── */
+  .history-table td, .history-table th { padding: 10px 14px; font-size: 12px; }
+  .history-table thead th { font-family: 'Bebas Neue', cursive; letter-spacing: 0.1em; font-size: 13px; color: #52525b; border-bottom: 1px solid #1c1c1c; }
   .history-table tbody tr { border-bottom: 1px solid #131313; }
   .history-table tbody tr:hover { background: rgba(255,255,255,0.015); }
-
-  /* ── SCROLL BAR ── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: #0a0a0a; }
   ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
 
-  /* ── FADE IN ── */
+  /* ── UTILS ── */
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .fade-up { animation: fadeUp 0.5s ease both; }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
-
-  /* ── EXPAND TOGGLE ── */
-  .expand-toggle { cursor: pointer; user-select: none; }
-  .notes-panel { overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 0; opacity: 0; }
-  .notes-panel.open { max-height: 200px; opacity: 1; }
+  .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+  
+  .watched-btn { font-family: 'Bebas Neue', cursive; letter-spacing: 0.1em; font-size: 14px; padding: 8px 0; width: 100%; border-radius: 6px; border: 1px solid #333; background: #111; color: #888; cursor: pointer; transition: all 0.3s; }
+  .watched-btn:hover { border-color: #555; color: #fff; }
+  .watched-btn.is-watched { background: #22c55e; border-color: #16a34a; color: #000; box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
+  
+  .show-logo { height: 40px; object-fit: contain; margin: 0 auto 10px auto; opacity: 0.8; transition: opacity 0.3s;}
+  .event-card:hover .show-logo { opacity: 1; }
 </style>
 </head>
 
@@ -185,8 +103,8 @@
     <div class="event-card p-8 w-full max-w-md text-center fade-up">
       <h2 class="text-4xl theme-text mb-6">RESTRICTED ACCESS</h2>
       <p class="diary-font text-zinc-500 text-sm mb-8">Enter credentials to access the 2026 Archive</p>
-      <input type="email" id="email" placeholder="Email" class="notes-area mb-4 border-zinc-800">
-      <input type="password" id="password" placeholder="Password" class="notes-area mb-6 border-zinc-800">
+      <input type="email" id="email" placeholder="Email" class="w-full bg-[#0a0a0a] border border-[#222] rounded-lg p-3 text-zinc-300 font-mono text-sm mb-4 outline-none focus:border-red-500">
+      <input type="password" id="password" placeholder="Password" class="w-full bg-[#0a0a0a] border border-[#222] rounded-lg p-3 text-zinc-300 font-mono text-sm mb-6 outline-none focus:border-red-500">
       <button onclick="handleLogin()" class="w-full theme-bg text-black bebas py-3 rounded-lg text-xl">Unlock Diary</button>
       <p id="login-error" class="text-red-500 text-xs mt-4 diary-font"></p>
     </div>
@@ -225,14 +143,24 @@
       </div>
     </section>
 
+    <section class="py-8 border-b border-zinc-900 fade-up delay-2">
+      <div class="flex items-center justify-between mb-5">
+        <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="text-zinc-200">Weekly Watchlist</h2>
+        <span class="text-[10px] tracking-widest uppercase font-bold text-zinc-500">UK Catch-up Tracker</span>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="calendar-grid">
+        </div>
+    </section>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-10 pb-20">
 
-      <main class="lg:col-span-8 space-y-10 fade-up delay-2">
+      <main class="lg:col-span-8 space-y-10 fade-up delay-3">
         <div>
           <div class="flex items-baseline justify-between mb-7">
             <div>
               <h2 style="font-family:'Bebas Neue',cursive; font-size:2rem; letter-spacing:0.05em;" class="theme-text">Match Archive</h2>
-              <p class="text-zinc-600 text-xs mt-0.5" style="font-family:'Special Elite',monospace;">Rate matches. Leave notes. Build your diary.</p>
+              <p class="text-zinc-600 text-xs mt-0.5" style="font-family:'Special Elite',monospace;">Rate the 2026 matches.</p>
             </div>
             <div class="flex gap-2 items-center">
               <span class="text-[9px] text-zinc-600 tracking-widest uppercase font-bold">Filter:</span>
@@ -266,24 +194,16 @@
           <div class="grid grid-cols-2 gap-4" id="stats-grid">
             <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
               <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-matches">—</div>
-              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Matches Watched</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Total Matches</div>
             </div>
             <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
               <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-rated">—</div>
-              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Rated</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Rated By Me</div>
             </div>
-            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
+            <div class="bg-zinc-900/50 rounded-xl p-4 text-center col-span-2">
               <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-avg">—</div>
-              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Avg Rating</div>
+              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">Average Match Rating</div>
             </div>
-            <div class="bg-zinc-900/50 rounded-xl p-4 text-center">
-              <div class="theme-text" style="font-family:'Bebas Neue',cursive; font-size:2rem;" id="stat-notes">—</div>
-              <div class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mt-1">With Notes</div>
-            </div>
-          </div>
-          <div id="best-match-wrap" class="mt-4 hidden">
-            <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-2">Top Rated Match</p>
-            <p id="best-match-name" class="diary-font text-sm text-yellow-500 italic"></p>
           </div>
         </div>
 
@@ -330,12 +250,15 @@
     </div>
   </div>
 
-</div> <script>
+</div>
+
+<script>
 // ══════════════════════════════════════════════════════
-//  FIREBASE INITIALIZATION (Must be done first!)
+//  FIREBASE INITIALIZATION
 // ══════════════════════════════════════════════════════
 let db = null;
 const RATINGS = {};
+const WATCHED_SHOWS = {}; // Stores { "Raw_Wk1": true }
 
 try {
   firebase.initializeApp({
@@ -347,7 +270,6 @@ try {
     appId: "1:71961326154:web:edc852be18742537ba6cb3"
   });
   db = firebase.firestore();
-  console.log("Firebase connected ✓");
 } catch(e) {
   console.warn("Firebase offline:", e);
 }
@@ -362,7 +284,7 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     overlay.style.display = 'none';
     content.style.display = 'block';
-    loadRatingsAndRender(); // Start your app
+    loadDataAndRender();
   } else {
     overlay.style.display = 'flex';
     content.style.display = 'none';
@@ -373,7 +295,6 @@ async function handleLogin() {
   const email = document.getElementById('email').value;
   const pass = document.getElementById('password').value;
   const errEl = document.getElementById('login-error');
-  
   try {
     await firebase.auth().signInWithEmailAndPassword(email, pass);
   } catch (error) {
@@ -382,17 +303,18 @@ async function handleLogin() {
 }
 
 function handleLogout() {
-  firebase.auth().signOut().then(() => {
-    console.log("Logged out successfully");
-    window.location.reload();
-  }).catch((error) => {
-    console.error("Logout Error:", error);
-  });
+  firebase.auth().signOut().then(() => window.location.reload());
 }
 
 // ══════════════════════════════════════════════════════
-//  DATA (UPDATED FOR MARCH 2026)
+//  DATA (Move this to a data.js file later if it gets too big!)
 // ══════════════════════════════════════════════════════
+const WEEKLY_SCHEDULE = [
+  { id: "raw_current", show: "Raw", day: "Monday", date: "March 9", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/WWE_Raw_logo_2024.svg/800px-WWE_Raw_logo_2024.svg.png" },
+  { id: "nxt_current", show: "NXT", day: "Tuesday", date: "March 10", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/WWE_NXT_logo.svg/800px-WWE_NXT_logo.svg.png" },
+  { id: "sd_current", show: "SmackDown", day: "Friday", date: "March 13", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/WWE_SmackDown_logo_2024.svg/800px-WWE_SmackDown_logo_2024.svg.png" }
+];
+
 const CHAMPIONS = [
   { title: "Undisputed WWE", holder: "Cody Rhodes", show: "SmackDown" },
   { title: "World Heavyweight", holder: "CM Punk", show: "Raw" },
@@ -414,26 +336,11 @@ const CHAMP_HISTORY = [
   { title: "Women's World", holder: "Stephanie Vaquer", dates: "Sep 20 – Present" },
   { title: "WWE Women's", holder: "Jade Cargill", dates: "Nov 1 – Present" },
   { title: "Intercontinental", holder: "Penta", dates: "Mar 2 – Present" },
-  { title: "Women's IC", holder: "AJ Lee", dates: "Feb 28 – Present" },
   { title: "United States", holder: "Carmelo Hayes", dates: "Dec 19 – Present" },
-  { title: "Women's US", holder: "Giulia", dates: "Jan 2 – Present" },
-  { title: "World Tag Team", holder: "The Usos", dates: "Dec 29 – Present" },
-  { title: "WWE Tag Team", holder: "The MFTs", dates: "Jan 23 – Present" },
-  { title: "NXT Champion", holder: "Joe Hendry", dates: "Feb 3 – Present" },
-  { title: "NXT Women's", holder: "Jacy Jayne", dates: "Nov 18 – Present" }
+  { title: "NXT Champion", holder: "Joe Hendry", dates: "Feb 3 – Present" }
 ];
 
-// Baseline events so you can begin rating the 2026 Season from the top!
 const WWE_LOGS = [
-  {
-    show: "PLE", name: "Royal Rumble", date: "Jan 31",
-    results: [
-      { m: "Women's Royal Rumble Match", w: "Liv Morgan" },
-      { m: "Gunther vs. AJ Styles (Career Threatening Match)", w: "Gunther" },
-      { m: "Drew McIntyre (c) vs. Sami Zayn (Undisputed WWE)", w: "Drew McIntyre" },
-      { m: "Men's Royal Rumble Match", w: "Roman Reigns" }
-    ]
-  },
   {
     show: "PLE", name: "Elimination Chamber", date: "Feb 28",
     results: [
@@ -446,64 +353,103 @@ const WWE_LOGS = [
   {
     show: "Raw", date: "Mar 9",
     results: [
-      { m: "Bayley vs. Ivy Nile (Gauntlet)", w: "Bayley" },
-      { m: "Raquel Rodriguez vs. IYO SKY (Gauntlet)", w: "IYO SKY" },
+      { m: "Bayley vs. Ivy Nile", w: "Bayley" },
+      { m: "Raquel Rodriguez vs. IYO SKY", w: "IYO SKY" },
       { m: "Dominik Mysterio (c) vs. Penta (IC Title)", w: "Penta" }
     ]
   }
 ];
 
 // ══════════════════════════════════════════════════════
-//  DYNAMIC THEME
+//  DYNAMIC THEME & CLOCK
 // ══════════════════════════════════════════════════════
 (function() {
   const now = new Date();
   const hourOfWeek = (now.getUTCDay() * 24) + now.getUTCHours();
-  let hex = "#ef4444", glow = "rgba(239,68,68,0.25)";
-  if (hourOfWeek >= 49 && hourOfWeek < 73)   { hex = "#d4d4d8"; glow = "rgba(212,212,216,0.25)"; }
-  else if (hourOfWeek >= 73 && hourOfWeek < 145) { hex = "#3b82f6"; glow = "rgba(59,130,246,0.25)"; }
+  let hex = "#ef4444"; // RAW Red default
+  if (hourOfWeek >= 49 && hourOfWeek < 73)   { hex = "#eab308"; } // NXT Yellow
+  else if (hourOfWeek >= 73 && hourOfWeek < 145) { hex = "#3b82f6"; } // SD Blue
   document.documentElement.style.setProperty('--theme', hex);
-  document.documentElement.style.setProperty('--theme-glow', glow);
+  document.documentElement.style.setProperty('--theme-glow', hex + "40"); // Adds 25% opacity
 })();
 
-// ══════════════════════════════════════════════════════
-//  COUNTDOWN
-// ══════════════════════════════════════════════════════
 const WM_DATE = new Date("April 18, 2026 01:00:00 GMT").getTime();
 function tick() {
   const dist = WM_DATE - Date.now();
-  if (dist < 0) { 
-    const cd = document.getElementById('countdown');
-    if (cd) cd.textContent = "WM IS LIVE!"; 
-    return; 
-  }
+  if (dist < 0) { document.getElementById('countdown').textContent = "WM IS LIVE!"; return; }
   const d = Math.floor(dist / 86400000);
   const h = Math.floor((dist % 86400000) / 3600000);
   const m = Math.floor((dist % 3600000) / 60000);
   const s = Math.floor((dist % 60000) / 1000);
-  const cd = document.getElementById('countdown');
-  if (cd) cd.textContent = `${d}D : ${String(h).padStart(2,'0')}H : ${String(m).padStart(2,'0')}M : ${String(s).padStart(2,'0')}S`;
+  document.getElementById('countdown').textContent = `${d}D : ${String(h).padStart(2,'0')}H : ${String(m).padStart(2,'0')}M : ${String(s).padStart(2,'0')}S`;
 }
 tick(); setInterval(tick, 1000);
 
 // ══════════════════════════════════════════════════════
 //  DATA LOADING
 // ══════════════════════════════════════════════════════
-async function loadRatingsAndRender() {
+async function loadDataAndRender() {
   if (db) {
     try {
-      const snap = await db.collection("matchDiary").get();
-      snap.forEach(doc => { RATINGS[doc.id] = doc.data(); });
+      const matchSnap = await db.collection("matchDiary").get();
+      matchSnap.forEach(doc => { RATINGS[doc.id] = doc.data(); });
+      
+      const watchSnap = await db.collection("watchedShows").get();
+      watchSnap.forEach(doc => { WATCHED_SHOWS[doc.id] = doc.data().watched; });
     } catch(e) {
-      console.warn("Could not load ratings:", e);
+      console.warn("Could not load data:", e);
     }
   }
-  renderAll();
+  renderCalendar();
+  renderAllMatches();
+  renderCarousel();
+  renderHistoryTable();
   updateStats();
+  updateTopMatches();
 }
 
 // ══════════════════════════════════════════════════════
-//  RENDER ENGINE
+//  CALENDAR LOGIC
+// ══════════════════════════════════════════════════════
+function renderCalendar() {
+  const grid = document.getElementById('calendar-grid');
+  grid.innerHTML = WEEKLY_SCHEDULE.map(show => {
+    const isWatched = WATCHED_SHOWS[show.id] || false;
+    const btnClass = isWatched ? "watched-btn is-watched" : "watched-btn";
+    const btnText = isWatched ? "WATCHED ✓" : "MARK WATCHED";
+    
+    return `
+    <div class="event-card p-5 text-center flex flex-col justify-between">
+      <div>
+        <div class="h-[60px] flex items-center justify-center mb-3">
+          <img src="${show.img}" alt="${show.show}" class="show-logo max-h-[45px]" onerror="this.style.display='none'">
+        </div>
+        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-1">${show.day}</p>
+        <p class="font-bold text-sm text-zinc-200 mb-5">${show.date}</p>
+      </div>
+      <button class="${btnClass}" id="watch-btn-${show.id}" onclick="toggleWatched('${show.id}')">${btnText}</button>
+    </div>`;
+  }).join('');
+}
+
+function toggleWatched(showId) {
+  const isNowWatched = !WATCHED_SHOWS[showId];
+  WATCHED_SHOWS[showId] = isNowWatched;
+  
+  const btn = document.getElementById(`watch-btn-${showId}`);
+  if (btn) {
+    btn.className = isNowWatched ? "watched-btn is-watched" : "watched-btn";
+    btn.textContent = isNowWatched ? "WATCHED ✓" : "MARK WATCHED";
+  }
+  
+  if (db) {
+    db.collection("watchedShows").doc(showId).set({ watched: isNowWatched }, { merge: true })
+      .catch(e => console.error("Error saving watch state:", e));
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER MATCHES
 // ══════════════════════════════════════════════════════
 function makeMatchKey(eventIdx, matchIdx) {
   const ev = WWE_LOGS[eventIdx];
@@ -519,80 +465,59 @@ function renderStars(key, currentStars) {
   return Array.from({length: 5}, (_, i) => {
     const n = i + 1;
     const filled = n <= currentStars ? 'filled' : '';
-    return `<span class="star ${filled}" data-key="${key}" data-val="${n}" onclick="rateStar('${key}', ${n})">★</span>`;
+    return `<span class="star ${filled}" onclick="rateStar('${key}', ${n})">★</span>`;
   }).join('');
 }
 
-function renderEventCard(ev, eventIdx) {
-  const showName = ev.name || ev.show;
-  
-  const matchRows = ev.results.map((r, i) => {
-    const key = makeMatchKey(eventIdx, i);
-    const data = RATINGS[key] || {};
-    const stars = data.stars || 0;
-    const notes = data.notes || '';
-    const isMotm = data.motm || false;
+function renderAllMatches() {
+  const logs = document.getElementById('event-logs');
+  logs.innerHTML = WWE_LOGS.map((ev, eventIdx) => {
+    const showName = ev.name || ev.show;
+    
+    const matchRows = ev.results.map((r, matchIdx) => {
+      const key = makeMatchKey(eventIdx, matchIdx);
+      const data = RATINGS[key] || {};
+      const stars = data.stars || 0;
+      const isMotm = data.motm || false;
 
-    return `
-    <div class="match-row px-5 py-3" id="row-${key}">
-      <div class="flex items-start justify-between gap-3">
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-sm font-bold text-zinc-200 leading-tight">${r.m}</span>
-            ${isMotm ? '<span class="motm-badge">★ MOTM</span>' : ''}
+      return `
+      <div class="match-row px-5 py-4" id="row-${key}">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-sm font-bold text-zinc-200 leading-tight">${r.m}</span>
+              ${isMotm ? '<span class="motm-badge">★ MOTM</span>' : ''}
+            </div>
+            <div class="mt-1">
+              <span class="text-[11px] text-zinc-500 font-medium tracking-wide uppercase">Winner: <span class="theme-text font-bold">${r.w}</span></span>
+            </div>
           </div>
-          <div class="flex items-center gap-3 mt-1.5 flex-wrap">
-            <span class="text-xs text-zinc-500 font-medium">W: <span class="theme-text font-bold">${r.w}</span></span>
+          <div class="flex flex-col items-end gap-2">
             <div class="star-group" id="stars-${key}">${renderStars(key, stars)}</div>
-            <button class="text-[10px] text-zinc-700 hover:text-zinc-400 transition-colors tracking-widest uppercase font-bold expand-toggle motm-btn" onclick="toggleMotm('${key}', ${eventIdx}, ${i})" id="motm-btn-${key}">
-              ${isMotm ? '✓ MOTM' : '+ MOTM'}
+            <button class="text-[9px] text-zinc-700 hover:text-zinc-400 transition-colors tracking-widest uppercase font-bold" onclick="toggleMotm('${key}', ${eventIdx})" id="motm-btn-${key}">
+              ${isMotm ? '✓ MATCH OF THE NIGHT' : '+ SET MATCH OF THE NIGHT'}
             </button>
           </div>
         </div>
-        <button class="expand-toggle text-zinc-700 hover:text-zinc-400 transition-colors text-xs tracking-widest uppercase font-bold whitespace-nowrap mt-1"
-          onclick="toggleNotes('${key}')" id="toggle-btn-${key}">
-          ${notes ? '📝 Notes' : '+ Note'}
-        </button>
-      </div>
-      <div class="notes-panel mt-2" id="panel-${key}">
-        ${notes ? `<p class="notes-display mb-2" onclick="openEdit('${key}')" title="Click to edit">"${notes}"</p>` : ''}
-        <div id="editor-${key}" class="${notes ? 'hidden' : ''}">
-          <textarea class="notes-area" id="textarea-${key}" placeholder="How was this match? Write your thoughts…" oninput="onNoteInput('${key}')">${notes}</textarea>
-          <div class="flex justify-end mt-2">
-            <button class="save-btn" id="save-${key}" onclick="saveNote('${key}')">Save</button>
-          </div>
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="event-card fade-up" data-show="${ev.show}" id="card-${eventIdx}">
+      <div class="px-5 py-4 border-b border-zinc-900 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="show-pill ${pillClass(ev.show)}">${showName}</span>
+          <span class="text-xs text-zinc-600 font-bold tracking-widest uppercase">${ev.date}</span>
         </div>
       </div>
+      ${matchRows}
     </div>`;
   }).join('');
-
-  return `
-  <div class="event-card fade-up" data-show="${ev.show}" id="card-${eventIdx}">
-    <div class="px-5 py-4 border-b border-zinc-900 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="show-pill ${pillClass(ev.show)}">${showName}</span>
-        <span class="text-xs text-zinc-600 font-bold tracking-widest uppercase">${ev.date}</span>
-      </div>
-      <div class="flex gap-1 items-center">
-        ${ev.results.map((_,i) => {
-          const k = makeMatchKey(eventIdx, i);
-          const s = (RATINGS[k] && RATINGS[k].stars) || 0;
-          return s > 0 ? `<span style="color:#f59e0b; font-size:8px;">★</span>` : `<span style="color:#2a2a2a; font-size:8px;">★</span>`;
-        }).join('')}
-      </div>
-    </div>
-    ${matchRows}
-  </div>`;
 }
 
-function renderAll() {
-  const logs = document.getElementById('event-logs');
-  logs.innerHTML = WWE_LOGS.map((ev, i) => renderEventCard(ev, i)).join('');
-  renderCarousel();
-  renderHistoryTable();
-  applyFilter();
-}
-
+// ══════════════════════════════════════════════════════
+//  CAROUSEL & HISTORY
+// ══════════════════════════════════════════════════════
 function renderCarousel() {
   const beltIcon = `<svg class="w-8 h-8 theme-text" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
   document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
@@ -620,7 +545,7 @@ function renderHistoryTable() {
 }
 
 // ══════════════════════════════════════════════════════
-//  STAR RATING & NOTES
+//  RATING & MOTM INTERACTION
 // ══════════════════════════════════════════════════════
 function rateStar(key, val) {
   const current = (RATINGS[key] && RATINGS[key].stars) || 0;
@@ -631,116 +556,34 @@ function rateStar(key, val) {
   const container = document.getElementById(`stars-${key}`);
   if (container) container.innerHTML = renderStars(key, newVal);
   
-  updateCardDots();
   updateStats();
   updateTopMatches();
-  persistMatchData(key);
-}
-
-function updateCardDots() {
-  WWE_LOGS.forEach((ev, i) => {
-    const header = document.querySelector(`#card-${i} .flex.gap-1`);
-    if (!header) return;
-    header.innerHTML = ev.results.map((_,j) => {
-      const k = makeMatchKey(i,j);
-      const s = (RATINGS[k] && RATINGS[k].stars) || 0;
-      return s > 0 ? `<span style="color:#f59e0b;font-size:8px;">★</span>` : `<span style="color:#2a2a2a;font-size:8px;">★</span>`;
-    }).join('');
-  });
-}
-
-function toggleNotes(key) {
-  const panel = document.getElementById(`panel-${key}`);
-  const isOpen = panel.classList.contains('open');
-  if (!isOpen) {
-    panel.classList.add('open');
-    const editor = document.getElementById(`editor-${key}`);
-    if (editor) editor.classList.remove('hidden');
-    const btn = document.getElementById(`toggle-btn-${key}`);
-    if (btn) btn.textContent = '✕ Close';
-    setTimeout(() => {
-      const ta = document.getElementById(`textarea-${key}`);
-      if (ta) ta.focus();
-    }, 100);
-  } else {
-    panel.classList.remove('open');
-    const btn = document.getElementById(`toggle-btn-${key}`);
-    const notes = (RATINGS[key] && RATINGS[key].notes) || '';
-    if (btn) btn.textContent = notes ? '📝 Notes' : '+ Note';
-  }
-}
-
-function openEdit(key) {
-  const editor = document.getElementById(`editor-${key}`);
-  if (editor) {
-    editor.classList.remove('hidden');
-    setTimeout(() => {
-      const ta = document.getElementById(`textarea-${key}`);
-      if (ta) ta.focus();
-    }, 50);
-  }
-}
-
-function onNoteInput(key) {
-  const btn = document.getElementById(`save-${key}`);
-  if (btn) { btn.classList.add('visible'); btn.classList.remove('saved'); btn.textContent = 'Save'; }
-}
-
-function saveNote(key) {
-  const ta = document.getElementById(`textarea-${key}`);
-  if (!ta) return;
-  const notes = ta.value.trim();
-  if (!RATINGS[key]) RATINGS[key] = {};
-  RATINGS[key].notes = notes;
   
-  const btn = document.getElementById(`toggle-btn-${key}`);
-  if (btn) btn.textContent = notes ? '📝 Notes' : '+ Note';
-  
-  const editor = document.getElementById(`editor-${key}`);
-  const panel = document.getElementById(`panel-${key}`);
-  if (editor && notes) {
-    let display = panel.querySelector('.notes-display');
-    if (!display) {
-      display = document.createElement('p');
-      display.className = 'notes-display mb-2';
-      display.title = 'Click to edit';
-      display.onclick = () => openEdit(key);
-      panel.insertBefore(display, editor);
-    }
-    display.textContent = `"${notes}"`;
-    editor.classList.add('hidden');
-  }
-  const saveBtn = document.getElementById(`save-${key}`);
-  if (saveBtn) { saveBtn.textContent = 'Saved ✓'; saveBtn.classList.add('saved'); setTimeout(() => saveBtn.classList.remove('visible','saved'), 1500); }
-  updateStats();
-  updateTopMatches();
-  persistMatchData(key);
+  if (db) db.collection("matchDiary").doc(key).set({ stars: newVal }, { merge: true });
 }
 
-// ══════════════════════════════════════════════════════
-//  MOTM & PERSISTENCE
-// ══════════════════════════════════════════════════════
-function toggleMotm(key, eventIdx, matchIdx) {
+function toggleMotm(key, eventIdx) {
   if (!RATINGS[key]) RATINGS[key] = {};
   const isNowMotm = !RATINGS[key].motm;
   
+  // Reset MOTM for this specific event
   WWE_LOGS[eventIdx].results.forEach((_, i) => {
     const k = makeMatchKey(eventIdx, i);
     if (RATINGS[k]) RATINGS[k].motm = false;
     const btn = document.getElementById(`motm-btn-${k}`);
-    if (btn) btn.textContent = '+ MOTM';
+    if (btn) btn.textContent = '+ SET MATCH OF THE NIGHT';
     const row = document.getElementById(`row-${k}`);
     if (row) {
       const badge = row.querySelector('.motm-badge');
       if (badge) badge.remove();
     }
-    if (k !== key) persistMatchData(k);
+    if (k !== key && db) db.collection("matchDiary").doc(k).set({ motm: false }, { merge: true });
   });
   
   if (isNowMotm) {
     RATINGS[key].motm = true;
     const btn = document.getElementById(`motm-btn-${key}`);
-    if (btn) btn.textContent = '✓ MOTM';
+    if (btn) btn.textContent = '✓ MATCH OF THE NIGHT';
     const nameEl = document.querySelector(`#row-${key} .text-sm.font-bold`);
     if (nameEl && !nameEl.nextElementSibling?.classList.contains('motm-badge')) {
       const badge = document.createElement('span');
@@ -749,42 +592,28 @@ function toggleMotm(key, eventIdx, matchIdx) {
       nameEl.insertAdjacentElement('afterend', badge);
     }
   }
-  persistMatchData(key);
-}
-
-function persistMatchData(key) {
-  if (!db) return;
-  const data = RATINGS[key] || {};
-  db.collection("matchDiary").doc(key).set(data, { merge: true })
-    .catch(e => console.warn("Save failed:", e));
+  
+  if (db) db.collection("matchDiary").doc(key).set({ motm: isNowMotm }, { merge: true });
 }
 
 // ══════════════════════════════════════════════════════
 //  STATS & FILTERS
 // ══════════════════════════════════════════════════════
 function updateStats() {
-  let total = 0, rated = 0, ratingSum = 0, noted = 0;
-  let best = null, bestStars = 0;
+  let total = 0, rated = 0, ratingSum = 0;
   WWE_LOGS.forEach((ev, i) => {
     ev.results.forEach((r, j) => {
       total++;
       const k = makeMatchKey(i, j);
-      const d = RATINGS[k] || {};
-      if (d.stars) { rated++; ratingSum += d.stars; if (d.stars > bestStars) { bestStars = d.stars; best = r.m; } }
-      if (d.notes) noted++;
+      if (RATINGS[k] && RATINGS[k].stars > 0) { 
+        rated++; 
+        ratingSum += RATINGS[k].stars; 
+      }
     });
   });
   document.getElementById('stat-matches').textContent = total;
   document.getElementById('stat-rated').textContent = rated;
-  document.getElementById('stat-avg').textContent = rated ? (ratingSum/rated).toFixed(1) : '—';
-  document.getElementById('stat-notes').textContent = noted;
-  const bw = document.getElementById('best-match-wrap');
-  if (best) {
-    bw.classList.remove('hidden');
-    document.getElementById('best-match-name').textContent = best;
-  } else {
-    bw.classList.add('hidden');
-  }
+  document.getElementById('stat-avg').textContent = rated ? (ratingSum/rated).toFixed(1) + " / 5" : '—';
 }
 
 function updateTopMatches() {
@@ -804,13 +633,13 @@ function updateTopMatches() {
     return;
   }
   el.innerHTML = top.map((m, idx) => `
-    <div class="flex items-start gap-3 py-2 border-b border-zinc-900 last:border-0">
-      <span class="text-zinc-700 font-bold" style="font-family:'Bebas Neue',cursive; font-size:1.3rem; min-width:1.5rem;">${idx+1}</span>
+    <div class="flex items-center gap-3 py-3 border-b border-zinc-900 last:border-0">
+      <span class="text-zinc-700 font-bold" style="font-family:'Bebas Neue',cursive; font-size:1.5rem; min-width:1.5rem;">${idx+1}</span>
       <div class="flex-1 min-w-0">
         <p class="text-xs font-bold text-zinc-300 leading-tight truncate">${m.m}</p>
-        <div class="flex items-center gap-2 mt-0.5">
-          <span class="text-yellow-500 text-xs">${'★'.repeat(m.stars)}${'☆'.repeat(5-m.stars)}</span>
-          <span class="text-[10px] text-zinc-600">${m.show} · ${m.date}</span>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="text-yellow-500 text-xs tracking-widest">${'★'.repeat(m.stars)}${'☆'.repeat(5-m.stars)}</span>
+          <span class="text-[9px] text-zinc-600 uppercase font-bold tracking-widest">${m.show}</span>
         </div>
       </div>
     </div>`).join('');
@@ -828,7 +657,6 @@ function filterEvents() {
   });
   document.getElementById('no-results').classList.toggle('hidden', visible > 0);
 }
-
 </script>
 </body>
 </html>
