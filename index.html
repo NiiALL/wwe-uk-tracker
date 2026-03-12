@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | Live Community Hub</title>
+    <title>NiiALL's WWE Tracker | Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -15,22 +15,21 @@
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
         .scroll-container:hover { animation-play-state: paused; }
-        
-        /* Smooth Progress Bar Animation */
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
+        // Notice the new "type" tag so the script knows which belt design to load!
         const CHAMPIONS = [
-            { title: "Undisputed WWE", holder: "Cody Rhodes" },
-            { title: "World Heavyweight", holder: "CM Punk" },
-            { title: "Intercontinental", holder: "Penta" },
-            { title: "United States", holder: "Carmelo Hayes" },
-            { title: "Women's World", holder: "Stephanie Vaquer" },
-            { title: "WWE Women's", holder: "Jade Cargill" },
-            { title: "Women's IC", holder: "AJ Lee" }
+            { title: "Undisputed WWE", holder: "Cody Rhodes", type: "undisputed" },
+            { title: "World Heavyweight", holder: "CM Punk", type: "whc" },
+            { title: "Intercontinental", holder: "Penta", type: "ic" },
+            { title: "United States", holder: "Carmelo Hayes", type: "us" },
+            { title: "Women's World", holder: "Stephanie Vaquer", type: "womens_world" },
+            { title: "WWE Women's", holder: "Jade Cargill", type: "womens" },
+            { title: "Women's IC", holder: "AJ Lee", type: "womens_ic" }
         ];
 
         const WWE_LOGS = [
@@ -55,7 +54,7 @@
                 </div>
                 <div>
                     <h1 class="text-4xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Official WWE UK Hub • 2026</p>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Fan-Made Community Hub • 2026</p>
                 </div>
             </div>
             <div class="text-right">
@@ -84,7 +83,6 @@
             </div>
 
             <div class="lg:col-span-5 space-y-8">
-                
                 <div class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 shadow-2xl">
                     <h3 class="font-black mb-1 uppercase text-lg text-white italic tracking-tighter border-b border-zinc-800 pb-3 flex items-center justify-between">
                         Community Predictions
@@ -111,7 +109,6 @@
                         <div id="poll2-results" class="hidden"></div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -120,10 +117,28 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
+        // --- Custom Belt Designs (SVGs) ---
+        const BELT_DESIGNS = {
+            undisputed: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><polygon points="20,1 28,6 28,14 20,19 12,14 12,6" fill="#eab308"/><circle cx="20" cy="10" r="3" fill="#000"/></svg>`,
+            whc: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><ellipse cx="20" cy="10" rx="8" ry="9" fill="#eab308"/><ellipse cx="20" cy="10" rx="6" ry="7" fill="#ca8a04"/></svg>`,
+            us: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><path d="M14,2 L26,2 L26,10 C26,15 20,19 20,19 C20,19 14,15 14,10 Z" fill="#ef4444"/><path d="M14,2 L26,2 L26,8 L14,8 Z" fill="#3b82f6"/><polygon points="20,3 22,7 18,7" fill="#fff"/></svg>`,
+            ic: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#111" rx="1"/><circle cx="20" cy="10" r="8" fill="#111" stroke="#eab308" stroke-width="2"/><circle cx="20" cy="10" r="4" fill="#eab308"/><path d="M12,10 L28,10" stroke="#fff" stroke-width="1"/></svg>`,
+            womens: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><polygon points="20,1 28,6 28,14 20,19 12,14 12,6" fill="#eab308"/><circle cx="20" cy="10" r="3" fill="#fff"/></svg>`,
+            womens_world: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><ellipse cx="20" cy="10" rx="8" ry="9" fill="#eab308"/><ellipse cx="20" cy="10" rx="6" ry="7" fill="#ca8a04"/></svg>`,
+            womens_ic: `<svg class="w-10 h-10 mb-2 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" viewBox="0 0 40 20"><rect x="0" y="7" width="40" height="6" fill="#f4f4f5" rx="1"/><circle cx="20" cy="10" r="8" fill="#fff" stroke="#eab308" stroke-width="2"/><circle cx="20" cy="10" r="4" fill="#eab308"/></svg>`
+        };
+
         // --- Static UI Generation ---
-        const beltSVG = `<svg class="w-8 h-8 text-yellow-500 mb-1 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
-        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `<div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">${beltSVG}<span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span><span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span></div>`).join('');
+        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
+            <div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">
+                ${BELT_DESIGNS[c.type]}
+                <span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
+                <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
+            </div>
+        `).join('');
+        
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `<div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}"><p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}</div>`).join('');
+        
         document.getElementById('champ-history-list').innerHTML = `<table class="w-full text-left text-xs"><thead class="bg-zinc-800 text-zinc-500 uppercase font-bold"><tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr></thead><tbody class="divide-y divide-zinc-800">${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}</tbody></table>`;
 
         // --- Firebase Initialization ---
@@ -138,29 +153,22 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // --- REAL-TIME LISTENERS (The Magic Sauce) ---
-        // Listen to Poll 1
+        // --- REAL-TIME LISTENERS ---
         db.collection("trackerData").doc("poll1").onSnapshot((doc) => {
             if (doc.exists && localStorage.getItem('voted_poll1')) {
                 const data = doc.data();
-                const v1 = data.codyRhodes || 0;
-                const v2 = data.randyOrton || 0;
-                renderRealTimeBars('poll1', v1, v2, 'Cody Rhodes', 'Randy Orton');
+                renderRealTimeBars('poll1', data.codyRhodes || 0, data.randyOrton || 0, 'Cody Rhodes', 'Randy Orton');
             }
         });
 
-        // Listen to Poll 2
         db.collection("trackerData").doc("poll2").onSnapshot((doc) => {
             if (doc.exists && localStorage.getItem('voted_poll2')) {
                 const data = doc.data();
-                const v1 = data.cmPunk || 0;
-                const v2 = data.romanReigns || 0;
-                renderRealTimeBars('poll2', v1, v2, 'CM Punk', 'Roman Reigns');
+                renderRealTimeBars('poll2', data.cmPunk || 0, data.romanReigns || 0, 'CM Punk', 'Roman Reigns');
             }
         });
 
         // --- Check on Page Load ---
-        // If you already voted in the past, hide buttons and wait for Firebase to render bars
         if(localStorage.getItem('voted_poll1')) {
             document.getElementById('poll1-buttons').classList.add('hidden');
             document.getElementById('poll1-results').classList.remove('hidden');
@@ -172,18 +180,13 @@
             document.getElementById('poll2-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
         }
 
-
         // --- Voting Function ---
         function castVote(pollId, choiceDbKey, name1, name2) {
-            // 1. Save to local storage so the browser remembers you voted
             localStorage.setItem(`voted_${pollId}`, 'true');
-            
-            // 2. Hide buttons immediately to prevent double-clicking
             document.getElementById(`${pollId}-buttons`).classList.add('hidden');
             document.getElementById(`${pollId}-results`).classList.remove('hidden');
             document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-500">Sending vote to cloud...</p>`;
 
-            // 3. Send the vote to Firebase
             db.collection("trackerData").doc(pollId).set({
                 [choiceDbKey]: firebase.firestore.FieldValue.increment(1)
             }, { merge: true })
@@ -191,7 +194,6 @@
         }
 
         // --- Render UI Math Function ---
-        // This calculates the percentages based on the raw Firebase numbers
         function renderRealTimeBars(pollId, val1, val2, name1, name2) {
             const total = val1 + val2;
             const pct1 = total === 0 ? 0 : Math.round((val1 / total) * 100);
