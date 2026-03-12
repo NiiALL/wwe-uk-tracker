@@ -12,12 +12,9 @@
         .nxt-border { border-left: 4px solid #eab308; }
         .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
         
-        /* Auto-Scroll Carousel */
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
         .scroll-container:hover { animation-play-state: paused; }
-        
-        /* Poll Progress Bars */
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
@@ -98,8 +95,8 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 1 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">Cody Rhodes vs. Randy Orton</h4>
                         <div class="space-y-2" id="poll-1-options">
-                            <button onclick="window.castVote('poll1', 'codyRhodes', 'poll-1-options', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
-                            <button onclick="window.castVote('poll1', 'randyOrton', 'poll-1-options', 'Cody Rhodes', 'Randy Orton')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
+                            <button onclick="castVote('poll1', 'codyRhodes', 'poll-1-container', 'Cody Rhodes', 'Randy Orton', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Cody Rhodes</button>
+                            <button onclick="castVote('poll1', 'randyOrton', 'poll-1-container', 'Cody Rhodes', 'Randy Orton', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Randy Orton</button>
                         </div>
                     </div>
 
@@ -107,8 +104,8 @@
                         <p class="text-[10px] text-zinc-500 font-bold uppercase mb-2">Night 2 Main Event</p>
                         <h4 class="font-black italic mb-3 text-sm">CM Punk vs. Roman Reigns</h4>
                         <div class="space-y-2" id="poll-2-options">
-                            <button onclick="window.castVote('poll2', 'cmPunk', 'poll-2-options', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
-                            <button onclick="window.castVote('poll2', 'romanReigns', 'poll-2-options', 'CM Punk', 'Roman Reigns')" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
+                            <button onclick="castVote('poll2', 'cmPunk', 'poll-2-container', 'CM Punk', 'Roman Reigns', 0)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">CM Punk</button>
+                            <button onclick="castVote('poll2', 'romanReigns', 'poll-2-container', 'CM Punk', 'Roman Reigns', 1)" class="w-full bg-black border border-zinc-800 p-3 rounded-lg text-xs font-bold hover:border-red-500 transition-all text-left">Roman Reigns</button>
                         </div>
                     </div>
                 </div>
@@ -117,10 +114,10 @@
                     <h3 class="font-bold mb-1 uppercase text-xs text-yellow-500 italic">MVP of the Night</h3>
                     <p class="text-[9px] text-zinc-500 mb-4 uppercase">Vote to reveal global community results.</p>
                     <div class="grid grid-cols-2 gap-2" id="mvp-grid">
-                        <button onclick="window.castMvpVote('jacobFatu', 'Jacob Fatu')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Jacob Fatu</button>
-                        <button onclick="window.castMvpVote('bronBreakker', 'Bron Breakker')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Bron Breakker</button>
-                        <button onclick="window.castMvpVote('penta', 'Penta')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Penta</button>
-                        <button onclick="window.castMvpVote('gunther', 'Gunther')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Gunther</button>
+                        <button onclick="castMvpVote('jacobFatu', 'Jacob Fatu')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Jacob Fatu</button>
+                        <button onclick="castMvpVote('bronBreakker', 'Bron Breakker')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Bron Breakker</button>
+                        <button onclick="castMvpVote('penta', 'Penta')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Penta</button>
+                        <button onclick="castMvpVote('gunther', 'Gunther')" class="bg-black border border-zinc-800 py-3 rounded text-[9px] font-bold uppercase hover:border-zinc-500">Gunther</button>
                     </div>
                     <div id="mvp-results" class="mt-4 hidden space-y-2">
                         </div>
@@ -130,41 +127,17 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
     <script>
+        // --- Static UI Generation ---
         const beltSVG = `<svg class="w-8 h-8 text-yellow-500 mb-1 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
-        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
-            <div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">
-                ${beltSVG}
-                <span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
-                <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
-            </div>
-        `).join('');
+        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `<div class="flex flex-col items-center mx-8 min-w-[160px] cursor-default hover:scale-110 transition-transform">${beltSVG}<span class="text-[8px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span><span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span></div>`).join('');
+        document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `<div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}"><p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}</div>`).join('');
+        document.getElementById('champ-history-list').innerHTML = `<table class="w-full text-left text-xs"><thead class="bg-zinc-800 text-zinc-500 uppercase font-bold"><tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr></thead><tbody class="divide-y divide-zinc-800">${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}</tbody></table>`;
 
-        document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
-            <div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
-                <p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>
-                ${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}
-            </div>
-        `).join('');
-
-        document.getElementById('champ-history-list').innerHTML = `
-            <table class="w-full text-left text-xs">
-                <thead class="bg-zinc-800 text-zinc-500 uppercase font-bold">
-                    <tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr>
-                </thead>
-                <tbody class="divide-y divide-zinc-800">
-                    ${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}
-                </tbody>
-            </table>
-        `;
-    </script>
-
-    <script type="module">
-        // Import Firebase Functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        // Your exact Firebase Config
+        // --- Firebase Initialization ---
         const firebaseConfig = {
             apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
             authDomain: "niialls-wwe-tracker.firebaseapp.com",
@@ -173,73 +146,52 @@
             messagingSenderId: "71961326154",
             appId: "1:71961326154:web:edc852be18742537ba6cb3"
         };
-        
-        // Initialize Firebase App & Database
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        // ==========================================
-        // VOTING LOGIC & FIREBASE WRITING
-        // ==========================================
-        
-        // Global function for standard polls
-        window.castVote = async function(pollId, choiceDbKey, containerId, name1, name2) {
-            
-            // 1. Instantly show a temporary UI reaction for the user so it feels fast
-            // Note: Since we don't have a listener fetching ALL live votes yet, 
-            // we will simulate the UI change to 50/50 for the user locally right now.
-            renderPollUI(containerId, 50, 50, name1, name2, choiceDbKey.includes(name1.split(' ')[0].toLowerCase()) ? 0 : 1);
-
-            // 2. Push actual vote to the Firebase Cloud
-            try {
-                // We use 'setDoc' with 'merge: true' so it creates the document if it doesn't exist yet!
-                const pollRef = doc(db, "trackerData", pollId);
-                await setDoc(pollRef, { [choiceDbKey]: increment(1) }, { merge: true });
-                console.log(`Successfully logged 1 vote for ${choiceDbKey} in ${pollId}`);
-            } catch (e) {
-                console.error("Error writing to Firebase: ", e);
-            }
-        };
-
-        // Global function for MVP
-        window.castMvpVote = async function(mvpDbKey, displayName) {
-            // 1. Hide the buttons
-            document.getElementById('mvp-grid').classList.add('hidden');
-            const resultsDiv = document.getElementById('mvp-results');
-            resultsDiv.classList.remove('hidden');
-            
-            // 2. Show a temporary confirmation UI
-            resultsDiv.innerHTML = `
-                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Jacob Fatu</span><span>--%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
-                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Bron Breakker</span><span>--%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
-                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Penta</span><span>--%</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
-                <p class="text-[9px] text-zinc-500 mt-3 border-t border-zinc-800 pt-2 italic">Firebase Sync: Your vote for <span class="text-white font-bold">${displayName}</span> has been saved to the cloud.</p>
-            `;
-
-            // 3. Push actual MVP vote to Firebase
-            try {
-                const mvpRef = doc(db, "trackerData", "mvpVotes");
-                await setDoc(mvpRef, { [mvpDbKey]: increment(1) }, { merge: true });
-                console.log(`Successfully logged MVP vote for ${mvpDbKey}`);
-            } catch (e) {
-                console.error("Error writing MVP to Firebase: ", e);
-            }
-        };
-
-        // Utility: Renders the Progress Bars
-        function renderPollUI(containerId, pct1, pct2, name1, name2, choiceIndex) {
+        // --- Voting Functions ---
+        function castVote(pollId, choiceDbKey, containerId, name1, name2, choiceIndex) {
+            // 1. Instantly update the UI so the user sees something happen
             const container = document.getElementById(containerId);
             container.innerHTML = `
                 <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${choiceIndex === 0 ? 'border-red-500' : 'border-zinc-800'} p-3">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40" style="width: 50%;"></div>
                     <div class="relative flex justify-between text-xs font-bold z-10"><span>${name1} ${choiceIndex === 0 ? '✓' : ''}</span><span>Processing...</span></div>
                 </div>
                 <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border ${choiceIndex === 1 ? 'border-red-500' : 'border-zinc-800'} p-3 mt-2">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
+                    <div class="absolute top-0 left-0 h-full bg-red-900/40" style="width: 50%;"></div>
                     <div class="relative flex justify-between text-xs font-bold z-10"><span>${name2} ${choiceIndex === 1 ? '✓' : ''}</span><span>Processing...</span></div>
                 </div>
                 <p class="text-[9px] text-green-500 font-bold mt-2 text-right uppercase tracking-widest">✓ Vote saved to Cloud</p>
             `;
+
+            // 2. Send the vote to Firebase
+            db.collection("trackerData").doc(pollId).set({
+                [choiceDbKey]: firebase.firestore.FieldValue.increment(1)
+            }, { merge: true })
+            .then(() => console.log("Success! Firebase logged the vote."))
+            .catch((error) => console.error("Firebase Error: ", error));
+        }
+
+        function castMvpVote(mvpDbKey, displayName) {
+            // 1. Hide buttons, show UI
+            document.getElementById('mvp-grid').classList.add('hidden');
+            const resultsDiv = document.getElementById('mvp-results');
+            resultsDiv.classList.remove('hidden');
+            
+            resultsDiv.innerHTML = `
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Jacob Fatu</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Bron Breakker</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
+                <div class="mb-2"><div class="flex justify-between text-[10px] font-bold mb-1 uppercase"><span>Penta</span></div><div class="w-full bg-black rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 25%"></div></div></div>
+                <p class="text-[9px] text-zinc-500 mt-3 border-t border-zinc-800 pt-2 italic">Firebase Sync: Your vote for <span class="text-white font-bold">${displayName}</span> has been saved.</p>
+            `;
+
+            // 2. Send the vote to Firebase
+            db.collection("trackerData").doc("mvpVotes").set({
+                [mvpDbKey]: firebase.firestore.FieldValue.increment(1)
+            }, { merge: true })
+            .then(() => console.log("Success! Firebase logged the MVP."))
+            .catch((error) => console.error("Firebase Error: ", error));
         }
     </script>
 </body>
