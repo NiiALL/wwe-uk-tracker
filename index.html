@@ -38,12 +38,6 @@
   .theme-border { border-color: var(--theme); transition: border-color 1s; }
   .theme-glow-box { box-shadow: 0 0 30px var(--theme-glow); }
 
-  /* ── TICKER ── */
-  .ticker-wrap { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; height: 36px; overflow: hidden; display: flex; align-items: center; }
-  .ticker-label { font-family: 'Bebas Neue', cursive; letter-spacing: 0.15em; font-size: 11px; background: var(--theme); color: #000; padding: 0 16px; height: 100%; display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; transition: background 1s; }
-  @keyframes ticker { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
-  .ticker-text { white-space: nowrap; animation: ticker 35s linear infinite; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #71717a; }
-
   /* ── CHAMPION CAROUSEL ── */
   @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   .scroll-track { display: flex; width: max-content; animation: scroll 35s linear infinite; }
@@ -150,24 +144,6 @@
     border-radius: 3px;
   }
 
-  /* ── POLLS ── */
-  .poll-bar-fill { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-  .vote-btn {
-    border: 1px solid #222;
-    background: #0a0a0a;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: #a1a1aa;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-    width: 100%;
-  }
-  .vote-btn:hover { border-color: var(--theme); color: #fff; }
-
   /* ── HISTORY TABLE ── */
   .history-table td, .history-table th {
     padding: 10px 14px;
@@ -217,19 +193,6 @@
   </div>
 
 <div id="main-content" style="display: none;">
-
-  <div class="ticker-wrap">
-    <div class="ticker-label">2026 UNIVERSE</div>
-    <div style="overflow:hidden; flex:1; padding: 0 20px;">
-      <div class="ticker-text">
-        🚨 RUMOR: Oba Femi heavily favored to answer Brock Lesnar's open challenge at WrestleMania &nbsp;&nbsp;·&nbsp;&nbsp;
-        🚨 OFFICIAL: Stephanie Vaquer vs Liv Morgan confirmed for Night 2 &nbsp;&nbsp;·&nbsp;&nbsp;
-        🚨 RAW AFTERMATH: Seth Rollins attacks Paul Heyman backstage &nbsp;&nbsp;·&nbsp;&nbsp;
-        🚨 SMACKDOWN PREVIEW: Carmelo Hayes sets open challenge for US Title &nbsp;&nbsp;·&nbsp;&nbsp;
-        🚨 SIGNED: Giulia vs IYO SKY made official by Nick Aldis
-      </div>
-    </div>
-  </div>
 
   <div class="max-w-7xl mx-auto px-4 md:px-8">
 
@@ -326,32 +289,31 @@
 
         <div class="event-card p-6">
           <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-5">
-            <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300">WrestleMania Predictions</h3>
-            <span class="text-[9px] theme-bg text-black font-black px-2 py-1 rounded tracking-widest" style="font-family:'Bebas Neue',cursive;">LIVE</span>
+            <h3 style="font-family:'Bebas Neue',cursive; font-size:1.4rem; letter-spacing:0.08em;" class="text-zinc-300">WrestleMania 42 Card</h3>
+            <span class="text-[9px] theme-bg text-black font-black px-2 py-1 rounded tracking-widest" style="font-family:'Bebas Neue',cursive;">UPCOMING</span>
           </div>
 
-          <div class="space-y-6" id="polls-container">
-
-            <div id="poll1-wrap">
-              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 1 Main Event</p>
-              <p class="font-bold text-sm mb-3">Cody Rhodes vs. Randy Orton</p>
-              <div id="poll1-buttons" class="space-y-2">
-                <button class="vote-btn" onclick="castVote('poll1','codyRhodes','Cody Rhodes','Randy Orton')">Cody Rhodes</button>
-                <button class="vote-btn" onclick="castVote('poll1','randyOrton','Cody Rhodes','Randy Orton')">Randy Orton</button>
-              </div>
-              <div id="poll1-results" class="hidden"></div>
+          <div class="space-y-4">
+            <div class="border-b border-zinc-800 pb-3">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Undisputed WWE Championship</p>
+              <p class="font-bold text-sm text-zinc-200">Cody Rhodes (c) vs. Randy Orton</p>
             </div>
-
-            <div id="poll2-wrap">
-              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Night 2 Main Event</p>
-              <p class="font-bold text-sm mb-3">CM Punk vs. Roman Reigns</p>
-              <div id="poll2-buttons" class="space-y-2">
-                <button class="vote-btn" onclick="castVote('poll2','cmPunk','CM Punk','Roman Reigns')">CM Punk</button>
-                <button class="vote-btn" onclick="castVote('poll2','romanReigns','CM Punk','Roman Reigns')">Roman Reigns</button>
-              </div>
-              <div id="poll2-results" class="hidden"></div>
+            <div class="border-b border-zinc-800 pb-3">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">World Heavyweight Championship</p>
+              <p class="font-bold text-sm text-zinc-200">CM Punk (c) vs. Roman Reigns</p>
             </div>
-
+            <div class="border-b border-zinc-800 pb-3">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">WWE Women's Championship</p>
+              <p class="font-bold text-sm text-zinc-200">Jade Cargill (c) vs. Rhea Ripley</p>
+            </div>
+            <div class="border-b border-zinc-800 pb-3">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Women's World Championship</p>
+              <p class="font-bold text-sm text-zinc-200">Stephanie Vaquer (c) vs. Liv Morgan</p>
+            </div>
+            <div class="pt-1">
+              <p class="text-[10px] text-zinc-600 uppercase tracking-widest font-bold mb-1">Career Threatening Match?</p>
+              <p class="font-bold text-sm text-zinc-200">Brock Lesnar vs. TBD (Oba Femi?)</p>
+            </div>
           </div>
         </div>
 
@@ -429,70 +391,66 @@ function handleLogout() {
 }
 
 // ══════════════════════════════════════════════════════
-//  DATA
+//  DATA (UPDATED FOR MARCH 2026)
 // ══════════════════════════════════════════════════════
 const CHAMPIONS = [
-  { title: "WWE Championship", holder: "Cody Rhodes", show: "SmackDown" },
-  { title: "World Hvt. Championship", holder: "Gunther", show: "Raw" },
-  { title: "Women's Championship", holder: "Tiffany Stratton", show: "SmackDown" },
-  { title: "Women's World Title", holder: "Rhea Ripley", show: "Raw" },
-  { title: "Intercontinental Title", holder: "Penta", show: "Raw" },
-  { title: "US Championship", holder: "Carmelo Hayes", show: "SmackDown" },
-  { title: "Tag Team Titles", holder: "Motor City Machine Guns", show: "Raw" },
-  { title: "Women's Tag Titles", holder: "Jade & Bianca", show: "Raw" },
-  { title: "NXT Championship", holder: "Ethan Page", show: "NXT" },
-  { title: "Women's IC Title", holder: "AJ Lee", show: "Raw" },
+  { title: "Undisputed WWE", holder: "Cody Rhodes", show: "SmackDown" },
+  { title: "World Heavyweight", holder: "CM Punk", show: "Raw" },
+  { title: "Women's World", holder: "Stephanie Vaquer", show: "Raw" },
+  { title: "WWE Women's", holder: "Jade Cargill", show: "SmackDown" },
+  { title: "Intercontinental", holder: "Penta", show: "Raw" },
+  { title: "Women's IC", holder: "AJ Lee", show: "Raw" },
+  { title: "United States", holder: "Carmelo Hayes", show: "SmackDown" },
+  { title: "Women's US", holder: "Giulia", show: "SmackDown" },
+  { title: "World Tag Team", holder: "The Usos", show: "Raw" },
+  { title: "WWE Tag Team", holder: "The MFTs", show: "SmackDown" },
+  { title: "NXT Champion", holder: "Joe Hendry", show: "NXT" },
+  { title: "NXT Women's", holder: "Jacy Jayne", show: "NXT" }
 ];
 
+const CHAMP_HISTORY = [
+  { title: "Undisputed WWE", holder: "Cody Rhodes", dates: "Mar 6 – Present" },
+  { title: "World Heavyweight", holder: "CM Punk", dates: "Nov 1 – Present" },
+  { title: "Women's World", holder: "Stephanie Vaquer", dates: "Sep 20 – Present" },
+  { title: "WWE Women's", holder: "Jade Cargill", dates: "Nov 1 – Present" },
+  { title: "Intercontinental", holder: "Penta", dates: "Mar 2 – Present" },
+  { title: "Women's IC", holder: "AJ Lee", dates: "Feb 28 – Present" },
+  { title: "United States", holder: "Carmelo Hayes", dates: "Dec 19 – Present" },
+  { title: "Women's US", holder: "Giulia", dates: "Jan 2 – Present" },
+  { title: "World Tag Team", holder: "The Usos", dates: "Dec 29 – Present" },
+  { title: "WWE Tag Team", holder: "The MFTs", dates: "Jan 23 – Present" },
+  { title: "NXT Champion", holder: "Joe Hendry", dates: "Feb 3 – Present" },
+  { title: "NXT Women's", holder: "Jacy Jayne", dates: "Nov 18 – Present" }
+];
+
+// Baseline events so you can begin rating the 2026 Season from the top!
 const WWE_LOGS = [
   {
-    show: "NXT", date: "Mar 10",
+    show: "PLE", name: "Royal Rumble", date: "Jan 31",
     results: [
-      { m: "Wren Sinclair vs. Thea Hail", w: "Wren Sinclair" },
-      { m: "Sol Ruca vs. Lainey Reid", w: "Sol Ruca" },
-      { m: "Ethan Page vs. Trick Williams (NXT Title)", w: "Ethan Page" },
-      { m: "Tatum Paxley vs. Izzi Dame", w: "Tatum Paxley" }
-    ]
-  },
-  {
-    show: "Raw", date: "Mar 9",
-    results: [
-      { m: "Penta vs. El Grande Americano (IC Title)", w: "Penta" },
-      { m: "Oba Femi vs. Rusev", w: "Oba Femi" },
-      { m: "Bron Breakker vs. Ilja Dragunov", w: "Bron Breakker" },
-      { m: "Bayley vs. Iyo Sky vs. Dakota Kai", w: "Bayley" },
-      { m: "The Usos vs. Alpha Academy", w: "The Usos" }
-    ]
-  },
-  {
-    show: "SmackDown", date: "Mar 6",
-    results: [
-      { m: "Cody Rhodes vs. Drew McIntyre (WWE Title)", w: "Cody Rhodes" },
-      { m: "Carmelo Hayes vs. LA Knight (US Title)", w: "Carmelo Hayes" },
-      { m: "Jade Cargill vs. Nia Jax", w: "Jade Cargill" },
-      { m: "Street Profits vs. A-Town Down Under", w: "Street Profits" }
+      { m: "Women's Royal Rumble Match", w: "Liv Morgan" },
+      { m: "Gunther vs. AJ Styles (Career Threatening Match)", w: "Gunther" },
+      { m: "Drew McIntyre (c) vs. Sami Zayn (Undisputed WWE)", w: "Drew McIntyre" },
+      { m: "Men's Royal Rumble Match", w: "Roman Reigns" }
     ]
   },
   {
     show: "PLE", name: "Elimination Chamber", date: "Feb 28",
     results: [
-      { m: "Men's Chamber Match", w: "Randy Orton" },
-      { m: "Women's Chamber Match", w: "Rhea Ripley" },
-      { m: "AJ Lee vs. Becky Lynch (Women's IC)", w: "AJ Lee" },
-      { m: "Motor City Machine Guns vs. DIY", w: "MCMG" },
-      { m: "Gunther vs. Seth Rollins", w: "Gunther" }
+      { m: "Women's Elimination Chamber Match", w: "Rhea Ripley" },
+      { m: "Becky Lynch (c) vs. AJ Lee (Women's IC)", w: "AJ Lee" },
+      { m: "CM Punk (c) vs. Finn Bálor (World Heavyweight)", w: "CM Punk" },
+      { m: "Men's Elimination Chamber Match", w: "Randy Orton" }
+    ]
+  },
+  {
+    show: "Raw", date: "Mar 9",
+    results: [
+      { m: "Bayley vs. Ivy Nile (Gauntlet)", w: "Bayley" },
+      { m: "Raquel Rodriguez vs. IYO SKY (Gauntlet)", w: "IYO SKY" },
+      { m: "Dominik Mysterio (c) vs. Penta (IC Title)", w: "Penta" }
     ]
   }
-];
-
-const CHAMP_HISTORY = [
-  { title: "WWE Championship", holder: "Cody Rhodes", dates: "Jan 1 – Present" },
-  { title: "World Hvt. Championship", holder: "Gunther", dates: "Feb 28 – Present" },
-  { title: "IC Title", holder: "Penta", dates: "Mar 9 – Present" },
-  { title: "US Championship", holder: "Carmelo Hayes", dates: "Jan 18 – Present" },
-  { title: "Women's IC Title", holder: "AJ Lee", dates: "Feb 28 – Present" },
-  { title: "Tag Team Titles", holder: "Motor City Machine Guns", dates: "Feb 28 – Present" },
-  { title: "NXT Championship", holder: "Ethan Page", dates: "Mar 3 – Present" },
 ];
 
 // ══════════════════════════════════════════════════════
@@ -869,73 +827,6 @@ function filterEvents() {
     if (match) visible++;
   });
   document.getElementById('no-results').classList.toggle('hidden', visible > 0);
-}
-
-// ══════════════════════════════════════════════════════
-//  POLLS
-// ══════════════════════════════════════════════════════
-if (db) {
-  db.collection("trackerData").doc("poll1").onSnapshot(doc => {
-    if (doc.exists && localStorage.getItem('voted_poll1')) {
-      const d = doc.data();
-      renderPollBars('poll1', d.codyRhodes||0, d.randyOrton||0, 'Cody Rhodes', 'Randy Orton');
-    }
-  });
-  db.collection("trackerData").doc("poll2").onSnapshot(doc => {
-    if (doc.exists && localStorage.getItem('voted_poll2')) {
-      const d = doc.data();
-      renderPollBars('poll2', d.cmPunk||0, d.romanReigns||0, 'CM Punk', 'Roman Reigns');
-    }
-  });
-}
-
-['poll1','poll2'].forEach(p => {
-  if (localStorage.getItem(`voted_${p}`)) {
-    document.getElementById(`${p}-buttons`).classList.add('hidden');
-    document.getElementById(`${p}-results`).classList.remove('hidden');
-    document.getElementById(`${p}-results`).innerHTML = `<p class="text-xs text-zinc-600 diary-font italic">Loading live results…</p>`;
-  }
-});
-
-function castVote(pollId, choiceKey, n1, n2) {
-  // Update UI immediately to prevent multiple clicks
-  localStorage.setItem(`voted_${pollId}`, '1');
-  document.getElementById(`${pollId}-buttons`).classList.add('hidden');
-  document.getElementById(`${pollId}-results`).classList.remove('hidden');
-  document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-600 diary-font italic">Sending vote…</p>`;
-  
-  // Send vote to Firebase
-  if (db && firebase.auth().currentUser) {
-    db.collection("trackerData").doc(pollId).set(
-      { [choiceKey]: firebase.firestore.FieldValue.increment(1) }, 
-      { merge: true }
-    ).then(() => {
-      console.log("Vote recorded!");
-    }).catch(e => { 
-      console.error("Poll error:", e);
-      renderPollBars(pollId, 50, 50, n1, n2); 
-    });
-  } else {
-    alert("You must be logged in to cast a vote.");
-  }
-}
-
-function renderPollBars(pollId, v1, v2, n1, n2) {
-  const total = v1 + v2;
-  const p1 = total === 0 ? 50 : Math.round((v1/total)*100);
-  const p2 = 100 - p1;
-  document.getElementById(`${pollId}-results`).innerHTML = `
-    <div class="space-y-2">
-      ${[[n1,p1,v1],[n2,p2,v2]].map(([name,pct,votes]) => `
-      <div class="relative bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
-        <div class="absolute top-0 left-0 h-full poll-bar-fill" style="width:${pct}%; background: var(--theme-glow);"></div>
-        <div class="relative flex justify-between text-xs font-bold z-10">
-          <span class="text-zinc-300">${name}</span>
-          <span class="theme-text">${pct}% <span class="text-zinc-600 font-normal">(${votes})</span></span>
-        </div>
-      </div>`).join('')}
-      <p class="text-[9px] text-zinc-700 text-right uppercase tracking-widest font-bold">${total} total votes</p>
-    </div>`;
 }
 
 </script>
