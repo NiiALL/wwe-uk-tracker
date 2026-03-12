@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | Fan Hub</title>
+    <title>NiiALL's WWE Tracker | Community Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -11,10 +11,6 @@
         .sd-border { border-left: 4px solid #3b82f6; }
         .nxt-border { border-left: 4px solid #eab308; }
         .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
-        
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
-        .scroll-container:hover { animation-play-state: paused; }
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
         .belt-glow { filter: drop-shadow(0px 10px 15px rgba(234, 179, 8, 0.25)); }
     </style>
@@ -22,17 +18,6 @@
 <body class="p-4 md:p-8">
 
     <script>
-        // Notice the image paths now look for a local 'images' folder!
-        const CHAMPIONS = [
-            { title: "Undisputed WWE", holder: "Cody Rhodes", img: "images/undisputed.png" },
-            { title: "World Heavyweight", holder: "CM Punk", img: "images/whc.png" },
-            { title: "Intercontinental", holder: "Penta", img: "images/ic.png" },
-            { title: "United States", holder: "Carmelo Hayes", img: "images/us.png" },
-            { title: "Women's World", holder: "Stephanie Vaquer", img: "images/womens_world.png" },
-            { title: "WWE Women's", holder: "Jade Cargill", img: "images/womens.png" },
-            { title: "Women's IC", holder: "AJ Lee", img: "images/womens_ic.png" }
-        ];
-
         const WWE_LOGS = [
             { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}] },
             { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}] },
@@ -66,8 +51,9 @@
             </div>
         </header>
 
-        <section class="mb-10 overflow-hidden py-6 border-y border-zinc-900 bg-zinc-950/50">
-            <div class="scroll-container" id="carousel"></div>
+        <section class="mb-10 text-center bg-zinc-950/50 p-6 rounded-3xl border border-zinc-800 shadow-2xl">
+            <img src="images/all_belts.png" alt="WWE Championship Collection" class="h-28 md:h-32 object-contain mx-auto belt-glow" onerror="this.onerror=null; this.src='https://placehold.co/800x200/111/eab308?text=Your+Belts+Image+Goes+Here';">
+            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-4">NiiALL'S COMPLETE CHAMPIONSHIP COLLECTION</p>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -118,16 +104,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- Static UI Generation with Image Fallback ---
-        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
-            <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
-                <img src="${c.img}" alt="${c.title}" class="h-16 object-contain belt-glow mb-2" onerror="this.onerror=null; this.src='https://placehold.co/200x80/111/eab308?text=Missing+Image';">
-                <span class="text-[9px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
-                <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
-            </div>
-        `).join('');
-        
+        // --- Static UI Generation ---
         document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `<div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}"><p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}</div>`).join('');
+        
         document.getElementById('champ-history-list').innerHTML = `<table class="w-full text-left text-xs"><thead class="bg-zinc-800 text-zinc-500 uppercase font-bold"><tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr></thead><tbody class="divide-y divide-zinc-800">${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}</tbody></table>`;
 
         // --- Firebase Initialization ---
