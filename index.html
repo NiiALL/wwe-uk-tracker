@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NiiALL's WWE Tracker | Community Hub</title>
+    <title>NiiALL's WWE Tracker | Version 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
@@ -12,48 +12,103 @@
         .nxt-border { border-left: 4px solid #eab308; }
         .ple-border { border-left: 4px solid #ffffff; background: linear-gradient(90deg, #222, #000); }
         .poll-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        .belt-glow { filter: drop-shadow(0px 10px 15px rgba(234, 179, 8, 0.25)); }
+        
+        /* Smooth Auto-Scroll Carousel */
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .scroll-container { display: flex; width: max-content; animation: scroll 30s linear infinite; }
+        .scroll-container:hover { animation-play-state: paused; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <script>
+        const CHAMPIONS = [
+            { title: "Undisputed WWE", holder: "Cody Rhodes" },
+            { title: "World Heavyweight", holder: "CM Punk" },
+            { title: "Intercontinental", holder: "Penta" },
+            { title: "United States", holder: "Carmelo Hayes" },
+            { title: "Women's World", holder: "Stephanie Vaquer" },
+            { title: "WWE Women's", holder: "Jade Cargill" },
+            { title: "Women's IC", holder: "AJ Lee" }
+        ];
+
         const WWE_LOGS = [
-            { show: "NXT", date: "Mar 10", results: [{m:"Wren Sinclair vs. Thea Hail", w:"Wren Sinclair"}, {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"}] },
-            { show: "Raw", date: "Mar 9", results: [{m:"Penta vs. El Grande Americano", w:"Penta"}, {m:"Oba Femi vs. Rusev", w:"Oba Femi"}] },
-            { show: "SmackDown", date: "Mar 6", results: [{m:"Cody Rhodes vs. Drew McIntyre", w:"Cody Rhodes (New Champ)"}] },
-            { show: "PLE", name: "Elimination Chamber", date: "Feb 28", results: [{m:"Men's Chamber", w:"Randy Orton"}, {m:"AJ Lee vs. Becky Lynch", w:"AJ Lee"}] }
+            { 
+                show: "NXT", date: "Mar 10", 
+                results: [
+                    {m:"Wren Sinclair vs. Thea Hail (Speed Final)", w:"Wren Sinclair"}, 
+                    {m:"Sol Ruca vs. Lainey Reid", w:"Sol Ruca"},
+                    {m:"Ethan Page vs. Trick Williams", w:"Ethan Page"},
+                    {m:"Tatum Paxley vs. Izzi Dame", w:"Tatum Paxley"}
+                ] 
+            },
+            { 
+                show: "Raw", date: "Mar 9", 
+                results: [
+                    {m:"Penta vs. El Grande Americano (IC Title)", w:"Penta"}, 
+                    {m:"Oba Femi vs. Rusev", w:"Oba Femi"},
+                    {m:"Bron Breakker vs. Ilja Dragunov", w:"Bron Breakker"},
+                    {m:"Bayley vs. Iyo Sky vs. Dakota Kai", w:"Bayley"},
+                    {m:"The Usos vs. Alpha Academy", w:"The Usos"}
+                ] 
+            },
+            { 
+                show: "SmackDown", date: "Mar 6", 
+                results: [
+                    {m:"Cody Rhodes vs. Drew McIntyre (WWE Title)", w:"Cody Rhodes (New Champ)"},
+                    {m:"Carmelo Hayes vs. LA Knight (US Title)", w:"Carmelo Hayes"},
+                    {m:"Jade Cargill vs. Nia Jax", w:"Jade Cargill"},
+                    {m:"Street Profits vs. A-Town Down Under", w:"Street Profits"}
+                ] 
+            },
+            { 
+                show: "PLE", name: "Elimination Chamber", date: "Feb 28", 
+                results: [
+                    {m:"Men's Chamber Match", w:"Randy Orton"}, 
+                    {m:"Women's Chamber Match", w:"Rhea Ripley"},
+                    {m:"AJ Lee vs. Becky Lynch (Women's IC)", w:"AJ Lee (New Champ)"},
+                    {m:"Motor City Machine Guns vs. DIY", w:"MCMG"},
+                    {m:"Gunther vs. Seth Rollins", w:"Gunther"}
+                ] 
+            }
         ];
 
         const CHAMP_HISTORY = [
             { title: "Undisputed WWE", dates: "Mar 6 - Present", holder: "Cody Rhodes", prev: "Drew McIntyre" },
             { title: "Intercontinental", dates: "Feb 2 - Present", holder: "Penta", prev: "Dominik Mysterio" },
-            { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" }
+            { title: "Women's IC", dates: "Feb 28 - Present", holder: "AJ Lee", prev: "First Ever" },
+            { title: "United States", dates: "Jan 2 - Present", holder: "Carmelo Hayes", prev: "Logan Paul" }
         ];
     </script>
 
     <div class="max-w-7xl mx-auto">
+        
         <header class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-zinc-800 pb-6 gap-4">
-            <div class="flex items-center gap-4">
-                <div class="relative flex items-center justify-center w-14 h-14 bg-gradient-to-br from-red-600 to-red-900 rounded-xl border-2 border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.4)] transform -rotate-6">
-                    <span class="text-white font-black text-3xl italic tracking-tighter">N</span>
+            <div class="flex items-center gap-5">
+                
+                <div class="relative flex items-center justify-center w-16 h-16 bg-gradient-to-br from-zinc-900 to-black rounded-xl border border-zinc-800 shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+                    <svg class="absolute inset-0 w-full h-full text-zinc-700 opacity-40 p-1" viewBox="0 0 100 100">
+                        <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="15" cy="15" r="4" fill="#ef4444"/><circle cx="85" cy="15" r="4" fill="#ef4444"/>
+                        <circle cx="15" cy="85" r="4" fill="#ef4444"/><circle cx="85" cy="85" r="4" fill="#ef4444"/>
+                    </svg>
+                    <span class="relative text-white font-black text-4xl italic tracking-tighter" style="text-shadow: 2px 2px 0px #ef4444;">N</span>
                 </div>
+
                 <div>
-                    <h1 class="text-4xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
-                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-1">Fan-Made Watch Party Hub</p>
+                    <h1 class="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">NiiALL'S <span class="text-red-600">TRACKER</span></h1>
+                    <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] mt-1">Unrivaled Ringside Tracking</p>
                 </div>
             </div>
+            
             <div class="text-right">
-                <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest flex items-center justify-end gap-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Firebase Live Sync
-                </p>
-                <p class="text-xl font-black italic text-red-600 tracking-tighter mt-1">LAS VEGAS • APR 18</p>
+                <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Road to WrestleMania 42</p>
+                <p class="text-2xl font-black italic text-red-600 tracking-tighter mt-1">LAS VEGAS • APR 18</p>
             </div>
         </header>
 
-        <section class="mb-10 text-center bg-zinc-950/50 p-6 rounded-3xl border border-zinc-800 shadow-2xl">
-            <img src="images/all_belts.png" alt="WWE Championship Collection" class="h-28 md:h-32 object-contain mx-auto belt-glow" onerror="this.onerror=null; this.src='https://placehold.co/800x200/111/eab308?text=Your+Belts+Image+Goes+Here';">
-            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-4">NiiALL'S COMPLETE CHAMPIONSHIP COLLECTION</p>
+        <section class="mb-10 overflow-hidden py-4 border-y border-zinc-900 bg-zinc-950/50">
+            <div class="scroll-container" id="carousel"></div>
         </section>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -104,83 +159,49 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- Static UI Generation ---
-        document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `<div class="bg-zinc-900/30 p-4 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}"><p class="text-[10px] font-bold text-zinc-500 uppercase mb-2 tracking-widest">${ev.show} • ${ev.date}</p>${ev.results.map(r => `<div class="flex justify-between text-xs mb-1.5 border-b border-zinc-800/50 pb-1.5 last:border-0"><span>${r.m}</span><b class="text-red-500">${r.w}</b></div>`).join('')}</div>`).join('');
+        // --- 1. UI RENDER ENGINE (Runs even if Firebase fails) ---
         
-        document.getElementById('champ-history-list').innerHTML = `<table class="w-full text-left text-xs"><thead class="bg-zinc-800 text-zinc-500 uppercase font-bold"><tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr></thead><tbody class="divide-y divide-zinc-800">${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}</tbody></table>`;
+        // Stylized Gold Belt SVG for Carousel
+        const beltSVG = `<svg class="w-10 h-10 text-yellow-500 mb-1 drop-shadow-md" fill="currentColor" viewBox="0 0 24 24"><path d="M2 9h4v6H2V9zm20 0h-4v6h4V9zM12 4c-3.31 0-6 2.69-6 6v4c0 3.31 2.69 6 6 6s6-2.69 6-6v-4c0-3.31-2.69-6-6-6zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>`;
+        document.getElementById('carousel').innerHTML = [...CHAMPIONS, ...CHAMPIONS].map(c => `
+            <div class="flex flex-col items-center mx-10 min-w-[160px] cursor-default hover:scale-110 transition-transform">
+                ${beltSVG}
+                <span class="text-[9px] uppercase font-bold text-zinc-500 mt-1">${c.title}</span>
+                <span class="text-sm font-black italic tracking-tighter text-white">${c.holder}</span>
+            </div>
+        `).join('');
 
-        // --- Firebase Initialization ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
-            authDomain: "niialls-wwe-tracker.firebaseapp.com",
-            projectId: "niialls-wwe-tracker",
-            storageBucket: "niialls-wwe-tracker.firebasestorage.app",
-            messagingSenderId: "71961326154",
-            appId: "1:71961326154:web:edc852be18742537ba6cb3"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // --- REAL-TIME LISTENERS ---
-        db.collection("trackerData").doc("poll1").onSnapshot((doc) => {
-            if (doc.exists && localStorage.getItem('voted_poll1')) {
-                const data = doc.data();
-                renderRealTimeBars('poll1', data.codyRhodes || 0, data.randyOrton || 0, 'Cody Rhodes', 'Randy Orton');
-            }
-        });
-
-        db.collection("trackerData").doc("poll2").onSnapshot((doc) => {
-            if (doc.exists && localStorage.getItem('voted_poll2')) {
-                const data = doc.data();
-                renderRealTimeBars('poll2', data.cmPunk || 0, data.romanReigns || 0, 'CM Punk', 'Roman Reigns');
-            }
-        });
-
-        if(localStorage.getItem('voted_poll1')) {
-            document.getElementById('poll1-buttons').classList.add('hidden');
-            document.getElementById('poll1-results').classList.remove('hidden');
-            document.getElementById('poll1-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
-        }
-        if(localStorage.getItem('voted_poll2')) {
-            document.getElementById('poll2-buttons').classList.add('hidden');
-            document.getElementById('poll2-results').classList.remove('hidden');
-            document.getElementById('poll2-results').innerHTML = `<p class="text-xs text-zinc-500">Loading live results...</p>`;
-        }
-
-        function castVote(pollId, choiceDbKey, name1, name2) {
-            localStorage.setItem(`voted_${pollId}`, 'true');
-            document.getElementById(`${pollId}-buttons`).classList.add('hidden');
-            document.getElementById(`${pollId}-results`).classList.remove('hidden');
-            document.getElementById(`${pollId}-results`).innerHTML = `<p class="text-xs text-zinc-500">Sending vote to cloud...</p>`;
-
-            db.collection("trackerData").doc(pollId).set({
-                [choiceDbKey]: firebase.firestore.FieldValue.increment(1)
-            }, { merge: true })
-            .catch((error) => console.error("Firebase Error: ", error));
-        }
-
-        function renderRealTimeBars(pollId, val1, val2, name1, name2) {
-            const total = val1 + val2;
-            const pct1 = total === 0 ? 0 : Math.round((val1 / total) * 100);
-            const pct2 = total === 0 ? 0 : Math.round((val2 / total) * 100);
-
-            const container = document.getElementById(`${pollId}-results`);
-            container.innerHTML = `
-                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct1}%;"></div>
-                    <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name1}</span><span>${pct1}%</span>
-                    </div>
+        // Inject Match Logs (Now handles variable amounts of matches cleanly)
+        document.getElementById('event-logs').innerHTML = WWE_LOGS.map(ev => `
+            <div class="bg-zinc-900/40 p-5 rounded-xl border border-zinc-800 ${ev.show === 'PLE' ? 'ple-border' : ''}">
+                <div class="flex justify-between items-center mb-4 border-b border-zinc-800 pb-2">
+                    <span class="text-xs font-black text-white uppercase tracking-widest">${ev.show} ${ev.name ? `- ${ev.name}` : ''}</span>
+                    <span class="text-[10px] text-zinc-500 font-bold uppercase">${ev.date}</span>
                 </div>
-                <div class="relative w-full bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800 p-3 mt-2">
-                    <div class="absolute top-0 left-0 h-full bg-red-900/40 poll-bar" style="width: ${pct2}%;"></div>
-                    <div class="relative flex justify-between text-xs font-bold z-10">
-                        <span>${name2}</span><span>${pct2}%</span>
+                ${ev.results.map(r => `
+                    <div class="flex justify-between items-center text-xs mb-2 border-b border-zinc-800/50 pb-2 last:border-0 last:mb-0 last:pb-0">
+                        <span class="text-zinc-300 w-2/3 pr-2">${r.m}</span>
+                        <span class="font-bold text-red-500 text-right w-1/3">${r.w}</span>
                     </div>
-                </div>
-                <p class="text-[9px] text-zinc-500 mt-2 text-right uppercase tracking-widest">${total} Total Votes</p>
-            `;
-        }
-    </script>
-</body>
-</html>
+                `).join('')}
+            </div>
+        `).join('');
+        
+        // Inject History
+        document.getElementById('champ-history-list').innerHTML = `
+            <table class="w-full text-left text-xs">
+                <thead class="bg-zinc-800 text-zinc-500 uppercase font-bold">
+                    <tr><th class="p-3">Title</th><th class="p-3">Holder</th><th class="p-3">Dates</th></tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800">
+                    ${CHAMP_HISTORY.map(c => `<tr><td class="p-3 font-bold">${c.title}</td><td class="p-3 text-red-500 font-black italic">${c.holder}</td><td class="p-3 text-zinc-500">${c.dates}</td></tr>`).join('')}
+                </tbody>
+            </table>
+        `;
+
+        // --- 2. FIREBASE ENGINE (Wrapped in Try/Catch for safety) ---
+        let db;
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCricp6BfCRBHCmVfzcBTkrx3Orv_W5Db0",
+                authDomain: "niialls-wwe-
